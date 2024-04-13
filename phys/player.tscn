@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://de0xrdyh6s7tl"]
+
+[ext_resource type="Script" path="res://phys/player.gd" id="1_6fa4x"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ku5q7"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbx06"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hkaa8"]
+radius = 2.0
+
+[node name="player" type="CharacterBody3D" node_paths=PackedStringArray("grabber")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_6fa4x")
+grabber = NodePath("grabber")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_ku5q7")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_qbx06")
+
+[node name="grabber" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="grabber"]
+shape = SubResource("SphereShape3D_hkaa8")
