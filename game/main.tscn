@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://cogm6hynqnryu"]
+[gd_scene load_steps=13 format=3 uid="uid://cogm6hynqnryu"]
 
 [ext_resource type="Material" uid="uid://d1dcxbgx8kga7" path="res://materials/test_grid_grey.tres" id="1_5df2b"]
 [ext_resource type="Script" path="res://addons/exmoe_tools/common/follow_cam.gd" id="2_1xjub"]
+[ext_resource type="Script" path="res://game/CharacterBody3D.gd" id="3_86alv"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_c5qv6"]
 energy_multiplier = 4.0
@@ -16,7 +17,16 @@ tonemap_mode = 3
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_f2mhc"]
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ku5q7"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbx06"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hkaa8"]
+radius = 2.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ktop3"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_y6sym"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -24,26 +34,37 @@ tonemap_mode = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-12)
 material_override = ExtResource("1_5df2b")
 use_collision = true
-size = Vector3(5.91895, 1, 6.94238)
+size = Vector3(20.3103, 1, 23.3867)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.68443, 0.5, 0)
+use_collision = true
+size = Vector3(0.290527, 1, 2.71118)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_lipqr")
 camera_attributes = SubResource("CameraAttributesPractical_f2mhc")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="WorldEnvironment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.68443, 0.5, 0)
-use_collision = true
-size = Vector3(0.290527, 1, 2.71118)
-
 [node name="Camera3D" type="Camera3D" parent="."]
 script = ExtResource("2_1xjub")
-target_path = NodePath("../CharacterBody3D")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera", "grabber")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("3_86alv")
+camera = NodePath("../Camera3D")
+grabber = NodePath("grabber")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+mesh = SubResource("CapsuleMesh_ku5q7")
+skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 shape = SubResource("CapsuleShape3D_qbx06")
+
+[node name="grabber" type="Area3D" parent="CharacterBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/grabber"]
+shape = SubResource("SphereShape3D_hkaa8")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.727426, -0.556744, 0.401108, -6.42695e-16, 0.584547, 0.81136, -0.686187, -0.590204, 0.425214, 0, 2.25026, 1.70259)
@@ -52,3 +73,21 @@ shadow_bias = 0.05
 directional_shadow_split_1 = 0.05
 directional_shadow_split_2 = 0.1
 directional_shadow_split_3 = 0.25
+
+[node name="A" type="RigidBody3D" parent="." groups=["build"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.99575, 3.7844)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="A"]
+shape = SubResource("BoxShape3D_ktop3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="A/CollisionShape3D"]
+mesh = SubResource("BoxMesh_y6sym")
+
+[node name="B" type="RigidBody3D" parent="." groups=["build"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.16673, 1.99575, 3.12408)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="B"]
+shape = SubResource("BoxShape3D_ktop3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="B/CollisionShape3D"]
+mesh = SubResource("BoxMesh_y6sym")
