@@ -3,21 +3,22 @@ extends RigidBody3D
 signal use(user: Node3D)
 signal reset
 
-var thrust_force := 1000
-var active := false
+@export var thrust_force := 1000
+@export var active := 0.0
 
 func _ready() -> void:
 	use.connect(_on_use)
 	reset.connect(_on_reset)
 
 func _on_reset():
-	active = false
+	active = 0.0
 
 func _on_use(_user: Node3D):
-	active = not active
+	active = 10.0
 
 func _physics_process(delta: float) -> void:
-	if not active:
+	if active <= 0.0:
 		return
+	active -= delta
 	var force := -global_basis.z * thrust_force * delta
 	apply_central_force(force)
