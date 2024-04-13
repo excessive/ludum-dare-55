@@ -26,6 +26,7 @@ tools used:
 	- fonts:
 		- Yanone Kaffeesatz
 		- Hack
+	- reaper
 
 ideas:
 	- weight switches (portal buttons)
@@ -39,3 +40,10 @@ ideas:
 	- steering wheel/cockpit
 	- indoor scene?
 	- sensors that spawn you a new part?
+
+system requirements:
+	any vaguely recent system should be fine enough.
+
+	test systems:
+		- apple m1, 8gb ram (2020)
+		- intel i7 2600k (2011) + gtx 970 (2014), 16gb ram
