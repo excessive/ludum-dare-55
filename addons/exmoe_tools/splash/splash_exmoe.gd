@@ -45,6 +45,8 @@ func _physics_process(_delta: float) -> void:
 		t.set_ease(Tween.EASE_OUT)
 		t.set_trans(Tween.TRANS_CUBIC)
 		t.tween_property(spinner, "modulate:a", 0, 0.5)
+		if OS.has_feature("editor"):
+			_on_animation_finish(animation.current_animation)
 
 	var input := focus.get_player_input()
 	if input.is_anything_just_pressed():
