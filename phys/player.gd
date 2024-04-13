@@ -97,7 +97,8 @@ func _try_grab() -> bool:
 	_grabbed_last_dist = origin.distance_to(item.global_position)
 	_grabbed_path = item.get_path()
 
-	_detach(item)
+	var con := ConnectionGroup.get_connector_for(item)
+	con.detach_body(item)
 
 	return true
 
@@ -114,75 +115,6 @@ func _try_move(delta: float):
 	var smooth_pos := old_pos.lerp(new_pos, 1.0 - exp(-5 * delta))
 	grabbed.angular_velocity *= exp(-5 * delta)
 	grabbed.linear_velocity = (smooth_pos - old_pos) / delta + velocity + get_platform_velocity()
-
-func _is_connected(a: RigidBody3D, b: RigidBody3D) -> bool:
-	var path_a := a.get_path()
-	var path_b := b.get_path()
-	if not _connections.has(path_a):
-		_connections[path_a] = []
-	if not _connections.has(path_b):
-		_connections[path_b] = []
-	if _connections[path_a].has(path_b) or _connections[path_b].has(path_a):
-		return true
-	return false
-
-var _connections: Dictionary = {}
-var _constraints: Array[Joint3D] = []
-
-class GlueJoint extends Generic6DOFJoint3D:
-	var display := MeshInstance3D.new()
-	func _init(a: RigidBody3D, b: RigidBody3D) -> void:
-		var cap := CapsuleMesh.new()
-		cap.height = a.global_position.distance_to(b.global_position)
-		cap.radius = 0.1
-		display.mesh = cap
-		display.rotate_x(PI/2)
-		add_child(display)
-		node_a = a.get_path()
-		node_b = b.get_path()
-
-	func _update_position():
-		var a := get_node_or_null(node_a)
-		var b := get_node_or_null(node_b)
-		if not a or not b:
-			return
-		look_at_from_position((a.global_position + b.global_position) / 2, b.global_position)
-
-	func _ready() -> void:
-		_update_position()
-
-	func _physics_process(_delta: float) -> void:
-		_update_position()
-
-func _attach(a: RigidBody3D, b: RigidBody3D):
-	var path_a := a.get_path()
-	var path_b := b.get_path()
-	if not _is_connected(a, b):
-		var constraint := GlueJoint.new(a, b)
-		_connections[path_a].append(path_b)
-		_connections[path_b].append(path_a)
-		a.add_sibling(constraint)
-		_constraints.append(constraint)
-		#print("attached %s and %s" % [a.name, b.name])
-
-func _detach(body: RigidBody3D):
-	var path := body.get_path()
-	if not _connections.has(path):
-		return
-	var connections := _connections[path] as Array
-	var erase: Array[Joint3D] = []
-	for connection: NodePath in connections:
-		if not _connections.has(connection):
-			continue
-		_connections[connection].erase(path)
-		for constraint in _constraints:
-			if constraint.node_a == path or constraint.node_b == path:
-				erase.append(constraint)
-				_connections[constraint.node_a].erase(constraint.node_b)
-				_connections[constraint.node_b].erase(constraint.node_a)
-	for joint in erase:
-		_constraints.erase(joint)
-		joint.queue_free()
 
 func _physics_process(_delta: float) -> void:
 	var input := focus.get_player_input()
@@ -240,7 +172,8 @@ func _physics_process(_delta: float) -> void:
 				var hits := dss.intersect_shape(params)
 				for hit in hits:
 					if hit.collider is RigidBody3D:
-						_attach(item, hit.collider)
+						var con := ConnectionGroup.get_connector_for(item)
+						con.attach_bodies(item, hit.collider)
 
 			_grabbed_path = ""
 		elif _try_grab():

@@ -16,6 +16,11 @@ func _on_body_exited(node: Node3D):
 			node.angular_velocity *= 0
 		_spawn_locations.erase(path)
 
+	if node is RigidBody3D:
+		var con := ConnectionGroup.get_connector_for(node)
+		if con:
+			con.detach_body(node)
+
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
