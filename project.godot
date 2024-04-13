@@ -120,6 +120,11 @@ rotate={
 ]
 }
 
+[physics]
+
+3d/run_on_separate_thread=true
+
 [rendering]
 
+shading/overrides/force_lambert_over_burley=true
 textures/default_filters/anisotropic_filtering_level=4
