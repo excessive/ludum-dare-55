@@ -6,4 +6,4 @@ extends _BASE_
 @onready var focus := SnailInput.get_input_focus(self)
 
 func _physics_process(_delta: float) -> void:
-	var _input := focus.get_player_input()
+	var input := focus.get_player_input()
