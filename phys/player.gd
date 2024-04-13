@@ -46,7 +46,10 @@ func _input(event: InputEvent) -> void:
 
 	if event is InputEventMouseMotion:
 		var sens := turn_speed * TAU * mouse_sensitivity
-		target_rotate(event.relative * sens)
+		if input.is_action_pressed("rotate"):
+			_try_rotate_item(event.relative * sens, 0.01)
+		else:
+			target_rotate(event.relative * sens)
 
 func target_rotate(r: Vector2):
 	var pitch := deg_to_rad(-r.y)
@@ -116,42 +119,57 @@ func _try_move(delta: float):
 	grabbed.angular_velocity *= exp(-5 * delta)
 	grabbed.linear_velocity = (smooth_pos - old_pos) / delta + velocity + get_platform_velocity()
 
-func _physics_process(_delta: float) -> void:
+func _try_rotate_item(view: Vector2, speed: float = 1.0):
+	var item := get_node_or_null(_grabbed_path) as RigidBody3D
+	if not item or not view:
+		return
+	var ax := camera.global_basis.x
+	var ay := camera.global_basis.y
+	# this can't be done in _input, so defer it
+	await get_tree().physics_frame
+	item.global_rotate(ax, view.y * speed)
+	item.global_rotate(ay, view.x * speed)
+
+func _physics_process(delta: float) -> void:
 	var input := focus.get_player_input()
 
 	var move := input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	var speed := 25.0 * _delta
+	var speed := 25.0 * delta
 
 	var move_basis := camera.global_basis
 	var flat_forward := (move_basis.z * (Vector3.ONE - up_direction)).normalized()
 	var flat_right := move_basis.y.cross(flat_forward).normalized()
 
 	if is_on_floor():
-		velocity *= exp(-5.0 * _delta)
+		velocity *= exp(-5.0 * delta)
 		if input.is_action_just_pressed("jump"):
 			velocity += -_get_gravity() * 0.5
 	else:
-		velocity *= exp(-0.5 * _delta)
+		velocity *= exp(-0.5 * delta)
 		speed /= 4.0
 
 	velocity += flat_forward * move.y * speed
 	velocity += flat_right * move.x * speed
-	velocity += _get_gravity() * _delta
+	velocity += _get_gravity() * delta
 	velocity = velocity.limit_length(50)
 
 	move_and_slide()
 
 	var view := input.get_vector("view_left", "view_right", "view_up", "view_down").limit_length()
-	var sens := rad_to_deg(turn_speed * TAU * _delta)
-	target_rotate(view * sens)
+	var sens := rad_to_deg(turn_speed * TAU * delta)
+
+	_try_move(delta)
+
+	if input.is_action_pressed("rotate"):
+		_try_rotate_item(view * sens, delta)
+	else:
+		target_rotate(view * sens)
 
 	camera.target_transform = Transform3D(_cam_outer * _cam_inner, global_position)
 
-	_try_move(_delta)
-
 	if input.is_action_just_pressed("grab"):
-		if _grabbed_path:
-			var item := get_node_or_null(_grabbed_path) as RigidBody3D
+		var item := get_node_or_null(_grabbed_path) as RigidBody3D
+		if item:
 			item.gravity_scale = 1
 
 			var dss := get_world_3d().direct_space_state
@@ -176,6 +194,5 @@ func _physics_process(_delta: float) -> void:
 						con.attach_bodies(item, hit.collider)
 
 			_grabbed_path = ""
-		elif _try_grab():
-			#print(_grabbed_path)
-			pass
+		else:
+			_try_grab()
