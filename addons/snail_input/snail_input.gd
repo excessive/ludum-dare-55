@@ -126,6 +126,12 @@ class PlayerInput:
 	func _init(p_slot_index: int) -> void:
 		_prefix = "%s%d_" % [_fixed_prefix, p_slot_index]
 
+	func has_keyboard() -> bool:
+		for device in _devices:
+			if device.index < 0:
+				return true
+		return false
+
 	func _generate_device_actions(p_base_action: String, p_new_action: String):
 		for event in InputMap.action_get_events(p_base_action):
 			if event is InputEventJoypadButton or event is InputEventJoypadMotion:
