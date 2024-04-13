@@ -34,4 +34,4 @@ splash = NodePath("splash_exmoe")
 
 [node name="splash_exmoe" parent="." instance=ExtResource("1_654a0")]
 layout_mode = 1
-next_scene_path = "res://ui/title_menu.tscn"
+next_scene_path = "res://game/main.tscn"
