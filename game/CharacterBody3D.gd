@@ -96,6 +96,9 @@ func _try_grab() -> bool:
 	_grabbed_last_basis = camera.global_basis
 	_grabbed_last_dist = origin.distance_to(item.global_position)
 	_grabbed_path = item.get_path()
+
+	_detach(item)
+
 	return true
 
 func _try_move(delta: float):
@@ -111,6 +114,52 @@ func _try_move(delta: float):
 	var smooth_pos := old_pos.lerp(new_pos, 1.0 - exp(-5 * delta))
 	grabbed.angular_velocity *= exp(-5 * delta)
 	grabbed.linear_velocity = (smooth_pos - old_pos) / delta + velocity + get_platform_velocity()
+
+func _is_connected(a: RigidBody3D, b: RigidBody3D) -> bool:
+	var path_a := a.get_path()
+	var path_b := b.get_path()
+	if not _connections.has(path_a):
+		_connections[path_a] = []
+	if not _connections.has(path_b):
+		_connections[path_b] = []
+	if _connections[path_a].has(path_b) or _connections[path_b].has(path_a):
+		return true
+	return false
+
+var _connections: Dictionary = {}
+var _constraints: Array[Joint3D] = []
+
+func _attach(a: RigidBody3D, b: RigidBody3D):
+	var path_a := a.get_path()
+	var path_b := b.get_path()
+	if not _is_connected(a, b):
+		var constraint := Generic6DOFJoint3D.new()
+		_connections[path_a].append(path_b)
+		_connections[path_b].append(path_a)
+		constraint.node_a = path_a
+		constraint.node_b = path_b
+		a.add_sibling(constraint)
+		_constraints.append(constraint)
+		print("attached %s and %s" % [a.name, b.name])
+
+func _detach(body: RigidBody3D):
+	var path := body.get_path()
+	if not _connections.has(path):
+		return
+	var connections := _connections[path] as Array
+	var erase: Array[Joint3D] = []
+	for connection: NodePath in connections:
+		if not _connections.has(connection):
+			continue
+		_connections[connection].erase(path)
+		for constraint in _constraints:
+			if constraint.node_a == path or constraint.node_b == path:
+				erase.append(constraint)
+				_connections[constraint.node_a].erase(constraint.node_b)
+				_connections[constraint.node_b].erase(constraint.node_a)
+	for joint in erase:
+		_constraints.erase(joint)
+		joint.queue_free()
 
 func _physics_process(_delta: float) -> void:
 	var input := focus.get_player_input()
@@ -136,7 +185,7 @@ func _physics_process(_delta: float) -> void:
 
 	move_and_slide()
 
-	var view := Input.get_vector("view_left", "view_right", "view_up", "view_down").limit_length()
+	var view := input.get_vector("view_left", "view_right", "view_up", "view_down").limit_length()
 	var sens := rad_to_deg(turn_speed * TAU * _delta)
 	target_rotate(view * sens)
 
@@ -146,7 +195,26 @@ func _physics_process(_delta: float) -> void:
 
 	if input.is_action_just_pressed("grab"):
 		if _grabbed_path:
-			(get_node_or_null(_grabbed_path) as RigidBody3D).gravity_scale = 1
+			var item := get_node_or_null(_grabbed_path) as RigidBody3D
+			item.gravity_scale = 1
+
+			var dss := get_world_3d().direct_space_state
+
+			var params := PhysicsShapeQueryParameters3D.new()
+			params.transform = item.global_transform
+			params.collide_with_areas = false
+			params.collide_with_bodies = true
+
+			var ball := SphereShape3D.new()
+			ball.radius = 1
+			params.shape = ball
+			params.exclude = [item]
+
+			var hits := dss.intersect_shape(params)
+			for hit in hits:
+				if hit.collider is RigidBody3D:
+					_attach(item, hit.collider)
+
 			_grabbed_path = ""
 		elif _try_grab():
 			print(_grabbed_path)
