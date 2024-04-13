@@ -24,6 +24,12 @@ func _ready() -> void:
 	camera.zoom = 0
 	Input.mouse_mode = _prev_mode
 
+func drop_item():
+	var item: RigidBody3D = get_node_or_null(_grabbed_path)
+	if item:
+		item.gravity_scale = 1
+		_grabbed_path = ""
+
 func _input(event: InputEvent) -> void:
 	var input := focus.get_player_input()
 	if not input.has_keyboard():
@@ -170,8 +176,6 @@ func _physics_process(delta: float) -> void:
 	if input.is_action_just_pressed("grab"):
 		var item := get_node_or_null(_grabbed_path) as RigidBody3D
 		if item:
-			item.gravity_scale = 1
-
 			var dss := get_world_3d().direct_space_state
 
 			var params := PhysicsShapeQueryParameters3D.new()
@@ -193,6 +197,6 @@ func _physics_process(delta: float) -> void:
 						var con := ConnectionGroup.get_connector_for(item)
 						con.attach_bodies(item, hit.collider)
 
-			_grabbed_path = ""
+			drop_item()
 		else:
 			_try_grab()

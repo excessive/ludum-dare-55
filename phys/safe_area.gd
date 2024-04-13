@@ -11,6 +11,8 @@ func _on_body_exited(node: Node3D):
 		node.global_position = _spawn_locations[path]
 		if node is CharacterBody3D:
 			node.velocity *= 0
+			if node.has_method("drop_item"):
+				node.drop_item()
 		elif node is RigidBody3D:
 			node.linear_velocity *= 0
 			node.angular_velocity *= 0
