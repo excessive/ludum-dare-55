@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://b8wn885578i47"]
+
+[ext_resource type="Script" path="res://phys/wheel.gd" id="1_1hg2h"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_qne53"]
+height = 0.5
+radius = 0.75
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hkecg"]
+top_radius = 0.75
+bottom_radius = 0.75
+height = 0.5
+radial_segments = 32
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1jskg"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 1.0
+radial_segments = 32
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fx58h"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.2
+
+[node name="wheel" type="RigidBody3D" groups=["build", "usable"]]
+script = ExtResource("1_1hg2h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("CylinderShape3D_qne53")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0.0222683, -0.0222683)
+mesh = SubResource("CylinderMesh_hkecg")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0.0222683, -0.0222683)
+mesh = SubResource("CylinderMesh_1jskg")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 1.53137e-22, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 0, -0.967653)
+mesh = SubResource("CylinderMesh_fx58h")
