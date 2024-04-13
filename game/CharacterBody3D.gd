@@ -163,7 +163,7 @@ func _attach(a: RigidBody3D, b: RigidBody3D):
 		_connections[path_b].append(path_a)
 		a.add_sibling(constraint)
 		_constraints.append(constraint)
-		print("attached %s and %s" % [a.name, b.name])
+		#print("attached %s and %s" % [a.name, b.name])
 
 func _detach(body: RigidBody3D):
 	var path := body.get_path()
@@ -244,4 +244,5 @@ func _physics_process(_delta: float) -> void:
 
 			_grabbed_path = ""
 		elif _try_grab():
-			print(_grabbed_path)
+			#print(_grabbed_path)
+			pass

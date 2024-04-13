@@ -1,10 +1,17 @@
-[gd_scene load_steps=13 format=3 uid="uid://cogm6hynqnryu"]
+[gd_scene load_steps=17 format=3 uid="uid://cogm6hynqnryu"]
 
 [ext_resource type="Material" uid="uid://d1dcxbgx8kga7" path="res://materials/test_grid_grey.tres" id="1_5df2b"]
 [ext_resource type="Script" path="res://addons/exmoe_tools/common/follow_cam.gd" id="2_1xjub"]
 [ext_resource type="Script" path="res://game/CharacterBody3D.gd" id="3_86alv"]
+[ext_resource type="PackedScene" uid="uid://dy34a7txdnetm" path="res://phys/box.tscn" id="4_lorap"]
+[ext_resource type="Script" path="res://game/safe_area.gd" id="4_ugrv4"]
+[ext_resource type="FontFile" uid="uid://qf7622sypprq" path="res://addons/exmoe_tools/fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-SemiBold.ttf" id="6_2w0jt"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_c5qv6"]
+rayleigh_coefficient = 1.25
+mie_eccentricity = 0.85
+mie_color = Color(0.67451, 0.737255, 0.807843, 1)
+ground_color = Color(0.317647, 0.247059, 0.160784, 1)
 energy_multiplier = 4.0
 
 [sub_resource type="Sky" id="Sky_bvtvx"]
@@ -24,14 +31,25 @@ tonemap_mode = 3
 [sub_resource type="SphereShape3D" id="SphereShape3D_hkaa8"]
 radius = 2.0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ktop3"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_lhwli"]
+size = Vector3(512, 100, 512)
 
-[sub_resource type="BoxMesh" id="BoxMesh_y6sym"]
+[sub_resource type="BoxMesh" id="BoxMesh_kmxbi"]
+size = Vector3(2, 1, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_woojd"]
+size = Vector3(2, 1, 4)
 
 [node name="Node3D" type="Node3D"]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-12)
+material_override = ExtResource("1_5df2b")
+use_collision = true
+size = Vector3(20.3103, 1, 23.3867)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 47.5267)
 material_override = ExtResource("1_5df2b")
 use_collision = true
 size = Vector3(20.3103, 1, 23.3867)
@@ -74,29 +92,36 @@ directional_shadow_split_1 = 0.05
 directional_shadow_split_2 = 0.1
 directional_shadow_split_3 = 0.25
 
-[node name="A" type="RigidBody3D" parent="." groups=["build"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.99575, 3.7844)
+[node name="box" parent="." instance=ExtResource("4_lorap")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="A"]
-shape = SubResource("BoxShape3D_ktop3")
+[node name="box2" parent="." instance=ExtResource("4_lorap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.89285, 1.99575, 2.88515)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="A/CollisionShape3D"]
-mesh = SubResource("BoxMesh_y6sym")
+[node name="box3" parent="." instance=ExtResource("4_lorap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.00435, 1.99575, 5.31427)
 
-[node name="B" type="RigidBody3D" parent="." groups=["build"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.16673, 1.99575, 3.12408)
+[node name="box4" parent="." instance=ExtResource("4_lorap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.68734, 1.99575, -3.46687)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="B"]
-shape = SubResource("BoxShape3D_ktop3")
+[node name="Area3D" type="Area3D" parent="."]
+script = ExtResource("4_ugrv4")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="B/CollisionShape3D"]
-mesh = SubResource("BoxMesh_y6sym")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 25, 2.08165e-12)
+shape = SubResource("BoxShape3D_lhwli")
 
-[node name="C" type="RigidBody3D" parent="." groups=["build"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.21247, 1.99575, 4.54448)
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 13.7126)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="C"]
-shape = SubResource("BoxShape3D_ktop3")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AnimatableBody3D"]
+mesh = SubResource("BoxMesh_kmxbi")
+skeleton = NodePath("../CollisionShape3D")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="C/CollisionShape3D"]
-mesh = SubResource("BoxMesh_y6sym")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D"]
+shape = SubResource("BoxShape3D_woojd")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 1.6553, 50.3054)
+pixel_size = 0.05
+text = "the goal is to get to here"
+font = ExtResource("6_2w0jt")
