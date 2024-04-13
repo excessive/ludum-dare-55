@@ -182,6 +182,7 @@ func _physics_process(_delta: float) -> void:
 	velocity += flat_forward * move.y * speed
 	velocity += flat_right * move.x * speed
 	velocity += _get_gravity() * _delta
+	velocity = velocity.limit_length(50)
 
 	move_and_slide()
 
@@ -201,19 +202,22 @@ func _physics_process(_delta: float) -> void:
 			var dss := get_world_3d().direct_space_state
 
 			var params := PhysicsShapeQueryParameters3D.new()
-			params.transform = item.global_transform
 			params.collide_with_areas = false
 			params.collide_with_bodies = true
 
-			var ball := SphereShape3D.new()
-			ball.radius = 1
-			params.shape = ball
-			params.exclude = [item]
+			for collider in item.get_children():
+				if not collider is CollisionShape3D:
+					continue
 
-			var hits := dss.intersect_shape(params)
-			for hit in hits:
-				if hit.collider is RigidBody3D:
-					_attach(item, hit.collider)
+				params.transform = collider.global_transform
+				params.shape = collider.shape
+				params.exclude = [ item ]
+				params.margin = 0.25
+
+				var hits := dss.intersect_shape(params)
+				for hit in hits:
+					if hit.collider is RigidBody3D:
+						_attach(item, hit.collider)
 
 			_grabbed_path = ""
 		elif _try_grab():
