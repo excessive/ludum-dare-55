@@ -90,10 +90,26 @@ func _get_nearest_item(p_group: StringName) -> RigidBody3D:
 			nearest_dist = dist
 	return nearest_body
 
+func _try_use() -> bool:
+	var item := _get_nearest_item("usable")
+	if not item:
+		print("item not found")
+		return false
+
+	if item.has_signal("use"):
+		item.emit_signal("use", self)
+	else:
+		print("%s is usable, but doesn't have a use signal defined" % item.name)
+
+	return true
+
 func _try_grab() -> bool:
 	var item := _get_nearest_item("build")
 	if not item:
 		return false
+
+	if item.has_signal("reset"):
+		item.emit_signal("reset")
 
 	item.linear_velocity *= 0
 	item.angular_velocity *= 0
@@ -172,6 +188,9 @@ func _physics_process(delta: float) -> void:
 		target_rotate(view * sens)
 
 	camera.target_transform = Transform3D(_cam_outer * _cam_inner, global_position)
+
+	if input.is_action_just_pressed("use"):
+		_try_use()
 
 	if input.is_action_just_pressed("grab"):
 		var item := get_node_or_null(_grabbed_path) as RigidBody3D

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cogm6hynqnryu"]
+[gd_scene load_steps=11 format=3 uid="uid://cogm6hynqnryu"]
 
 [ext_resource type="Material" uid="uid://d1dcxbgx8kga7" path="res://materials/test_grid_grey.tres" id="1_5df2b"]
 [ext_resource type="PackedScene" uid="uid://d0bndvyxq2j7a" path="res://game/main_background.tscn" id="1_vm1ni"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dy34a7txdnetm" path="res://phys/box.tscn" id="4_lorap"]
 [ext_resource type="FontFile" uid="uid://qf7622sypprq" path="res://addons/exmoe_tools/fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-SemiBold.ttf" id="6_2w0jt"]
 [ext_resource type="Script" path="res://game/connection_group.gd" id="6_onsvi"]
+[ext_resource type="PackedScene" uid="uid://btr2kol4d1adt" path="res://phys/thruster.tscn" id="8_e3cpq"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_kmxbi"]
 size = Vector3(2, 1, 4)
@@ -56,6 +57,9 @@ outline_size = 24
 
 [node name="connector" type="Node3D" parent="."]
 script = ExtResource("6_onsvi")
+
+[node name="thruster" parent="connector" instance=ExtResource("8_e3cpq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25794, 0.76881, 6.64815)
 
 [node name="box" parent="connector" instance=ExtResource("4_lorap")]
 

@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://btr2kol4d1adt"]
+
+[ext_resource type="Script" path="res://phys/thruster.gd" id="1_rc51r"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ktop3"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_r3qvh"]
+height = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fx58h"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.2
+
+[node name="thruster" type="RigidBody3D" groups=["build", "usable"]]
+script = ExtResource("1_rc51r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_ktop3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_r3qvh")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 0, -0.533126)
+mesh = SubResource("CylinderMesh_fx58h")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 0, 0.466321)
+mesh = SubResource("CylinderMesh_fx58h")

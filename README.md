@@ -31,7 +31,6 @@ tools used:
 ideas:
 	- weight switches (portal buttons)
 	- wheels
-	- thruster
 	- long stick
 	- plank
 	- buttons

@@ -5,7 +5,8 @@ var _connections: Dictionary = {}
 var _constraints: Array[Joint3D] = []
 
 static func get_connector_for(item: RigidBody3D) -> ConnectionGroup:
-	while true:
+	var depth := 0
+	while depth < 64: # prevent infinite looping
 		if not item.is_inside_tree():
 			break
 		var parent := item.get_parent()
@@ -13,6 +14,7 @@ static func get_connector_for(item: RigidBody3D) -> ConnectionGroup:
 			break
 		elif parent is ConnectionGroup:
 			return parent
+		depth += 1
 	return null
 
 func _is_connected(a: RigidBody3D, b: RigidBody3D) -> bool:
