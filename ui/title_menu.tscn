@@ -1,0 +1,66 @@
+[gd_scene load_steps=4 format=3 uid="uid://cphd6fgo0q3c6"]
+
+[ext_resource type="Script" path="res://ui/title_menu.gd" id="1_gynrs"]
+[ext_resource type="PackedScene" uid="uid://c7jaebv3nhvsq" path="res://ui/boot_splash.tscn" id="2_7it6w"]
+[ext_resource type="Theme" uid="uid://bd7gseqffsnlf" path="res://ui/main_theme.tres" id="3_gubyl"]
+
+[node name="TitleMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gynrs")
+prev_scene = ExtResource("2_7it6w")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -15.5
+offset_right = 34.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_gubyl")
+text = "onward"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -53.0
+offset_top = -111.0
+offset_right = 70.0
+offset_bottom = -88.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.214821
+theme = ExtResource("3_gubyl")
+text = "crappy contraptions"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -87.0
+offset_right = 86.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.214821
+theme = ExtResource("3_gubyl")
+theme_override_font_sizes/font_size = 16
+text = "ludum dare 55 edition"

@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://cogm6hynqnryu"]
+
+[ext_resource type="Material" uid="uid://d1dcxbgx8kga7" path="res://materials/test_grid_grey.tres" id="1_5df2b"]
+[ext_resource type="Script" path="res://addons/exmoe_tools/common/follow_cam.gd" id="2_1xjub"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_c5qv6"]
+energy_multiplier = 4.0
+
+[sub_resource type="Sky" id="Sky_bvtvx"]
+sky_material = SubResource("PhysicalSkyMaterial_c5qv6")
+
+[sub_resource type="Environment" id="Environment_lipqr"]
+background_mode = 2
+sky = SubResource("Sky_bvtvx")
+tonemap_mode = 3
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_f2mhc"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbx06"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-12)
+material_override = ExtResource("1_5df2b")
+use_collision = true
+size = Vector3(5.91895, 1, 6.94238)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lipqr")
+camera_attributes = SubResource("CameraAttributesPractical_f2mhc")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.68443, 0.5, 0)
+use_collision = true
+size = Vector3(0.290527, 1, 2.71118)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+script = ExtResource("2_1xjub")
+target_path = NodePath("../CharacterBody3D")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_qbx06")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.727426, -0.556744, 0.401108, -6.42695e-16, 0.584547, 0.81136, -0.686187, -0.590204, 0.425214, 0, 2.25026, 1.70259)
+shadow_enabled = true
+shadow_bias = 0.05
+directional_shadow_split_1 = 0.05
+directional_shadow_split_2 = 0.1
+directional_shadow_split_3 = 0.25
