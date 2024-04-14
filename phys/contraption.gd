@@ -54,6 +54,8 @@ static func freeze(item: RigidBody3D, force_unfreeze := false):
 		new_freeze = false
 	for body in bodies:
 		body.freeze = new_freeze
+		body.linear_velocity *= 0
+		body.angular_velocity *= 0
 
 static func activate(item: RigidBody3D, user: Node):
 	freeze(item, true)
