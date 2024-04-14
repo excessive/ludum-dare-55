@@ -7,7 +7,7 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbx06"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_hkaa8"]
-radius = 2.0
+radius = 3.0
 
 [node name="player" type="CharacterBody3D" node_paths=PackedStringArray("grabber")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
