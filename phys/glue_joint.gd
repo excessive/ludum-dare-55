@@ -59,7 +59,15 @@ func _update_position():
 		var group := Contraption.find_contraption_for(a)
 		group.detach_body(a)
 		print("safety detach")
-	look_at_from_position((a.global_position + b.global_position) / 2, b.global_position)
+	var ab := a as RigidBody3D
+	var bb := b as RigidBody3D
+	var up: Vector3 = ab.global_basis.y
+	var center := (ab.global_position + bb.global_position) / 2
+	var dir := center.direction_to(bb.global_position)
+	var angle := minf(dir.angle_to(up), dir.angle_to(-up))
+	if angle < 0.01:
+		up = ab.global_basis.z
+	look_at_from_position(center, bb.global_position, up)
 
 func _ready() -> void:
 	_update_position()
