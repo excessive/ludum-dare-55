@@ -23,9 +23,11 @@ func _on_use(_user: Node3D):
 	engine_force = torque
 
 func _on_control(_user: Node3D, input: Vector3):
-	active = get_physics_process_delta_time()
-	engine_force = torque * input.y
-	steering = deg_to_rad(30) * -input.x
+	var tick := get_physics_process_delta_time()
+	active = tick
+	var weight := 1.0 - exp(-3.0 * tick)
+	engine_force = lerpf(engine_force, torque * input.y, weight)
+	steering = lerpf(steering, deg_to_rad(30) * -input.x, weight)
 
 func _physics_process(delta: float) -> void:
 	if active <= 0.0:

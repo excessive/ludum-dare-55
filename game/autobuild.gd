@@ -6,6 +6,7 @@ class_name Autobuild
 func _ready() -> void:
 	await get_tree().process_frame
 	var root := get_node_or_null(build_root)
+	assert(root)
 	for child in get_children():
 		if child == root:
 			continue

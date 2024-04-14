@@ -111,10 +111,14 @@ static func attach_bodies(a: RigidBody3D, bodies: Array[RigidBody3D]):
 		if not b.is_in_group("build"):
 			continue
 
-		var path_b := b.get_path()
 		if not con._is_connected(a, b):
+			var old_path := b.get_path()
+			#b.reparent(a)
+			var path_b := b.get_path()
+			if path_b != old_path:
+				con._connections[path_b] = con._connections[old_path]
+				con._connections.erase(old_path)
 			var constraint := GlueJoint.new(a, b)
-			constraint.linear_spring_equilibrium_point = a.global_position.distance_to(b.global_position)
 			con._connections[path_a].append(path_b)
 			con._connections[path_b].append(path_a)
 			con.add_child(constraint)
