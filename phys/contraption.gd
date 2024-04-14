@@ -27,7 +27,9 @@ static func get_joints_for(item: RigidBody3D) -> Array[Joint3D]:
 static func _get_all_internal(item: RigidBody3D, items: Array[NodePath] = [], visited: Dictionary = {}) -> Array[NodePath]:
 	if not item:
 		return items
-	items.append(item.get_path())
+	var path := item.get_path()
+	if not items.has(path):
+		items.append(path)
 	for joint in get_joints_for(item):
 		if not visited.has(joint.node_a):
 			visited[joint.node_a] = true
