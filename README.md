@@ -31,12 +31,9 @@ tools used:
 
 ideas:
 	- weight switches (portal buttons)
-	- wheels
 	- long stick
-	- plank
 	- buttons
-	- rotation input
-	- spengies-like gyro?
+	- spengies-like gyro or some kind of stabilizer would help a lot
 	- steering wheel/cockpit
 	- indoor scene?
 	- sensors that spawn you a new part?

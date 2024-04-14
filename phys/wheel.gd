@@ -4,7 +4,7 @@ signal use(user: Node3D)
 signal reset
 
 @export var torque := 500
-@export var speed := 200
+@export var speed := 175
 @export var active := 0.0
 
 @onready var wheel := %spinny

@@ -13,6 +13,7 @@ bottom_radius = 0.2
 height = 0.2
 
 [node name="thruster" type="RigidBody3D" groups=["build", "usable"]]
+angular_damp = 2.0
 script = ExtResource("1_rc51r")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

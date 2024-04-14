@@ -26,6 +26,7 @@ cap_top = false
 size = Vector3(1, 1, 2)
 
 [node name="wheel" type="RigidBody3D" groups=["build", "usable"]]
+angular_damp = 2.0
 script = ExtResource("1_1hg2h")
 
 [node name="motor" type="HingeJoint3D" parent="."]
@@ -38,6 +39,9 @@ node_b = NodePath("spinny")
 unique_name_in_owner = true
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 collision_layer = 0
+center_of_mass_mode = 1
+linear_damp = 0.5
+angular_damp = 0.5
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="motor/spinny"]
 transform = Transform3D(-4.37114e-08, 1, -1.06581e-14, -1, -4.37114e-08, 4.65882e-22, 0, 1.06581e-14, 1, 0, 0, 0)
