@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=3 uid="uid://2agrpi173fjt"]
+
+[ext_resource type="Script" path="res://phys/wheel.gd" id="1_ycagt"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hkecg"]
+height = 0.35
+radial_segments = 32
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_m6fnd"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.75
+radial_segments = 16
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_klilu"]
+size = Vector3(1, 1, 1.5)
+
+[node name="steering" type="VehicleBody3D" groups=["build", "control", "usable"]]
+mass = 1.0
+linear_damp = 1.0
+angular_damp = 2.0
+script = ExtResource("1_ycagt")
+
+[node name="spinny" type="VehicleWheel3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, 8.74226e-08, 0, 1, 0, -8.74226e-08, 0, -1, 0, -0.346979, 0)
+use_as_steering = true
+suspension_travel = 0.05
+suspension_stiffness = 500.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="spinny"]
+transform = Transform3D(-4.37114e-08, 1, -1.06581e-14, -1, -4.37114e-08, 4.65882e-22, 0, 1.06581e-14, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_hkecg")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="spinny"]
+transform = Transform3D(-4.37114e-08, 1, -1.06581e-14, -1, -4.37114e-08, 4.65882e-22, 0, 1.06581e-14, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_m6fnd")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_klilu")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CollisionShape3D3"]
+size = Vector3(1, 1, 1.5)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CollisionShape3D3/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0487671, 0)
+operation = 2
+size = Vector3(0.668213, 0.902466, 1.30835)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CollisionShape3D3/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.213834, -0.70491)
+operation = 2
+size = Vector3(1.29199, 0.179932, 0.598969)

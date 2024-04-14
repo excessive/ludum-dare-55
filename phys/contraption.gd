@@ -57,11 +57,30 @@ static func freeze(item: RigidBody3D, force_unfreeze := false):
 		body.linear_velocity *= 0
 		body.angular_velocity *= 0
 
+static func control(item: RigidBody3D, user: Node, input: Vector3) -> bool:
+	var controlled := false
+
+	var bodies := get_all_bodies(item)
+	for body in bodies:
+		if not body.is_in_group("control"):
+			continue
+
+		if body.has_signal("control"):
+			body.emit_signal("control", user, input)
+			controlled = true
+		else:
+			print("%s is controllable, but doesn't have a control signal defined" % item.name)
+
+	return controlled
+
 static func activate(item: RigidBody3D, user: Node):
 	freeze(item, true)
 
 	var bodies := get_all_bodies(item)
 	for body in bodies:
+		if not body.is_in_group("usable"):
+			continue
+
 		if body.has_signal("use"):
 			body.emit_signal("use", user)
 		else:
@@ -87,6 +106,10 @@ func attach_bodies(a: RigidBody3D, b: RigidBody3D):
 		_connections[path_a].append(path_b)
 		_connections[path_b].append(path_a)
 		add_child(constraint)
+		if b.freeze:
+			a.freeze = b.freeze
+		if a.freeze:
+			b.freeze = a.freeze
 		_constraints.append(constraint)
 		#print("attached %s and %s" % [a.name, b.name])
 

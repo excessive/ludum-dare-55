@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b8wn885578i47"]
+[gd_scene load_steps=6 format=3 uid="uid://b8wn885578i47"]
 
 [ext_resource type="Script" path="res://phys/wheel.gd" id="1_1hg2h"]
 
@@ -12,9 +12,6 @@ bottom_radius = 0.1
 height = 0.75
 radial_segments = 16
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_qne53"]
-height = 0.35
-
 [sub_resource type="CylinderMesh" id="CylinderMesh_fx58h"]
 top_radius = 0.0
 bottom_radius = 0.2
@@ -25,42 +22,33 @@ cap_top = false
 [sub_resource type="BoxShape3D" id="BoxShape3D_dbxrv"]
 size = Vector3(1, 1, 2)
 
-[node name="wheel" type="RigidBody3D" groups=["build", "usable"]]
+[node name="wheel" type="VehicleBody3D" groups=["build", "control", "usable"]]
+mass = 1.0
+linear_damp = 1.0
 angular_damp = 2.0
 script = ExtResource("1_1hg2h")
 
-[node name="motor" type="HingeJoint3D" parent="."]
+[node name="spinny" type="VehicleWheel3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0, -0.346979, 0)
-node_a = NodePath("..")
-node_b = NodePath("spinny")
+transform = Transform3D(-1, 0, 8.74226e-08, 0, 1, 0, -8.74226e-08, 0, -1, 0, -0.346979, 0)
+use_as_traction = true
+suspension_travel = 0.05
+suspension_stiffness = 500.0
 
-[node name="spinny" type="RigidBody3D" parent="motor"]
-unique_name_in_owner = true
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
-collision_layer = 0
-center_of_mass_mode = 1
-linear_damp = 0.5
-angular_damp = 0.5
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="motor/spinny"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="spinny"]
 transform = Transform3D(-4.37114e-08, 1, -1.06581e-14, -1, -4.37114e-08, 4.65882e-22, 0, 1.06581e-14, 1, 0, 0, 0)
 mesh = SubResource("CylinderMesh_hkecg")
-skeleton = NodePath("../CollisionShape3D")
+skeleton = NodePath("")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="motor/spinny"]
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="spinny"]
 transform = Transform3D(-4.37114e-08, 1, -1.06581e-14, -1, -4.37114e-08, 4.65882e-22, 0, 1.06581e-14, 1, 0.0222683, -9.7338e-10, -0.0222683)
 mesh = SubResource("CylinderMesh_1jskg")
-skeleton = NodePath("../CollisionShape3D")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="motor/spinny"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
-shape = SubResource("CylinderShape3D_qne53")
+skeleton = NodePath("")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, 1.31134e-07, 1, -1, -5.73205e-15, -4.37114e-08, 0, -1, 1.31134e-07, 0, 0.258948, -0.902813)
 mesh = SubResource("CylinderMesh_fx58h")
-skeleton = NodePath("../motor/spinny/CollisionShape3D")
+skeleton = NodePath("")
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_dbxrv")

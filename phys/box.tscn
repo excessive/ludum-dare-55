@@ -7,6 +7,8 @@ size = Vector3(1, 0.25, 4)
 size = Vector3(1, 0.25, 4)
 
 [node name="box" type="RigidBody3D" groups=["build"]]
+linear_damp = 1.0
+angular_damp = 2.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_ktop3")

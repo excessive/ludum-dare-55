@@ -17,6 +17,8 @@ var _grabbed_path: NodePath
 var _grabbed_last_basis := Basis()
 var _grabbed_last_dist := 0.0
 
+var _controlling_path: NodePath
+
 func _ready() -> void:
 	assert(camera)
 	assert(grabber)
@@ -91,11 +93,53 @@ func _get_nearest_item(p_group: StringName) -> RigidBody3D:
 			nearest_dist = dist
 	return nearest_body
 
+func _try_attach(item: RigidBody3D):
+	if not item:
+		return
+	var con := Contraption.find_contraption_for(item)
+	var hits := _find_attachments(item)
+	for hit in hits:
+		con.attach_bodies(item, hit)
+
+func _try_control(controlling: RigidBody3D) -> bool:
+	if not controlling:
+		return false
+
+	var input := focus.get_player_input()
+	var vehicle_control := Vector3(
+		input.get_axis("view_left", "view_right"),
+		input.get_axis("move_backward", "move_forward"),
+		0
+	)
+	if not Contraption.control(controlling, self, vehicle_control):
+		_controlling_path = ""
+		return false
+
+	velocity *= 0
+	move_and_slide()
+	#camera.target_transform = controlling.global_transform
+
+	return true
+
+## returns try to cancel remaining update
 func _try_use() -> bool:
+	var controlling: RigidBody3D = get_node_or_null(_controlling_path)
+	if controlling:
+		_controlling_path = ""
+		return true # eat this input so we don't use on leave
+	else:
+		controlling = _get_nearest_item("build")
+		if _try_control(controlling):
+			_controlling_path = controlling.get_path()
+			return true
+
 	var held := get_node_or_null(_grabbed_path)
 	if held:
 		var con := Contraption.find_contraption_for(held)
-		con.detach_body(held)
+		if Contraption.get_joints_for(held).is_empty():
+			_try_attach(held)
+		else:
+			con.detach_body(held)
 		return false
 
 	var item := _get_nearest_item("usable")
@@ -103,9 +147,14 @@ func _try_use() -> bool:
 		print("item not found")
 		return false
 
+	# use on a frozen item unfreezes it instead
+	if item.freeze:
+		Contraption.freeze(item, true)
+		return false
+
 	Contraption.activate(item, self)
 
-	return true
+	return false
 
 func _try_freeze() -> bool:
 	var held: RigidBody3D = get_node_or_null(_grabbed_path)
@@ -157,7 +206,7 @@ func _try_move(delta: float):
 	var hits := _find_attachments(grabbed, 1.0)
 	for hit in hits:
 		var target_basis := _closest_alignment(grabbed.global_basis, hit.global_basis)
-		var align_speed := 10.0 * delta
+		var align_speed := 20.0 * delta
 		#print(target_basis)
 		grabbed.angular_velocity += calc_angular_velocity(grabbed.global_basis, target_basis) * align_speed
 		break # just ignore everything after the first hit
@@ -221,6 +270,12 @@ func _find_attachments(item: RigidBody3D, margin := 0.25) -> Array[RigidBody3D]:
 func _physics_process(delta: float) -> void:
 	var input := focus.get_player_input()
 
+	if input.is_action_just_pressed("use"):
+		if _try_use():
+			return
+	elif _try_control(get_node_or_null(_controlling_path)):
+		return
+
 	if input.is_action_just_pressed("debug") and OS.is_debug_build():
 		var item := _get_nearest_item("build")
 		var inspector := %ObjectInspector
@@ -276,22 +331,13 @@ func _physics_process(delta: float) -> void:
 
 	camera.target_transform = Transform3D(_cam_outer * _cam_inner, global_position)
 
-	if input.is_action_just_pressed("use"):
-		_try_use()
-
 	if input.is_action_just_pressed("freeze"):
 		_try_freeze()
 
 	if input.is_action_just_pressed("grab"):
 		var item := get_node_or_null(_grabbed_path) as RigidBody3D
 		if item:
-			var hits := _find_attachments(item)
-			for hit in hits:
-				var con := Contraption.find_contraption_for(item)
-				con.attach_bodies(item, hit)
-				if hit.freeze:
-					item.freeze = hit.freeze
-
+			_try_attach(item)
 			drop_item()
 		else:
 			_try_grab()

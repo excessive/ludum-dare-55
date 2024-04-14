@@ -1,34 +1,35 @@
-extends RigidBody3D
+extends VehicleBody3D
 
+signal control(user: Node3D, input: Vector3)
 signal use(user: Node3D)
 signal reset
 
-@export var torque := 500
-@export var speed := 175
+@export var torque := 25
 @export var active := 0.0
 
 @onready var wheel := %spinny
-@onready var motor := %motor
 
 func _ready() -> void:
 	use.connect(_on_use)
 	reset.connect(_on_reset)
+	control.connect(_on_control)
 
 func _on_reset():
 	active = 0.0
-	wheel.angular_velocity *= 0
-	wheel.linear_velocity *= 0
+	engine_force = 0
 
 func _on_use(_user: Node3D):
 	active = 10.0
+	engine_force = torque
+
+func _on_control(_user: Node3D, input: Vector3):
+	active = get_physics_process_delta_time()
+	engine_force = torque * input.y
+	steering = deg_to_rad(25) * -input.x
 
 func _physics_process(delta: float) -> void:
 	if active <= 0.0:
-		motor.set_flag(HingeJoint3D.FLAG_ENABLE_MOTOR, false)
+		engine_force = 0
 		return
+	#print(engine_force, " ", steering)
 	active -= delta
-	#var force := -global_basis.x * torque * delta
-	#wheel.apply_torque(force)
-	motor.set_flag(HingeJoint3D.FLAG_ENABLE_MOTOR, true)
-	motor.set_param(HingeJoint3D.PARAM_MOTOR_TARGET_VELOCITY, deg_to_rad(speed))
-	motor.set_param(HingeJoint3D.PARAM_MOTOR_MAX_IMPULSE, torque)

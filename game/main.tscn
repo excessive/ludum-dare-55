@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cogm6hynqnryu"]
+[gd_scene load_steps=16 format=3 uid="uid://cogm6hynqnryu"]
 
 [ext_resource type="Material" uid="uid://d1dcxbgx8kga7" path="res://materials/test_grid_grey.tres" id="1_5df2b"]
 [ext_resource type="PackedScene" uid="uid://d0bndvyxq2j7a" path="res://game/main_background.tscn" id="1_vm1ni"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://ui/clear_focus.gd" id="9_ak2w4"]
 [ext_resource type="Script" path="res://game/autobuild.gd" id="10_p856n"]
 [ext_resource type="PackedScene" uid="uid://b8wn885578i47" path="res://phys/wheel.tscn" id="11_ak27m"]
+[ext_resource type="PackedScene" uid="uid://2agrpi173fjt" path="res://phys/steering.tscn" id="13_g2gfn"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_kmxbi"]
 size = Vector3(2, 1, 4)
@@ -74,10 +75,16 @@ outline_size = 24
 script = ExtResource("6_onsvi")
 
 [node name="wheel" parent="Contraption" instance=ExtResource("11_ak27m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.83498, 1.46311, 6.17915)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.83498, 0.846978, 6.17915)
+
+[node name="wheel2" parent="Contraption" instance=ExtResource("11_ak27m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.13575, 0.988671, 0.150007)
 
 [node name="wheel4" parent="Contraption" instance=ExtResource("11_ak27m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.62943, 1.46311, -4.00483)
+
+[node name="wheel5" parent="Contraption" instance=ExtResource("11_ak27m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.73493, 1.46311, -7.23101)
 
 [node name="thruster3" parent="Contraption" instance=ExtResource("8_e3cpq")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.76498, 0.5, 6.38015)
@@ -153,20 +160,17 @@ node_b = NodePath("../StaticBody3D")
 script = ExtResource("10_p856n")
 build_root = NodePath("box4")
 
-[node name="wheel2" parent="Contraption/autobuild" instance=ExtResource("11_ak27m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.42437, 1.46311, -4.71118)
+[node name="steering" parent="Contraption/autobuild" instance=ExtResource("13_g2gfn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.43649, 1.44909, -5.86534)
 
-[node name="wheel7" parent="Contraption/autobuild" instance=ExtResource("11_ak27m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.42437, 1.46311, -2.34322)
-
-[node name="wheel8" parent="Contraption/autobuild" instance=ExtResource("11_ak27m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0812, 1.46311, -4.71118)
+[node name="steering2" parent="Contraption/autobuild" instance=ExtResource("13_g2gfn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.41849, 1.44909, -5.86534)
 
 [node name="wheel9" parent="Contraption/autobuild" instance=ExtResource("11_ak27m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0812, 1.46311, -2.34322)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4869, 1.46311, -1.03411)
 
 [node name="box4" parent="Contraption/autobuild" instance=ExtResource("4_lorap")]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -5.75878, 1.55816, -3.46687)
+transform = Transform3D(1, 1.06581e-14, 0, -1.06581e-14, 1, 0, 0, 0, 1, -5.42603, 1.30684, -4.03859)
 
 [node name="Autobuild" type="Node3D" parent="Contraption"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.14812, 0.40017, 0)
