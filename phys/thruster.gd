@@ -3,7 +3,7 @@ extends RigidBody3D
 signal use(user: Node3D)
 signal reset
 
-@export var thrust_force := 1000
+@export var thrust_force := 2500
 @export var active := 0.0
 
 func _ready() -> void:
