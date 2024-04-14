@@ -6,6 +6,7 @@ extends CharacterBody3D
 @export_range(0.0, 1.0) var mouse_sensitivity := 0.125
 
 @onready var focus := SnailInput.get_input_focus(self)
+#@onready var _prev_mode := Input.MOUSE_MODE_CAPTURED
 @onready var _prev_mode := Input.mouse_mode
 
 var _allow_drag_rotate := true
@@ -285,7 +286,8 @@ func _find_attachments(item: RigidBody3D, margin := 0.25) -> Array[RigidBody3D]:
 func _physics_process(delta: float) -> void:
 	var input := focus.get_player_input()
 
-	set_collision_layer_value(1, get_node_or_null(_controlling_path) == null)
+	# this breaks respawn logic
+	#set_collision_layer_value(1, get_node_or_null(_controlling_path) == null)
 
 	if input.is_action_just_pressed("use"):
 		if _try_use(delta):

@@ -30,8 +30,6 @@ tools used:
 	- reaper
 
 ideas:
-	- weight switches (portal buttons)
-	- buttons
 	- spengies-like gyro or some kind of stabilizer would help a lot
 	- indoor scene?
 	- sensors that spawn you a new part?
