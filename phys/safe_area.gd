@@ -21,7 +21,7 @@ func _on_body_exited(node: Node3D):
 		_spawn_locations.erase(path)
 
 	if node is RigidBody3D:
-		var con := ConnectionGroup.get_connector_for(node)
+		var con := Contraption.get_connector_for(node)
 		if con:
 			con.detach_body(node)
 

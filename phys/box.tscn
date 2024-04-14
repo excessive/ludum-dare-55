@@ -1,8 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://dy34a7txdnetm"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ktop3"]
+size = Vector3(1, 0.25, 4)
 
 [sub_resource type="BoxMesh" id="BoxMesh_y6sym"]
+size = Vector3(1, 0.25, 4)
 
 [node name="box" type="RigidBody3D" groups=["build"]]
 

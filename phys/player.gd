@@ -28,6 +28,7 @@ func drop_item():
 	var item: RigidBody3D = get_node_or_null(_grabbed_path)
 	if item:
 		item.gravity_scale = 1
+		item.remove_collision_exception_with(self)
 		_grabbed_path = ""
 
 func _input(event: InputEvent) -> void:
@@ -91,6 +92,12 @@ func _get_nearest_item(p_group: StringName) -> RigidBody3D:
 	return nearest_body
 
 func _try_use() -> bool:
+	var held := get_node_or_null(_grabbed_path)
+	if held:
+		var con := Contraption.get_connector_for(held)
+		con.detach_body(held)
+		return false
+
 	var item := _get_nearest_item("usable")
 	if not item:
 		print("item not found")
@@ -114,6 +121,7 @@ func _try_grab() -> bool:
 	item.linear_velocity *= 0
 	item.angular_velocity *= 0
 	item.gravity_scale = 0
+	item.add_collision_exception_with(self)
 
 	var center := get_viewport().get_visible_rect().get_center()
 	var depth := camera.global_position.distance_to(global_position)
@@ -121,9 +129,6 @@ func _try_grab() -> bool:
 	_grabbed_last_basis = camera.global_basis
 	_grabbed_last_dist = origin.distance_to(item.global_position)
 	_grabbed_path = item.get_path()
-
-	var con := ConnectionGroup.get_connector_for(item)
-	con.detach_body(item)
 
 	return true
 
@@ -152,8 +157,37 @@ func _try_rotate_item(view: Vector2, speed: float = 1.0):
 	item.global_rotate(ax, view.y * speed)
 	item.global_rotate(ay, view.x * speed)
 
+func _has_script_vars(object: Object) -> bool:
+	for prop in object.get_property_list():
+		if prop["usage"] & PROPERTY_USAGE_SCRIPT_VARIABLE:
+			return true
+	return false
+
+var cycle := 0
+
 func _physics_process(delta: float) -> void:
 	var input := focus.get_player_input()
+
+	if input.is_action_just_pressed("debug") and OS.is_debug_build():
+		var item := _get_nearest_item("build")
+		var inspector := %ObjectInspector
+		if item and inspector:
+			var options: Array[Node3D] = [ item ]
+			options.append_array(Contraption.get_joints_for(item))
+			cycle %= options.size()
+			var choice := options[cycle]
+			if inspector.get_object() == choice:
+				cycle += 1
+				cycle %= options.size()
+				choice = options[cycle]
+			inspector.show()
+			inspector.set_object(choice, _has_script_vars(choice))
+			print("inspect %s" % choice.name)
+		else:
+			cycle = 0
+			print("clearing inspector")
+			inspector.clear()
+			inspector.hide()
 
 	var move := input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var speed := 25.0 * delta
@@ -213,7 +247,7 @@ func _physics_process(delta: float) -> void:
 				var hits := dss.intersect_shape(params)
 				for hit in hits:
 					if hit.collider is RigidBody3D:
-						var con := ConnectionGroup.get_connector_for(item)
+						var con := Contraption.get_connector_for(item)
 						con.attach_bodies(item, hit.collider)
 
 			drop_item()
