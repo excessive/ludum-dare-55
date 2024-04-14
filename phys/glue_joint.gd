@@ -56,7 +56,7 @@ func _update_position():
 	if not a or not b:
 		return
 	if a.global_position.distance_to(b.global_position) > linear_spring_equilibrium_point * 4:
-		var group := Contraption.get_connector_for(a)
+		var group := Contraption.find_contraption_for(a)
 		group.detach_body(a)
 		print("safety detach")
 	look_at_from_position((a.global_position + b.global_position) / 2, b.global_position)

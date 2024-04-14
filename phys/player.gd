@@ -94,7 +94,7 @@ func _get_nearest_item(p_group: StringName) -> RigidBody3D:
 func _try_use() -> bool:
 	var held := get_node_or_null(_grabbed_path)
 	if held:
-		var con := Contraption.get_connector_for(held)
+		var con := Contraption.find_contraption_for(held)
 		con.detach_body(held)
 		return false
 
@@ -103,10 +103,7 @@ func _try_use() -> bool:
 		print("item not found")
 		return false
 
-	if item.has_signal("use"):
-		item.emit_signal("use", self)
-	else:
-		print("%s is usable, but doesn't have a use signal defined" % item.name)
+	Contraption.activate(item, self)
 
 	return true
 
@@ -247,7 +244,7 @@ func _physics_process(delta: float) -> void:
 				var hits := dss.intersect_shape(params)
 				for hit in hits:
 					if hit.collider is RigidBody3D:
-						var con := Contraption.get_connector_for(item)
+						var con := Contraption.find_contraption_for(item)
 						con.attach_bodies(item, hit.collider)
 
 			drop_item()
