@@ -48,6 +48,7 @@ func _init(a: RigidBody3D, b: RigidBody3D) -> void:
 	add_child(display)
 	node_a = a.get_path()
 	node_b = b.get_path()
+	exclude_nodes_from_collision = false
 
 func _update_position():
 	var a := get_node_or_null(node_a)

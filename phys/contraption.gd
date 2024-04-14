@@ -5,17 +5,14 @@ var _connections: Dictionary = {}
 var _constraints: Array[Joint3D] = []
 
 static func get_connector_for(item: RigidBody3D) -> Contraption:
-	var depth := 0
-	while depth < 64: # prevent infinite looping
-		if not item.is_inside_tree():
-			break
-		var parent := item.get_parent()
-		if not parent:
-			break
-		elif parent is Contraption:
-			return parent
-		depth += 1
-	return null
+	if not item.is_inside_tree():
+		return null
+	var node: Node = item.get_parent()
+	while node:
+		if node is Contraption:
+			return node
+		node = node.get_parent()
+	return node
 	#print("new contraption")
 	#var ret := Contraption.new()
 	#item.add_sibling(ret)
