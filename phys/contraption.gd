@@ -108,6 +108,9 @@ static func attach_bodies(a: RigidBody3D, bodies: Array[RigidBody3D]):
 		return
 	var path_a := a.get_path()
 	for b in bodies:
+		if not b.is_in_group("build"):
+			continue
+
 		var path_b := b.get_path()
 		if not con._is_connected(a, b):
 			var constraint := GlueJoint.new(a, b)
