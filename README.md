@@ -34,7 +34,6 @@ ideas:
 	- long stick
 	- buttons
 	- spengies-like gyro or some kind of stabilizer would help a lot
-	- steering wheel/cockpit
 	- indoor scene?
 	- sensors that spawn you a new part?
 

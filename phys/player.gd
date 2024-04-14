@@ -148,7 +148,7 @@ func _try_use() -> bool:
 			remote.remote_path = get_path()
 			_control_locator = Node3D.new()
 			controlling.add_child(_control_locator)
-			_control_locator.global_position = global_position
+			_control_locator.global_transform = global_transform
 			_control_locator.add_child(remote)
 			_controlling_path = controlling.get_path()
 			return true
