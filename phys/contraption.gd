@@ -4,7 +4,7 @@ extends Node3D
 var _connections: Dictionary = {}
 var _constraints: Array[Joint3D] = []
 
-static func find_contraption_for(item: RigidBody3D) -> Contraption:
+static func _find_contraption_for(item: RigidBody3D) -> Contraption:
 	if not item.is_inside_tree():
 		return null
 	var node: Node = item.get_parent()
@@ -12,10 +12,15 @@ static func find_contraption_for(item: RigidBody3D) -> Contraption:
 		if node is Contraption:
 			return node
 		node = node.get_parent()
+	if not node is Contraption:
+		return null
 	return node
 
+static func has_any_attachments(item: RigidBody3D) -> bool:
+	return not get_joints_for(item).is_empty()
+
 static func get_joints_for(item: RigidBody3D) -> Array[Joint3D]:
-	var connector := find_contraption_for(item)
+	var connector := _find_contraption_for(item)
 	var ret: Array[Joint3D] = []
 	if connector:
 		var path := item.get_path()
@@ -97,37 +102,44 @@ func _is_connected(a: RigidBody3D, b: RigidBody3D) -> bool:
 		return true
 	return false
 
-func attach_bodies(a: RigidBody3D, b: RigidBody3D):
-	var path_a := a.get_path()
-	var path_b := b.get_path()
-	if not _is_connected(a, b):
-		var constraint := GlueJoint.new(a, b)
-		constraint.linear_spring_equilibrium_point = a.global_position.distance_to(b.global_position)
-		_connections[path_a].append(path_b)
-		_connections[path_b].append(path_a)
-		add_child(constraint)
-		if b.freeze:
-			a.freeze = b.freeze
-		if a.freeze:
-			b.freeze = a.freeze
-		_constraints.append(constraint)
-		#print("attached %s and %s" % [a.name, b.name])
-
-func detach_body(body: RigidBody3D):
-	var path := body.get_path()
-	if not _connections.has(path):
+static func attach_bodies(a: RigidBody3D, bodies: Array[RigidBody3D]):
+	var con := _find_contraption_for(a)
+	if not con:
 		return
-	var connections := _connections[path] as Array
+	var path_a := a.get_path()
+	for b in bodies:
+		var path_b := b.get_path()
+		if not con._is_connected(a, b):
+			var constraint := GlueJoint.new(a, b)
+			constraint.linear_spring_equilibrium_point = a.global_position.distance_to(b.global_position)
+			con._connections[path_a].append(path_b)
+			con._connections[path_b].append(path_a)
+			con.add_child(constraint)
+			if b.freeze:
+				a.freeze = b.freeze
+			if a.freeze:
+				b.freeze = a.freeze
+			con._constraints.append(constraint)
+			#print("attached %s and %s" % [a.name, b.name])
+
+static func detach_body(body: RigidBody3D):
+	var con := _find_contraption_for(body)
+	if not con:
+		return
+	var path := body.get_path()
+	if not con._connections.has(path):
+		return
+	var connections := con._connections[path] as Array
 	var erase: Array[Joint3D] = []
 	for connection: NodePath in connections:
-		if not _connections.has(connection):
+		if not con._connections.has(connection):
 			continue
-		_connections[connection].erase(path)
-		for constraint in _constraints:
+		con._connections[connection].erase(path)
+		for constraint in con._constraints:
 			if constraint.node_a == path or constraint.node_b == path:
 				erase.append(constraint)
-				_connections[constraint.node_a].erase(constraint.node_b)
-				_connections[constraint.node_b].erase(constraint.node_a)
+				con._connections[constraint.node_a].erase(constraint.node_b)
+				con._connections[constraint.node_b].erase(constraint.node_a)
 	for joint in erase:
-		_constraints.erase(joint)
+		con._constraints.erase(joint)
 		joint.queue_free()

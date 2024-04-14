@@ -56,7 +56,8 @@ func _input(event: InputEvent) -> void:
 
 	if event is InputEventMouseMotion:
 		var sens := turn_speed * TAU * mouse_sensitivity
-		if input.is_action_pressed("rotate"):
+		var controlling := get_node_or_null(_controlling_path)
+		if input.is_action_pressed("rotate") and not controlling:
 			_try_rotate_item(event.relative * sens, 0.01)
 		else:
 			target_rotate(event.relative * sens)
@@ -97,43 +98,45 @@ func _get_nearest_item(p_group: StringName) -> RigidBody3D:
 func _try_attach(item: RigidBody3D):
 	if not item:
 		return
-	var con := Contraption.find_contraption_for(item)
-	var hits := _find_attachments(item)
-	for hit in hits:
-		con.attach_bodies(item, hit)
+	Contraption.attach_bodies(item, _find_attachments(item))
 
 func _drop_control():
 	_controlling_path = ""
-	_control_locator.queue_free()
-	_control_locator = null
+	if _control_locator:
+		_control_locator.queue_free()
+		_control_locator = null
 
-func _try_control(controlling: RigidBody3D) -> bool:
+func _try_control(controlling: RigidBody3D, delta: float) -> bool:
 	if not controlling:
 		return false
 
 	var input := focus.get_player_input()
 	var vehicle_control := Vector3(
 		input.get_axis("move_left", "move_right"),
-		input.get_axis("move_backward", "move_forward"),
+		Input.get_axis("reverse", "throttle"),
 		0
 	)
 	if not Contraption.control(controlling, self, vehicle_control):
 		_drop_control()
 		return false
 
-	camera.target_transform = Transform3D(controlling.global_basis * _cam_outer * _cam_inner, global_position)
+
+	var view := input.get_vector("view_left", "view_right", "view_up", "view_down").limit_length()
+	var sens := rad_to_deg(turn_speed * TAU * delta)
+	target_rotate(view * sens)
+
+	camera.target_transform = Transform3D(_closest_alignment(global_basis, controlling.global_basis) * _cam_outer * _cam_inner, global_position)
 
 	return true
 
 ## returns try to cancel remaining update
-func _try_use() -> bool:
+func _try_use(delta: float) -> bool:
 	var held := get_node_or_null(_grabbed_path)
 	if held:
-		var con := Contraption.find_contraption_for(held)
-		if Contraption.get_joints_for(held).is_empty():
+		if not Contraption.has_any_attachments(held):
 			_try_attach(held)
 		else:
-			con.detach_body(held)
+			Contraption.detach_body(held)
 		return false
 
 	var controlling: RigidBody3D = get_node_or_null(_controlling_path)
@@ -142,7 +145,7 @@ func _try_use() -> bool:
 		return true # eat this input so we don't use on leave
 	else:
 		controlling = _get_nearest_item("build")
-		if _try_control(controlling):
+		if _try_control(controlling, delta):
 			velocity *= 0
 			var remote = RemoteTransform3D.new()
 			remote.remote_path = get_path()
@@ -150,6 +153,7 @@ func _try_use() -> bool:
 			controlling.add_child(_control_locator)
 			_control_locator.global_transform = global_transform
 			_control_locator.add_child(remote)
+			remote.position *= 0
 			_controlling_path = controlling.get_path()
 			return true
 
@@ -284,9 +288,9 @@ func _physics_process(delta: float) -> void:
 	set_collision_layer_value(1, get_node_or_null(_controlling_path) == null)
 
 	if input.is_action_just_pressed("use"):
-		if _try_use():
+		if _try_use(delta):
 			return
-	elif _try_control(get_node_or_null(_controlling_path)):
+	elif _try_control(get_node_or_null(_controlling_path), delta):
 		return
 
 	if input.is_action_just_pressed("debug") and OS.is_debug_build():

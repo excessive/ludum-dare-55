@@ -23,10 +23,11 @@ script = ExtResource("1_ycagt")
 
 [node name="spinny" type="VehicleWheel3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(-1, 0, 8.74226e-08, 0, 1, 0, -8.74226e-08, 0, -1, 0, -0.346979, 0)
+transform = Transform3D(-1, 0, 8.74226e-08, 0, 1, 0, -8.74226e-08, 0, -1, 0, -0.196778, 0)
 use_as_steering = true
+wheel_roll_influence = 0.05
 suspension_travel = 0.1
-suspension_stiffness = 400.0
+suspension_stiffness = 200.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="spinny"]
 transform = Transform3D(-4.37114e-08, 1, -1.06581e-14, -1, -4.37114e-08, 4.65882e-22, 0, 1.06581e-14, 1, 0, 0, 0)
@@ -48,6 +49,11 @@ size = Vector3(1, 1, 1.5)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0487671, 0)
 operation = 2
 size = Vector3(0.668213, 0.902466, 1.30835)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="CollisionShape3D3/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.199414, 0.133301)
+operation = 2
+size = Vector3(0.356445, 0.742432, 1.57495)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="CollisionShape3D3/CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.213834, -0.70491)
