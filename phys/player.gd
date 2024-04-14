@@ -107,6 +107,16 @@ func _try_use() -> bool:
 
 	return true
 
+func _try_freeze() -> bool:
+	var held: RigidBody3D = get_node_or_null(_grabbed_path)
+	var item := _get_nearest_item("build")
+	if item:
+		Contraption.freeze(item)
+		if item == held:
+			drop_item()
+		return true
+	return false
+
 func _try_grab() -> bool:
 	var item := _get_nearest_item("build")
 	if not item:
@@ -126,6 +136,7 @@ func _try_grab() -> bool:
 	_grabbed_last_basis = camera.global_basis
 	_grabbed_last_dist = origin.distance_to(item.global_position)
 	_grabbed_path = item.get_path()
+	item.freeze = false
 
 	return true
 
@@ -142,6 +153,27 @@ func _try_move(delta: float):
 	var smooth_pos := old_pos.lerp(new_pos, 1.0 - exp(-5 * delta))
 	grabbed.angular_velocity *= exp(-5 * delta)
 	grabbed.linear_velocity = (smooth_pos - old_pos) / delta + velocity + get_platform_velocity()
+
+	var hits := _find_attachments(grabbed, 1.0)
+	for hit in hits:
+		var target_basis := _closest_alignment(grabbed.global_basis, hit.global_basis)
+		var align_speed := 10.0 * delta
+		#print(target_basis)
+		grabbed.angular_velocity += calc_angular_velocity(grabbed.global_basis, target_basis) * align_speed
+		break # just ignore everything after the first hit
+
+func _closest_vector(b: Basis, v: Vector3) -> Vector3:
+	var cmp := Vector3(b.x.dot(v), b.y.dot(v), b.z.dot(v))
+	var axis := cmp.abs().max_axis_index()
+	return b[axis] * signf(cmp[axis])
+
+func _closest_alignment(from_basis: Basis, to_basis: Basis) -> Basis:
+	var cx := _closest_vector(to_basis, from_basis.x)
+	var cy := _closest_vector(to_basis, from_basis.y)
+	return Basis(cx, cy, cx.cross(cy)).orthonormalized()
+
+func calc_angular_velocity(from_basis: Basis, to_basis: Basis) -> Vector3:
+	return (to_basis * from_basis.inverse()).get_euler()
 
 func _try_rotate_item(view: Vector2, speed: float = 1.0):
 	var item := get_node_or_null(_grabbed_path) as RigidBody3D
@@ -161,6 +193,30 @@ func _has_script_vars(object: Object) -> bool:
 	return false
 
 var cycle := 0
+
+func _find_attachments(item: RigidBody3D, margin := 0.25) -> Array[RigidBody3D]:
+	var ret: Array[RigidBody3D] = []
+	var dss := get_world_3d().direct_space_state
+	var params := PhysicsShapeQueryParameters3D.new()
+	params.collide_with_areas = false
+	params.collide_with_bodies = true
+	for collider in item.get_children():
+		if not collider is CollisionShape3D:
+			continue
+		params.transform = collider.global_transform
+		params.shape = collider.shape
+		params.exclude = [ item ]
+		params.margin = margin
+		var hits := dss.intersect_shape(params)
+		for hit in hits:
+			if hit.collider is RigidBody3D:
+				ret.append(hit.collider)
+	ret.sort_custom(func(a, b):
+		var da = a.global_position.distance_to(global_position)
+		var db = b.global_position.distance_to(global_position)
+		return da > db
+	)
+	return ret
 
 func _physics_process(delta: float) -> void:
 	var input := focus.get_player_input()
@@ -196,7 +252,7 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		velocity *= exp(-5.0 * delta)
 		if input.is_action_just_pressed("jump"):
-			velocity += -_get_gravity() * 0.5
+			velocity += -_get_gravity() * 0.66667
 	else:
 		velocity *= exp(-0.5 * delta)
 		speed /= 4.0
@@ -223,29 +279,18 @@ func _physics_process(delta: float) -> void:
 	if input.is_action_just_pressed("use"):
 		_try_use()
 
+	if input.is_action_just_pressed("freeze"):
+		_try_freeze()
+
 	if input.is_action_just_pressed("grab"):
 		var item := get_node_or_null(_grabbed_path) as RigidBody3D
 		if item:
-			var dss := get_world_3d().direct_space_state
-
-			var params := PhysicsShapeQueryParameters3D.new()
-			params.collide_with_areas = false
-			params.collide_with_bodies = true
-
-			for collider in item.get_children():
-				if not collider is CollisionShape3D:
-					continue
-
-				params.transform = collider.global_transform
-				params.shape = collider.shape
-				params.exclude = [ item ]
-				params.margin = 0.25
-
-				var hits := dss.intersect_shape(params)
-				for hit in hits:
-					if hit.collider is RigidBody3D:
-						var con := Contraption.find_contraption_for(item)
-						con.attach_bodies(item, hit.collider)
+			var hits := _find_attachments(item)
+			for hit in hits:
+				var con := Contraption.find_contraption_for(item)
+				con.attach_bodies(item, hit)
+				if hit.freeze:
+					item.freeze = hit.freeze
 
 			drop_item()
 		else:

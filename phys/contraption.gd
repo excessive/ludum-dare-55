@@ -47,7 +47,17 @@ static func get_all_bodies(item: RigidBody3D) -> Array[RigidBody3D]:
 		ret.append(item.get_node(path))
 	return ret
 
+static func freeze(item: RigidBody3D, force_unfreeze := false):
+	var bodies := get_all_bodies(item)
+	var new_freeze := not item.freeze
+	if force_unfreeze:
+		new_freeze = false
+	for body in bodies:
+		body.freeze = new_freeze
+
 static func activate(item: RigidBody3D, user: Node):
+	freeze(item, true)
+
 	var bodies := get_all_bodies(item)
 	for body in bodies:
 		if body.has_signal("use"):
