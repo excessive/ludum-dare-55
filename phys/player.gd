@@ -18,6 +18,7 @@ var _grabbed_last_basis := Basis()
 var _grabbed_last_dist := 0.0
 
 var _controlling_path: NodePath
+var _control_locator: Node3D
 
 func _ready() -> void:
 	assert(camera)
@@ -101,38 +102,31 @@ func _try_attach(item: RigidBody3D):
 	for hit in hits:
 		con.attach_bodies(item, hit)
 
+func _drop_control():
+	_controlling_path = ""
+	_control_locator.queue_free()
+	_control_locator = null
+
 func _try_control(controlling: RigidBody3D) -> bool:
 	if not controlling:
 		return false
 
 	var input := focus.get_player_input()
 	var vehicle_control := Vector3(
-		input.get_axis("view_left", "view_right"),
+		input.get_axis("move_left", "move_right"),
 		input.get_axis("move_backward", "move_forward"),
 		0
 	)
 	if not Contraption.control(controlling, self, vehicle_control):
-		_controlling_path = ""
+		_drop_control()
 		return false
 
-	velocity *= 0
-	move_and_slide()
-	#camera.target_transform = controlling.global_transform
+	camera.target_transform = Transform3D(controlling.global_basis * _cam_outer * _cam_inner, global_position)
 
 	return true
 
 ## returns try to cancel remaining update
 func _try_use() -> bool:
-	var controlling: RigidBody3D = get_node_or_null(_controlling_path)
-	if controlling:
-		_controlling_path = ""
-		return true # eat this input so we don't use on leave
-	else:
-		controlling = _get_nearest_item("build")
-		if _try_control(controlling):
-			_controlling_path = controlling.get_path()
-			return true
-
 	var held := get_node_or_null(_grabbed_path)
 	if held:
 		var con := Contraption.find_contraption_for(held)
@@ -141,6 +135,23 @@ func _try_use() -> bool:
 		else:
 			con.detach_body(held)
 		return false
+
+	var controlling: RigidBody3D = get_node_or_null(_controlling_path)
+	if controlling:
+		_drop_control()
+		return true # eat this input so we don't use on leave
+	else:
+		controlling = _get_nearest_item("build")
+		if _try_control(controlling):
+			velocity *= 0
+			var remote = RemoteTransform3D.new()
+			remote.remote_path = get_path()
+			_control_locator = Node3D.new()
+			controlling.add_child(_control_locator)
+			_control_locator.global_position = global_position
+			_control_locator.add_child(remote)
+			_controlling_path = controlling.get_path()
+			return true
 
 	var item := _get_nearest_item("usable")
 	if not item:
@@ -269,6 +280,8 @@ func _find_attachments(item: RigidBody3D, margin := 0.25) -> Array[RigidBody3D]:
 
 func _physics_process(delta: float) -> void:
 	var input := focus.get_player_input()
+
+	set_collision_layer_value(1, get_node_or_null(_controlling_path) == null)
 
 	if input.is_action_just_pressed("use"):
 		if _try_use():

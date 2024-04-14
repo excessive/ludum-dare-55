@@ -23,7 +23,7 @@ cap_top = false
 size = Vector3(1, 1, 2)
 
 [node name="wheel" type="VehicleBody3D" groups=["build", "control", "usable"]]
-mass = 1.0
+mass = 2.0
 linear_damp = 1.0
 angular_damp = 2.0
 script = ExtResource("1_1hg2h")
@@ -32,8 +32,8 @@ script = ExtResource("1_1hg2h")
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, 8.74226e-08, 0, 1, 0, -8.74226e-08, 0, -1, 0, -0.346979, 0)
 use_as_traction = true
-suspension_travel = 0.05
-suspension_stiffness = 500.0
+suspension_travel = 0.1
+suspension_stiffness = 400.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="spinny"]
 transform = Transform3D(-4.37114e-08, 1, -1.06581e-14, -1, -4.37114e-08, 4.65882e-22, 0, 1.06581e-14, 1, 0, 0, 0)
