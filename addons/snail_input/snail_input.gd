@@ -394,20 +394,27 @@ func _input(event: InputEvent) -> void:
 					_device_overlay.queue_free()
 					_device_overlay = null
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventJoypadMotion or event is InputEventMouseMotion:
-		return # only care about button events here
+	if event is InputEventMouseMotion and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE:
+		_try_auto_join(event)
+	elif event is InputEventJoypadMotion or event is InputEventMouseMotion:
+		return # only care about button events after here
+	elif Input.is_anything_pressed():
+		_try_auto_join(event)
+
+func _try_auto_join(event: InputEvent):
+	var auto_join := auto_activate_on_press or auto_join_primary_player
+	if not auto_join:
+		return
 
 	var device := get_device_for_event(event)
 	if not device:
 		return
-
-	if (auto_activate_on_press or auto_join_primary_player) and Input.is_anything_pressed() and not device.active:
-		if auto_join_primary_player:
-			device.want_player_index = 0
-		device_join(device)
-		_device_join_input = true
-		Input.parse_input_event(event.duplicate()) # resubmit input event now that it's remapped, so the first press isn't eaten
-		await get_tree().physics_frame
-		_device_join_input = false
+	if device.active:
 		return
+	if auto_join_primary_player:
+		device.want_player_index = 0
+	device_join(device)
+	_device_join_input = true
+	Input.parse_input_event(event.duplicate()) # resubmit input event now that it's remapped, so the first press isn't eaten
+	await get_tree().physics_frame
+	_device_join_input = false
