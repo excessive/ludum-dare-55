@@ -20,6 +20,7 @@ tools used:
 			- snail input (player input & device overlay)
 			- snail transitions (rewritten for this)
 			- zylann's debug draw
+			- object inspector
 	- blender
 	- clip studio paint
 	- affinity designer
