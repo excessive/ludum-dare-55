@@ -34,7 +34,7 @@ static func _get_all_internal(item: RigidBody3D, items: Array[NodePath] = [], vi
 			_get_all_internal(item.get_node_or_null(joint.node_a), items, visited)
 		if not visited.has(joint.node_b):
 			visited[joint.node_b] = true
-			_get_all_internal(item.get_node_or_null(joint.node_a), items, visited)
+			_get_all_internal(item.get_node_or_null(joint.node_b), items, visited)
 	return items
 
 static func get_all_bodies(item: RigidBody3D) -> Array[RigidBody3D]:
