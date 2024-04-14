@@ -10,14 +10,14 @@ var transition_out := false
 
 func _ready() -> void:
 	assert(animation)
-	if next_scene_is_valid:
-		ResourceLoader.load_threaded_request(next_scene_path)
 	var anims := animation.get_animation_list()
 	if anims.has("RESET"):
 		anims.remove_at(anims.find("RESET"))
-	if not anims.is_empty():
+	if not anims.is_empty() and not OS.has_feature("editor"):
 		animation.play(anims[0])
 		animation.animation_finished.connect(_on_animation_finish)
+	if next_scene_is_valid:
+		ResourceLoader.load_threaded_request(next_scene_path)
 
 func _on_animation_finish(animation_name: StringName):
 	if transition_out:
@@ -25,7 +25,10 @@ func _on_animation_finish(animation_name: StringName):
 
 	transition_out = true
 	if next_scene_is_valid:
-		SnailTransition.auto_transition(ResourceLoader.load_threaded_get(next_scene_path))
+		if OS.has_feature("editor"):
+			SnailTransition.auto_transition(ResourceLoader.load_threaded_get(next_scene_path), null)
+		else:
+			SnailTransition.auto_transition(ResourceLoader.load_threaded_get(next_scene_path))
 	else:
 		animation.queue(animation_name)
 		transition_out = false
