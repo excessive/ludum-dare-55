@@ -13,6 +13,6 @@ func _ready() -> void:
 			continue
 		if not child.is_in_group("build"):
 			continue
-		Contraption.attach_bodies(root, child)
+		Contraption.attach_bodies(root, [child])
 
 	print(Contraption.get_all_bodies(root))
