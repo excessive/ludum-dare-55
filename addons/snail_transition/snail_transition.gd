@@ -6,6 +6,7 @@ var _transition_out: PackedScene
 var _current_transition: SceneTransition
 var _next_scene: PackedScene
 var _next_scene_path: String
+var quit_after_transition_out := false
 
 const FADE_IN := preload("res://addons/snail_transition/transitions/FadeIn.tscn")
 const FADE_OUT := preload("res://addons/snail_transition/transitions/FadeOut.tscn")
@@ -27,6 +28,9 @@ func _run_transition():
 
 	# make sure not to switch mid-frame
 	await get_tree().process_frame
+	if quit_after_transition_out:
+		get_tree().quit()
+
 	if _next_scene_path:
 		_next_scene = ResourceLoader.load_threaded_get(_next_scene_path)
 		_next_scene_path = ""
