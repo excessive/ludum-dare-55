@@ -62,7 +62,7 @@ script = ExtResource("2_1xjub")
 fp_responsiveness = 0.95
 
 [node name="player" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("3_fg7x3")]
-transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 1.72335e-07, 2, -1.97128)
+transform = Transform3D(-1, 0, 8.74232e-08, 0, 1, 0, -8.74232e-08, 0, -1, 1.72335e-07, 2, -1.97128)
 camera = NodePath("../Camera3D")
 
 [node name="Label3D" type="Label3D" parent="."]

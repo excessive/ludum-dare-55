@@ -8,6 +8,7 @@ extends CharacterBody3D
 
 @onready var focus := SnailInput.get_input_focus(self)
 @onready var _prev_mode := Input.MOUSE_MODE_CAPTURED
+@onready var respawn_transform := global_transform
 #@onready var _prev_mode := Input.mouse_mode
 
 var _allow_drag_rotate := false
@@ -22,11 +23,20 @@ var _grabbed_last_dist := 0.0
 var _controlling_path: NodePath
 var _control_locator: Node3D
 
+signal reset
+
 func _ready() -> void:
 	assert(camera)
 	assert(grabber)
 	camera.add_exclusion(self)
 	Input.mouse_mode = _prev_mode
+	reset.connect(_on_reset)
+
+func _on_reset():
+	drop_item()
+	drop_control()
+	velocity *= 0
+	global_transform = respawn_transform
 
 func drop_item():
 	var item: RigidBody3D = get_node_or_null(_grabbed_path)
@@ -112,7 +122,8 @@ func _get_nearest_item(p_group: StringName) -> RigidBody3D:
 func _try_attach(item: RigidBody3D):
 	if not item:
 		return
-	Contraption.attach_bodies(item, _find_attachments(item))
+	if Contraption.attach_bodies(item, _find_attachments(item)):
+		drop_item()
 
 func drop_control():
 	_controlling_path = ""
@@ -139,7 +150,7 @@ func _try_control(controlling: RigidBody3D, delta: float) -> bool:
 	var sens := rad_to_deg(turn_speed * TAU * delta)
 	target_rotate(view * sens)
 
-	camera.target_transform = Transform3D(_closest_alignment(global_basis, controlling.global_basis) * _cam_outer * _cam_inner, global_position)
+	camera.target_transform = Transform3D(global_basis * _closest_alignment(global_basis, controlling.global_basis) * _cam_outer * _cam_inner, global_position)
 
 	return true
 
@@ -161,8 +172,10 @@ func _try_use(delta: float) -> bool:
 		controlling = _get_nearest_item("build")
 		if _try_control(controlling, delta):
 			velocity *= 0
+			global_position += global_basis.y * 0.5 # hack, move up a bit
 			var remote = RemoteTransform3D.new()
 			remote.remote_path = get_path()
+			remote.name = "player_remote"
 			_control_locator = Node3D.new()
 			controlling.add_child(_control_locator)
 			_control_locator.global_transform = global_transform
@@ -313,6 +326,8 @@ func _physics_process(delta: float) -> void:
 		return
 
 	camera.zoom = 0
+	# attempt to reset up
+	global_basis = Basis.looking_at(-global_basis.z)
 
 	$pusher.apply_central_impulse((to_global(pusher_pos) - $pusher.global_position) * 10)
 
@@ -369,7 +384,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		target_rotate(view * sens)
 
-	camera.target_transform = Transform3D(_cam_outer * _cam_inner, global_position)
+	camera.target_transform = Transform3D(global_basis.looking_at(-global_basis.z) * _cam_outer * _cam_inner, global_position)
 
 	if input.is_action_just_pressed("freeze"):
 		_try_freeze()

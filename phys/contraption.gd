@@ -102,10 +102,11 @@ func _is_connected(a: RigidBody3D, b: RigidBody3D) -> bool:
 		return true
 	return false
 
-static func attach_bodies(a: RigidBody3D, bodies: Array[RigidBody3D]):
+static func attach_bodies(a: RigidBody3D, bodies: Array[RigidBody3D]) -> bool:
 	var con := _find_contraption_for(a)
+	var attached := false
 	if not con:
-		return
+		return attached
 	var path_a := a.get_path()
 	for b in bodies:
 		if not b.is_in_group("build"):
@@ -128,6 +129,8 @@ static func attach_bodies(a: RigidBody3D, bodies: Array[RigidBody3D]):
 				b.freeze = a.freeze
 			con._constraints.append(constraint)
 			#print("attached %s and %s" % [a.name, b.name])
+			attached = true
+	return attached
 
 static func detach_body(body: RigidBody3D):
 	var con := _find_contraption_for(body)
