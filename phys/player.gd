@@ -268,6 +268,8 @@ func _find_attachments(item: RigidBody3D, margin := 0.25) -> Array[RigidBody3D]:
 	for collider in item.get_children():
 		if not collider is CollisionShape3D:
 			continue
+		if not collider.is_in_group("build"):
+			continue
 		params.transform = collider.global_transform
 		params.shape = collider.shape
 		params.exclude = [ item ]
