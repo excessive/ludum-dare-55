@@ -16,4 +16,4 @@ func _ready() -> void:
 			continue
 		Contraption.attach_bodies(root, [child])
 
-	print(Contraption.get_all_bodies(root))
+	#print(Contraption.get_all_bodies(root))

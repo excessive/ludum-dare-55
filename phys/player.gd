@@ -43,6 +43,7 @@ func _input(event: InputEvent) -> void:
 		_prev_mode = Input.mouse_mode
 		var menu := pause_menu.instantiate()
 		menu.restart_scene = get_parent().scene_file_path
+		print_debug(menu.restart_scene)
 		add_child(menu)
 		await get_tree().process_frame
 		get_tree().paused = true

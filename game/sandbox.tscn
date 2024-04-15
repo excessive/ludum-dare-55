@@ -1,0 +1,218 @@
+[gd_scene load_steps=15 format=3 uid="uid://c60glvblss2yp"]
+
+[ext_resource type="PackedScene" uid="uid://de0xrdyh6s7tl" path="res://phys/player.tscn" id="1_8nkj4"]
+[ext_resource type="Script" path="res://phys/contraption.gd" id="1_sg3cg"]
+[ext_resource type="Material" uid="uid://d1dcxbgx8kga7" path="res://materials/test_grid_grey.tres" id="2_foee3"]
+[ext_resource type="PackedScene" uid="uid://d0bndvyxq2j7a" path="res://game/main_background.tscn" id="3_xk2pa"]
+[ext_resource type="Script" path="res://addons/exmoe_tools/common/follow_cam.gd" id="4_r6qj7"]
+[ext_resource type="Script" path="res://phys/safe_area.gd" id="5_a2myf"]
+[ext_resource type="PackedScene" uid="uid://btr2kol4d1adt" path="res://phys/thruster.tscn" id="7_avf44"]
+[ext_resource type="PackedScene" uid="uid://b8wn885578i47" path="res://phys/wheel.tscn" id="8_cdwsb"]
+[ext_resource type="PackedScene" uid="uid://2agrpi173fjt" path="res://phys/steering.tscn" id="9_ob8ot"]
+[ext_resource type="PackedScene" uid="uid://db2jbt78801e5" path="res://phys/crate.tscn" id="10_olvvi"]
+[ext_resource type="PackedScene" uid="uid://dy34a7txdnetm" path="res://phys/box.tscn" id="11_38d1b"]
+[ext_resource type="PackedScene" uid="uid://dwfgw3tn22cia" path="res://phys/stick.tscn" id="12_ugdb5"]
+[ext_resource type="PackedScene" uid="uid://sj58vpi08n48" path="res://contraptions/simple_car.tscn" id="13_t88yy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8nua6"]
+size = Vector3(104, 50, 104)
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_sg3cg")
+
+[node name="player" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("1_8nkj4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1, 2.08165e-12)
+camera = NodePath("../Camera3D")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+use_collision = true
+size = Vector3(104, 8, 104)
+material = ExtResource("2_foee3")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 10, 2.08165e-12)
+operation = 2
+use_collision = true
+size = Vector3(100, 20, 100)
+material = ExtResource("2_foee3")
+
+[node name="background" parent="." instance=ExtResource("3_xk2pa")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+script = ExtResource("4_r6qj7")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.5929, 0)
+script = ExtResource("5_a2myf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_8nua6")
+
+[node name="thruster" parent="." instance=ExtResource("7_avf44")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.8802, 7.60409, -9.99089)
+
+[node name="wheel" parent="." instance=ExtResource("8_cdwsb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.0991, 7.60409, -16.8425)
+
+[node name="Crate" parent="." instance=ExtResource("10_olvvi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.2114, 7.6041, -6.21052)
+
+[node name="box" parent="." instance=ExtResource("11_38d1b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.3379, 7.60409, -2.2318)
+
+[node name="stick" parent="." instance=ExtResource("12_ugdb5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.0886, 7.60409, 3.34886)
+
+[node name="thruster2" parent="." instance=ExtResource("7_avf44")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.2827, 7.60409, -9.99089)
+
+[node name="wheel2" parent="." instance=ExtResource("8_cdwsb")]
+transform = Transform3D(1, 0, 0, 0, 0.858414, 0.512957, 0, -0.512957, 0.858414, -31.5015, 7.60409, -16.8425)
+
+[node name="wheel11" parent="." instance=ExtResource("8_cdwsb")]
+transform = Transform3D(1, 0, 0, 0, -0.288748, -0.957405, 0, 0.957405, -0.288748, -27.4723, 11.7566, -17.4675)
+
+[node name="wheel12" parent="." instance=ExtResource("8_cdwsb")]
+transform = Transform3D(1, 0, 0, 0, -0.288748, -0.957405, 0, 0.957405, -0.288748, -24.8703, 11.7566, -17.4675)
+
+[node name="steering9" parent="." instance=ExtResource("9_ob8ot")]
+transform = Transform3D(1, 0, 0, 0, 0.858414, 0.512957, 0, -0.512957, 0.858414, -34.2612, 7.60409, -28.0432)
+
+[node name="steering10" parent="." instance=ExtResource("9_ob8ot")]
+transform = Transform3D(0.511863, 0.859067, -1.33728e-08, -0.737435, 0.43939, 0.512957, 0.440665, -0.262564, 0.858414, -31.6637, 7.60409, -28.0432)
+
+[node name="Crate2" parent="." instance=ExtResource("10_olvvi")]
+transform = Transform3D(0.511863, 0.859067, -1.33728e-08, -0.737435, 0.43939, 0.512957, 0.440665, -0.262564, 0.858414, -31.6139, 7.6041, -6.21052)
+
+[node name="box2" parent="." instance=ExtResource("11_38d1b")]
+transform = Transform3D(0.511863, 0.859067, -1.33728e-08, -0.737435, 0.43939, 0.512957, 0.440665, -0.262564, 0.858414, -31.7404, 7.60409, -2.2318)
+
+[node name="stick2" parent="." instance=ExtResource("12_ugdb5")]
+transform = Transform3D(0.511863, 0.859067, -1.33728e-08, -0.737435, 0.43939, 0.512957, 0.440665, -0.262564, 0.858414, -29.1479, 7.60409, 3.17707)
+
+[node name="thruster3" parent="." instance=ExtResource("7_avf44")]
+transform = Transform3D(-0.514056, -0.857746, -0.0042849, -0.737436, 0.43939, 0.512957, -0.438104, 0.266849, -0.858404, -28.743, 7.60409, -7.98701)
+
+[node name="thruster8" parent="." instance=ExtResource("7_avf44")]
+transform = Transform3D(0.511863, 0.859067, -1.33728e-08, -0.737435, 0.43939, 0.512957, 0.440665, -0.262564, 0.858414, -31.2827, 7.60409, 5.34745)
+
+[node name="thruster9" parent="." instance=ExtResource("7_avf44")]
+transform = Transform3D(-0.514056, -0.857746, -0.0042849, -0.737436, 0.43939, 0.512957, -0.438104, 0.266849, -0.858404, -28.743, 7.60409, 7.35134)
+
+[node name="wheel3" parent="." instance=ExtResource("8_cdwsb")]
+transform = Transform3D(-0.514056, -0.857746, -0.0042849, -0.737436, 0.43939, 0.512957, -0.438104, 0.266849, -0.858404, -28.49, 7.60409, -1.13653)
+
+[node name="steering3" parent="." instance=ExtResource("9_ob8ot")]
+transform = Transform3D(-0.514056, -0.857746, -0.0042849, -0.737436, 0.43939, 0.512957, -0.438104, 0.266849, -0.858404, -23.7396, 7.60409, -1.63672)
+
+[node name="wheel8" parent="." instance=ExtResource("8_cdwsb")]
+transform = Transform3D(-0.511857, -0.859056, -0.00499166, -0.859067, 0.511863, 3.13849e-10, 0.00255505, 0.00428817, -0.999988, -28.49, 7.60409, -27.1947)
+
+[node name="steering8" parent="." instance=ExtResource("9_ob8ot")]
+transform = Transform3D(-0.511857, -0.859056, -0.00499166, -0.859067, 0.511863, 3.13849e-10, 0.00255505, 0.00428817, -0.999988, -23.7396, 7.60409, -27.6949)
+
+[node name="Crate3" parent="." instance=ExtResource("10_olvvi")]
+transform = Transform3D(-0.511857, -0.859056, -0.00499166, -0.859067, 0.511863, 3.13849e-10, 0.00255505, 0.00428817, -0.999988, -28.4307, 7.6041, -11.769)
+
+[node name="box3" parent="." instance=ExtResource("11_38d1b")]
+transform = Transform3D(-0.511857, -0.859056, -0.00499166, -0.859067, 0.511863, 3.13849e-10, 0.00255505, 0.00428817, -0.999988, -28.3241, 7.60409, -15.7483)
+
+[node name="stick3" parent="." instance=ExtResource("12_ugdb5")]
+transform = Transform3D(-0.511857, -0.859056, -0.00499166, -0.859067, 0.511863, 3.13849e-10, 0.00255505, 0.00428817, -0.999988, -28.6013, 7.60409, -21.3276)
+
+[node name="thruster4" parent="." instance=ExtResource("7_avf44")]
+transform = Transform3D(0.162137, 0.272117, -0.948506, -0.859067, 0.511863, 9.51693e-09, 0.485505, 0.814831, 0.316758, -19.4591, 7.60409, 4.42276)
+
+[node name="wheel4" parent="." instance=ExtResource("8_cdwsb")]
+transform = Transform3D(0.162137, 0.272117, -0.948506, -0.859067, 0.511863, 9.51693e-09, 0.485505, 0.814831, 0.316758, -18.8383, 7.60409, -4.67637)
+
+[node name="steering4" parent="." instance=ExtResource("9_ob8ot")]
+transform = Transform3D(0.316758, 0, -0.948506, 0, 1, 0, 0.948506, 0, 0.316758, -13.9876, 7.60409, -6.46727)
+
+[node name="Crate4" parent="." instance=ExtResource("10_olvvi")]
+transform = Transform3D(0.316758, 0, -0.948506, 0, 1, 0, 0.948506, 0, 0.316758, -23.1497, 7.6041, 5.30608)
+
+[node name="box4" parent="." instance=ExtResource("11_38d1b")]
+transform = Transform3D(0.316758, 0, -0.948506, 0, 1, 0, 0.948506, 0, 0.316758, -21.9023, 7.60409, 1.298)
+
+[node name="stick4" parent="." instance=ExtResource("12_ugdb5")]
+transform = Transform3D(0.316758, 0, -0.948506, 0, 1, 0, 0.948506, 0, 0.316758, -25.9793, 7.60409, 4.66247)
+
+[node name="stick8" parent="." instance=ExtResource("12_ugdb5")]
+transform = Transform3D(-0.418866, 0, -0.908048, 0, 1, 0, 0.908048, 0, -0.418866, -27.0185, 7.60409, 7.03934)
+
+[node name="thruster5" parent="." instance=ExtResource("7_avf44")]
+transform = Transform3D(0.74899, 0, 0.662581, 0, 1, 0, -0.662581, 0, 0.74899, -23.0758, 10.8948, -3.62261)
+
+[node name="wheel5" parent="." instance=ExtResource("8_cdwsb")]
+transform = Transform3D(0.74899, 0, 0.662581, 0, 1, 0, -0.662581, 0, 0.74899, -27.7794, 10.8948, -8.60944)
+
+[node name="steering5" parent="." instance=ExtResource("9_ob8ot")]
+transform = Transform3D(0.714766, 0, -0.699364, 0, 1, 0, 0.699364, 0, 0.714766, -31.1119, 10.8948, -12.4558)
+
+[node name="Crate5" parent="." instance=ExtResource("10_olvvi")]
+transform = Transform3D(0.714766, 0, -0.699364, 0, 1, 0, 0.699364, 0, 0.714766, -20.6056, 10.8948, -0.654639)
+
+[node name="box5" parent="." instance=ExtResource("11_38d1b")]
+transform = Transform3D(0.714766, 0, -0.699364, 0, 1, 0, 0.699364, 0, 0.714766, -18.0641, 10.8948, 2.40919)
+
+[node name="stick5" parent="." instance=ExtResource("12_ugdb5")]
+transform = Transform3D(0.714766, 0, -0.699364, 0, 1, 0, 0.699364, 0, 0.714766, -14.1797, 10.8948, 6.42384)
+
+[node name="thruster6" parent="." instance=ExtResource("7_avf44")]
+transform = Transform3D(0.380118, 0, 0.924938, 0, 1, 0, -0.924938, 0, 0.380118, -23.4531, 12.6474, -2.08528)
+
+[node name="wheel6" parent="." instance=ExtResource("8_cdwsb")]
+transform = Transform3D(0.380118, 0, 0.924938, 0, 1, 0, -0.924938, 0, 0.380118, -26.311, 12.6474, 4.14573)
+
+[node name="steering6" parent="." instance=ExtResource("9_ob8ot")]
+transform = Transform3D(0.380118, 0, 0.924938, 0, 1, 0, -0.924938, 0, 0.380118, -21.7099, 12.6474, 5.35214)
+
+[node name="Crate6" parent="." instance=ExtResource("10_olvvi")]
+transform = Transform3D(0.380118, 0, 0.924938, 0, 1, 0, -0.924938, 0, 0.380118, -21.4718, 12.6474, -5.32179)
+
+[node name="box6" parent="." instance=ExtResource("11_38d1b")]
+transform = Transform3D(0.380118, 0, 0.924938, 0, 1, 0, -0.924938, 0, 0.380118, -19.5852, 12.6474, -8.82711)
+
+[node name="stick6" parent="." instance=ExtResource("12_ugdb5")]
+transform = Transform3D(0.380118, 0, 0.924938, 0, 1, 0, -0.924938, 0, 0.380118, -17.3211, 12.6474, -13.934)
+
+[node name="thruster7" parent="." instance=ExtResource("7_avf44")]
+transform = Transform3D(-0.811777, 0, -0.583967, 0, 1, 0, 0.583967, 0, -0.811777, -21.0167, 14.079, -2.85213)
+
+[node name="wheel7" parent="." instance=ExtResource("8_cdwsb")]
+transform = Transform3D(-0.811777, 0, -0.583967, 0, 1, 0, 0.583967, 0, -0.811777, -17.4082, 14.079, 0.845398)
+
+[node name="steering7" parent="." instance=ExtResource("9_ob8ot")]
+transform = Transform3D(-0.811777, 0, -0.583967, 0, 1, 0, 0.583967, 0, -0.811777, -13.0914, 14.079, -2.00103)
+
+[node name="Crate7" parent="." instance=ExtResource("10_olvvi")]
+transform = Transform3D(0.524031, 0, -0.851699, 0, 1, 0, 0.851699, 0, 0.524031, -24.455, 14.079, -1.37766)
+
+[node name="box7" parent="." instance=ExtResource("11_38d1b")]
+transform = Transform3D(0.524031, 0, -0.851699, 0, 1, 0, 0.851699, 0, 0.524031, -27.91, 14.079, 0.599596)
+
+[node name="box8" parent="." instance=ExtResource("11_38d1b")]
+transform = Transform3D(-0.508696, 0, -0.860946, 0, 1, 0, 0.860946, 0, -0.508696, -35.8947, 11.9347, -5.60297)
+
+[node name="box9" parent="." instance=ExtResource("11_38d1b")]
+transform = Transform3D(0.976687, 0, -0.214667, 0, 1, 0, 0.214667, 0, 0.976687, -17.9679, 11.9347, -2.37093)
+
+[node name="box10" parent="." instance=ExtResource("11_38d1b")]
+transform = Transform3D(-0.184535, 0, 0.982826, 0, 1, 0, -0.982826, 0, -0.184535, -15.0834, 15.2254, -4.86981)
+
+[node name="box11" parent="." instance=ExtResource("11_38d1b")]
+transform = Transform3D(-0.841803, 0, -0.539785, 0, 1, 0, 0.539785, 0, -0.841803, -25.247, 16.9779, -9.60309)
+
+[node name="box12" parent="." instance=ExtResource("11_38d1b")]
+transform = Transform3D(0.999917, 0, 0.0129152, 0, 1, 0, -0.0129151, 0, 0.999916, -21.6493, 18.4095, 2.42782)
+
+[node name="stick7" parent="." instance=ExtResource("12_ugdb5")]
+transform = Transform3D(0.524031, 0, -0.851699, 0, 1, 0, 0.851699, 0, 0.524031, -32.5324, 14.079, 3.7364)
+
+[node name="Autobuild" parent="." instance=ExtResource("13_t88yy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.22801, 0.886645, -12.997)
+
+[node name="Autobuild2" parent="." instance=ExtResource("13_t88yy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.679375, 0.886645, -12.997)

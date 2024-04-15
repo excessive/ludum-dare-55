@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cogm6hynqnryu"]
+[gd_scene load_steps=21 format=3 uid="uid://cogm6hynqnryu"]
 
 [ext_resource type="Material" uid="uid://d1dcxbgx8kga7" path="res://materials/test_grid_grey.tres" id="1_5df2b"]
 [ext_resource type="PackedScene" uid="uid://d0bndvyxq2j7a" path="res://game/main_background.tscn" id="1_vm1ni"]
@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://cyl4rpnl3pex8" path="res://materials/decals/doodle_01.tscn" id="17_sxscm"]
 [ext_resource type="Script" path="res://phys/scene_change_trigger.gd" id="18_o7u0q"]
 [ext_resource type="PackedScene" uid="uid://cgrj1q6csap51" path="res://materials/decals/doodle_02.tscn" id="18_xfqks"]
+[ext_resource type="Script" path="res://game/unlock.gd" id="19_o4u2g"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yacar"]
 size = Vector3(4.29321, 3.4873, 2.33289)
@@ -103,7 +104,7 @@ font = ExtResource("6_2w0jt")
 script = ExtResource("6_onsvi")
 
 [node name="car" parent="Contraption" instance=ExtResource("8_i2rpo")]
-transform = Transform3D(-0.0223034, 0, 0.999751, 0, 1, 0, -0.999751, 0, -0.0223034, 0.0673771, 0.989801, 57.165)
+transform = Transform3D(-0.934739, 0, -0.355335, 0, 1, 0, 0.355335, 0, -0.934739, -5.64798, 0.989801, -5.14931)
 
 [node name="door" parent="Contraption" instance=ExtResource("16_15ja0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 51.9719)
@@ -114,6 +115,7 @@ target_path = NodePath("PartSpawner")
 
 [node name="PartSpawner" parent="Contraption/pressure_plate3" instance=ExtResource("15_a5355")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+part_count = 3
 
 [node name="pressure_plate4" parent="Contraption" instance=ExtResource("14_svdhl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.19706, 4.76837e-07, 7.15729)
@@ -178,7 +180,7 @@ target_path = NodePath("../Contraption/sliding_platform")
 [node name="Area3D" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0636549, 1.63975, 53.8569)
 script = ExtResource("18_o7u0q")
-scene_path = "res://ui/boot_splash.tscn"
+scene_path = "res://ui/completion_menu.tscn"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_yacar")
@@ -201,3 +203,7 @@ size = Vector3(2, 1.32861, 2)
 
 [node name="Doodle02" parent="." instance=ExtResource("18_xfqks")]
 transform = Transform3D(-0.703829, 0, 0.71037, 0, 1, 0, -0.71037, 0, -0.703829, 2.3498, -9.53674e-07, 53.7838)
+
+[node name="Unlock" type="Node" parent="."]
+script = ExtResource("19_o4u2g")
+save_flag = "level_1"

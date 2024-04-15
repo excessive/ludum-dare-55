@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cphd6fgo0q3c6"]
+[gd_scene load_steps=6 format=3 uid="uid://cphd6fgo0q3c6"]
 
 [ext_resource type="Script" path="res://ui/title_menu.gd" id="1_gynrs"]
 [ext_resource type="PackedScene" uid="uid://c7jaebv3nhvsq" path="res://ui/boot_splash.tscn" id="2_7it6w"]
 [ext_resource type="PackedScene" uid="uid://d0bndvyxq2j7a" path="res://game/main_background.tscn" id="3_cqg8h"]
 [ext_resource type="Theme" uid="uid://bd7gseqffsnlf" path="res://ui/main_theme.tres" id="3_gubyl"]
+[ext_resource type="Script" path="res://ui/unlock_button.gd" id="5_slvpy"]
 
 [node name="TitleMenu" type="Control"]
 layout_mode = 3
@@ -13,7 +14,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_gynrs")
-next_scene_path = "res://game/main.tscn"
+play_scene_path = "res://game/main.tscn"
+sandbox_scene_path = "res://game/sandbox.tscn"
 prev_scene = ExtResource("2_7it6w")
 
 [node name="background" parent="." instance=ExtResource("3_cqg8h")]
@@ -29,17 +31,65 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -34.0
-offset_top = -13.0
-offset_right = 34.0
-offset_bottom = 18.0
+offset_left = -46.0
+offset_top = -16.0
+offset_right = 36.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 rotation = -0.0900309
-focus_neighbor_bottom = NodePath("../qtd")
-focus_next = NodePath("../qtd")
+focus_neighbor_bottom = NodePath("../sandbox")
+focus_next = NodePath("../sandbox")
 theme = ExtResource("3_gubyl")
 text = "Play"
+
+[node name="sandbox" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.9999
+offset_top = 27.0
+offset_right = 51.0001
+offset_bottom = 58.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0710746
+focus_neighbor_top = NodePath("../play")
+focus_neighbor_bottom = NodePath("../clear")
+focus_next = NodePath("../clear")
+focus_previous = NodePath("../play")
+theme = ExtResource("3_gubyl")
+disabled = true
+text = "Sandbox"
+script = ExtResource("5_slvpy")
+flag_name = "sandbox"
+
+[node name="clear" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = 78.0
+offset_right = 44.0
+offset_bottom = 109.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.0973892
+focus_neighbor_top = NodePath("../sandbox")
+focus_neighbor_bottom = NodePath("../qtd")
+focus_next = NodePath("../qtd")
+focus_previous = NodePath("../sandbox")
+theme = ExtResource("3_gubyl")
+disabled = true
+text = "Delete Save"
+script = ExtResource("5_slvpy")
+flag_name = "level_1"
 
 [node name="qtd" type="Button" parent="."]
 layout_mode = 1
@@ -48,15 +98,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -61.0
-offset_top = 35.0
-offset_right = 61.0
-offset_bottom = 66.0
+offset_left = -65.0
+offset_top = 112.0
+offset_right = 77.0
+offset_bottom = 143.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = 0.0710746
-focus_neighbor_top = NodePath("../play")
-focus_previous = NodePath("../play")
+rotation = 0.0582188
+focus_neighbor_top = NodePath("../clear")
+focus_previous = NodePath("../clear")
 theme = ExtResource("3_gubyl")
 text = "Quit to Desktop"
 
