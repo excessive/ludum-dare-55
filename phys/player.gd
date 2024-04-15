@@ -268,15 +268,13 @@ func _find_attachments(item: RigidBody3D, margin := 0.25) -> Array[RigidBody3D]:
 	for collider in item.get_children():
 		if not collider is CollisionShape3D:
 			continue
-		if not collider.is_in_group("build"):
-			continue
 		params.transform = collider.global_transform
 		params.shape = collider.shape
 		params.exclude = [ item ]
 		params.margin = margin
 		var hits := dss.intersect_shape(params)
 		for hit in hits:
-			if hit.collider is RigidBody3D:
+			if hit.collider is RigidBody3D and hit.collider.is_in_group("build"):
 				ret.append(hit.collider)
 	ret.sort_custom(func(a, b):
 		var da = a.global_position.distance_to(global_position)
