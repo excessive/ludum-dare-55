@@ -8,7 +8,7 @@ size = Vector3(2, 1, 4)
 [sub_resource type="BoxShape3D" id="BoxShape3D_woojd"]
 size = Vector3(2, 1, 4)
 
-[node name="sliding_platform" type="RigidBody3D"]
+[node name="sliding_platform" type="RigidBody3D" groups=["build"]]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 axis_lock_linear_y = true
 axis_lock_angular_x = true

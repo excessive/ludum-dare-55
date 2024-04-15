@@ -37,7 +37,7 @@ size = Vector3(5, 0.5, 2)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.36157, 2.08165e-12)
 size = Vector3(4.25, 6, 0.225)
 
-[node name="door" type="RigidBody3D" parent="."]
+[node name="door" type="RigidBody3D" parent="." groups=["build"]]
 mass = 5.0
 physics_material_override = SubResource("PhysicsMaterial_kx2tm")
 center_of_mass_mode = 1
