@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://de0xrdyh6s7tl"]
+[gd_scene load_steps=7 format=3 uid="uid://de0xrdyh6s7tl"]
 
 [ext_resource type="Script" path="res://phys/player.gd" id="1_6fa4x"]
 
@@ -9,6 +9,10 @@ height = 1.75
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_hkaa8"]
 radius = 3.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rstsn"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_j27qs"]
 
 [node name="player" type="CharacterBody3D" node_paths=PackedStringArray("grabber")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -26,3 +30,25 @@ shape = SubResource("CapsuleShape3D_qbx06")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="grabber"]
 shape = SubResource("SphereShape3D_hkaa8")
+
+[node name="pusher" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-12)
+top_level = true
+collision_layer = 2
+collision_mask = 2
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 10.0
+gravity_scale = 1.66533e-16
+can_sleep = false
+freeze_mode = 1
+linear_damp = 3.0
+angular_damp = 3.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="pusher"]
+shape = SubResource("SphereShape3D_rstsn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="pusher"]
+visible = false
+mesh = SubResource("SphereMesh_j27qs")

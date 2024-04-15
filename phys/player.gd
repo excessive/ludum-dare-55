@@ -286,17 +286,18 @@ func _find_attachments(item: RigidBody3D, margin := 0.25) -> Array[RigidBody3D]:
 	)
 	return ret
 
+@onready var pusher_pos: Vector3 = to_local($pusher.global_position)
+
 func _physics_process(delta: float) -> void:
 	var input := focus.get_player_input()
-
-	# this breaks respawn logic
-	#set_collision_layer_value(1, get_node_or_null(_controlling_path) == null)
 
 	if input.is_action_just_pressed("use"):
 		if _try_use(delta):
 			return
 	elif _try_control(get_node_or_null(_controlling_path), delta):
 		return
+
+	$pusher.apply_central_impulse((to_global(pusher_pos) - $pusher.global_position) * 10)
 
 	if input.is_action_just_pressed("debug") and OS.is_debug_build():
 		var item := _get_nearest_item("build")

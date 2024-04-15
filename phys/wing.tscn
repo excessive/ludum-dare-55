@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://s8rs7bg11ent"]
+
+[node name="Wing" type="RigidBody3D" groups=["build"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]

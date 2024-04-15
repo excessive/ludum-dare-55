@@ -1,7 +1,7 @@
 extends Node3D
 
 @export var part: PackedScene
-@export var part_count := 1
+@export var part_count := 2
 
 var _spawned: Array[NodePath] = []
 

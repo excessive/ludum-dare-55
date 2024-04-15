@@ -7,6 +7,7 @@ size = Vector3(0.25, 0.25, 3)
 size = Vector3(0.25, 0.25, 3)
 
 [node name="stick" type="RigidBody3D" groups=["build"]]
+mass = 0.2
 linear_damp = 1.0
 angular_damp = 2.0
 
