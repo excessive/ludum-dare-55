@@ -4,7 +4,7 @@ extends Control
 @export_file("*.tscn") var next_scene_path: String
 
 @onready var animation: AnimationPlayer = find_child("AnimationPlayer")
-@onready var next_scene_is_valid = (next_scene_path and FileAccess.file_exists(next_scene_path))
+@onready var next_scene_is_valid = (next_scene_path) # and FileAccess.file_exists(next_scene_path))
 
 var transition_out := false
 @onready var editor_skip := OS.has_feature("editor") and _is_first_load()
@@ -65,3 +65,7 @@ func _physics_process(_delta: float) -> void:
 	var input := focus.get_player_input()
 	if input.is_anything_just_pressed():
 		_on_animation_finish(animation.current_animation)
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

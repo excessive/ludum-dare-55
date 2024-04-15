@@ -8,7 +8,7 @@ class_name SceneChangeTrigger
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
-	assert(scene_path and FileAccess.file_exists(scene_path))
+	assert(scene_path) # and FileAccess.file_exists(scene_path))
 
 func _on_body_entered(node: Node3D):
 	if node is CharacterBody3D:

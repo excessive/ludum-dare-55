@@ -41,7 +41,6 @@ func _input(event: InputEvent) -> void:
 
 	if input.is_action_pressed("pause") and event.is_pressed():
 		_prev_mode = Input.mouse_mode
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		var menu := pause_menu.instantiate()
 		menu.restart_scene = get_parent().scene_file_path
 		add_child(menu)

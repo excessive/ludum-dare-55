@@ -67,7 +67,7 @@ func auto_transition(p_scene: PackedScene, p_transition_out: PackedScene = FADE_
 	_run_transition()
 
 func auto_transition_threaded(p_scene_path: String, p_transition_out: PackedScene = FADE_OUT, p_transition_in: PackedScene = FADE_IN):
-	assert(FileAccess.file_exists(p_scene_path))
+	#assert(FileAccess.file_exists(p_scene_path)) # fails on export due to remapping, need to check for .remap files later if doing this
 	ResourceLoader.load_threaded_request(p_scene_path)
 
 	if _current_transition:
