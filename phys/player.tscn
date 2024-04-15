@@ -5,6 +5,7 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ku5q7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbx06"]
+height = 1.75
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_hkaa8"]
 radius = 3.0
