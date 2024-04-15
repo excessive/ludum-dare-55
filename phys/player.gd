@@ -23,6 +23,8 @@ var _grabbed_last_dist := 0.0
 var _controlling_path: NodePath
 var _control_locator: Node3D
 
+@onready var _last_position = global_position
+
 signal reset
 
 func _ready() -> void:
@@ -37,6 +39,7 @@ func _on_reset():
 	drop_control()
 	velocity *= 0
 	global_transform = respawn_transform
+	_last_position = respawn_transform.origin
 
 func drop_item():
 	var item: RigidBody3D = get_node_or_null(_grabbed_path)
@@ -315,6 +318,11 @@ func _find_attachments(item: RigidBody3D, margin := 0.25) -> Array[RigidBody3D]:
 @onready var pusher_pos: Vector3 = to_local($pusher.global_position)
 
 func _physics_process(delta: float) -> void:
+	if global_position.distance_to(_last_position) > 2:
+		print("warp detected, resetting")
+		reset.emit()
+	_last_position = global_position
+
 	var input := focus.get_player_input()
 
 	camera.zoom = 3
@@ -384,7 +392,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		target_rotate(view * sens)
 
-	camera.target_transform = Transform3D(global_basis.looking_at(-global_basis.z) * _cam_outer * _cam_inner, global_position)
+	camera.target_transform = Transform3D(Basis.looking_at(-global_basis.z) * _cam_outer * _cam_inner, global_position)
 
 	if input.is_action_just_pressed("freeze"):
 		_try_freeze()
