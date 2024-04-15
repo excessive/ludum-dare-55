@@ -153,7 +153,7 @@ func _try_control(controlling: RigidBody3D, delta: float) -> bool:
 	var sens := rad_to_deg(turn_speed * TAU * delta)
 	target_rotate(view * sens)
 
-	camera.target_transform = Transform3D(global_basis * _closest_alignment(global_basis, controlling.global_basis) * _cam_outer * _cam_inner, global_position)
+	camera.target_transform = Transform3D(_closest_alignment(global_basis, controlling.global_basis) * _cam_outer * _cam_inner, global_position)
 
 	return true
 
@@ -334,8 +334,6 @@ func _physics_process(delta: float) -> void:
 		return
 
 	camera.zoom = 0
-	# attempt to reset up
-	global_basis = Basis.looking_at(-global_basis.z)
 
 	$pusher.apply_central_impulse((to_global(pusher_pos) - $pusher.global_position) * 10)
 
@@ -392,7 +390,9 @@ func _physics_process(delta: float) -> void:
 	else:
 		target_rotate(view * sens)
 
-	camera.target_transform = Transform3D(Basis.looking_at(-global_basis.z) * _cam_outer * _cam_inner, global_position)
+	# attempt to reset up
+	global_basis = Basis.looking_at(-global_basis.z * Vector3(1, 0, 1))
+	camera.target_transform = Transform3D(global_basis * _cam_outer * _cam_inner, global_position)
 
 	if input.is_action_just_pressed("freeze"):
 		_try_freeze()

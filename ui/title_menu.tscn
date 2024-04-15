@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://cphd6fgo0q3c6"]
+[gd_scene load_steps=7 format=3 uid="uid://cphd6fgo0q3c6"]
 
 [ext_resource type="Script" path="res://ui/title_menu.gd" id="1_gynrs"]
 [ext_resource type="PackedScene" uid="uid://c7jaebv3nhvsq" path="res://ui/boot_splash.tscn" id="2_7it6w"]
 [ext_resource type="PackedScene" uid="uid://d0bndvyxq2j7a" path="res://game/main_background.tscn" id="3_cqg8h"]
 [ext_resource type="Theme" uid="uid://bd7gseqffsnlf" path="res://ui/main_theme.tres" id="3_gubyl"]
 [ext_resource type="Script" path="res://ui/unlock_button.gd" id="5_slvpy"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1wexc"]
 
 [node name="TitleMenu" type="Control"]
 layout_mode = 3
@@ -144,3 +146,16 @@ rotation = 0.00972984
 theme = ExtResource("3_gubyl")
 theme_override_font_sizes/font_size = 16
 text = "ludum dare 55 edition"
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = 701.0
+offset_top = 398.0
+offset_right = 801.0
+offset_bottom = 471.0
+theme = ExtResource("3_gubyl")
+text = "it's a bit unstable, sorry about that.
+
+it should save, so just keep trying!"
+label_settings = SubResource("LabelSettings_1wexc")
+autowrap_mode = 3
