@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c60glvblss2yp"]
+[gd_scene load_steps=16 format=3 uid="uid://c60glvblss2yp"]
 
 [ext_resource type="PackedScene" uid="uid://de0xrdyh6s7tl" path="res://phys/player.tscn" id="1_8nkj4"]
 [ext_resource type="Script" path="res://phys/contraption.gd" id="1_sg3cg"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dy34a7txdnetm" path="res://phys/box.tscn" id="11_38d1b"]
 [ext_resource type="PackedScene" uid="uid://dwfgw3tn22cia" path="res://phys/stick.tscn" id="12_ugdb5"]
 [ext_resource type="PackedScene" uid="uid://sj58vpi08n48" path="res://contraptions/simple_car.tscn" id="13_t88yy"]
+[ext_resource type="Script" path="res://game/save_value.gd" id="14_lex5y"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8nua6"]
 size = Vector3(104, 50, 104)
@@ -216,3 +217,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.22801, 0.886645, -12.997)
 
 [node name="Autobuild2" parent="." instance=ExtResource("13_t88yy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.679375, 0.886645, -12.997)
+
+[node name="Continue" type="Node" parent="."]
+script = ExtResource("14_lex5y")
+save_flag = "continue"
+save_value = "sandbox"

@@ -1,10 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://cphd6fgo0q3c6"]
+[gd_scene load_steps=10 format=3 uid="uid://cphd6fgo0q3c6"]
 
 [ext_resource type="Script" path="res://ui/title_menu.gd" id="1_gynrs"]
 [ext_resource type="PackedScene" uid="uid://c7jaebv3nhvsq" path="res://ui/boot_splash.tscn" id="2_7it6w"]
 [ext_resource type="PackedScene" uid="uid://d0bndvyxq2j7a" path="res://game/main_background.tscn" id="3_cqg8h"]
 [ext_resource type="Theme" uid="uid://bd7gseqffsnlf" path="res://ui/main_theme.tres" id="3_gubyl"]
 [ext_resource type="Script" path="res://ui/unlock_button.gd" id="5_slvpy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c4sbw"]
+bg_color = Color(0.25098, 0.470588, 0.352941, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rb23x"]
+bg_color = Color(0.211765, 0.376471, 0.313726, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xgtha"]
+bg_color = Color(0.529412, 0.14902, 0.227451, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_1wexc"]
 
@@ -16,7 +25,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_gynrs")
-play_scene_path = "res://game/main.tscn"
+play_scene_path = "res://game/level_1.tscn"
 sandbox_scene_path = "res://game/sandbox.tscn"
 prev_scene = ExtResource("2_7it6w")
 
@@ -26,6 +35,30 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.833195, 0)
 [node name="Camera3D" type="Camera3D" parent="background"]
 transform = Transform3D(1, 0, 0, 0, 0.720733, 0.693213, 0, -0.693213, 0.720733, 0, 0, 1.08565)
 
+[node name="continue" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -68.0
+offset_top = -107.0
+offset_right = 34.0
+offset_bottom = -76.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.00902354
+focus_neighbor_bottom = NodePath("../play")
+focus_next = NodePath("../play")
+theme = ExtResource("3_gubyl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_c4sbw")
+theme_override_styles/focus = SubResource("StyleBoxFlat_rb23x")
+disabled = true
+text = "Continue"
+script = ExtResource("5_slvpy")
+flag_name = "continue"
+
 [node name="play" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -33,17 +66,46 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -46.0
-offset_top = -16.0
-offset_right = 36.0
-offset_bottom = 15.0
+offset_left = -14.0
+offset_top = -71.0493
+offset_right = 71.0
+offset_bottom = -40.0493
 grow_horizontal = 2
 grow_vertical = 2
-rotation = -0.0900309
+rotation = 0.130041
+focus_neighbor_top = NodePath("../continue")
+focus_neighbor_bottom = NodePath("../level_select")
+focus_next = NodePath("../level_select")
+focus_previous = NodePath("../continue")
+theme = ExtResource("3_gubyl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_c4sbw")
+theme_override_styles/focus = SubResource("StyleBoxFlat_rb23x")
+text = "New Game"
+
+[node name="level_select" type="Button" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -50.0
+offset_right = -22.9999
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.0958608
+focus_neighbor_top = NodePath("../play")
 focus_neighbor_bottom = NodePath("../sandbox")
 focus_next = NodePath("../sandbox")
+focus_previous = NodePath("../play")
 theme = ExtResource("3_gubyl")
-text = "Play"
+disabled = true
+text = "Level Select"
+script = ExtResource("5_slvpy")
+flag_name = "level_1"
 
 [node name="sandbox" type="Button" parent="."]
 layout_mode = 1
@@ -52,17 +114,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -50.9999
-offset_top = 27.0
-offset_right = 51.0001
-offset_bottom = 58.0
+offset_left = -24.0001
+offset_top = -19.0
+offset_right = 77.9999
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = 0.0710746
-focus_neighbor_top = NodePath("../play")
+rotation = 0.059076
+focus_neighbor_top = NodePath("../level_select")
 focus_neighbor_bottom = NodePath("../clear")
 focus_next = NodePath("../clear")
-focus_previous = NodePath("../play")
+focus_previous = NodePath("../level_select")
 theme = ExtResource("3_gubyl")
 disabled = true
 text = "Sandbox"
@@ -76,18 +138,20 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -48.0
-offset_top = 78.0
-offset_right = 44.0
-offset_bottom = 109.0
+offset_left = -51.0
+offset_top = 35.0
+offset_right = 41.0
+offset_bottom = 66.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = -0.0973892
+rotation = -0.130731
 focus_neighbor_top = NodePath("../sandbox")
 focus_neighbor_bottom = NodePath("../qtd")
 focus_next = NodePath("../qtd")
 focus_previous = NodePath("../sandbox")
 theme = ExtResource("3_gubyl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xgtha")
+theme_override_styles/focus = SubResource("StyleBoxFlat_xgtha")
 disabled = true
 text = "Delete Save"
 script = ExtResource("5_slvpy")
@@ -100,15 +164,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -65.0
-offset_top = 112.0
-offset_right = 77.0
-offset_bottom = 143.0
+offset_left = -63.0
+offset_top = 83.0493
+offset_right = 79.0
+offset_bottom = 114.049
 grow_horizontal = 2
 grow_vertical = 2
-rotation = 0.0582188
-focus_neighbor_top = NodePath("../clear")
-focus_previous = NodePath("../clear")
+rotation = 2.63602e-05
 theme = ExtResource("3_gubyl")
 text = "Quit to Desktop"
 
@@ -119,10 +181,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = -85.5729
-offset_right = 79.0
-offset_bottom = -62.5729
+offset_left = -249.776
+offset_top = -28.0
+offset_right = -106.776
+offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 rotation = 0.00972984
@@ -136,10 +198,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -58.0
-offset_top = -61.5729
-offset_right = 85.0
-offset_bottom = -38.5729
+offset_left = -243.776
+offset_top = -4.0
+offset_right = -100.776
+offset_bottom = 19.0
 grow_horizontal = 2
 grow_vertical = 2
 rotation = 0.00972984
@@ -149,10 +211,10 @@ text = "ludum dare 55 edition"
 
 [node name="Label3" type="Label" parent="."]
 layout_mode = 0
-offset_left = 701.0
-offset_top = 398.0
-offset_right = 801.0
-offset_bottom = 471.0
+offset_left = 749.0
+offset_top = 362.573
+offset_right = 849.0
+offset_bottom = 454.573
 theme = ExtResource("3_gubyl")
 text = "it's a bit unstable, sorry about that.
 

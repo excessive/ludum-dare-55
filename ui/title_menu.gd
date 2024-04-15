@@ -16,11 +16,35 @@ func _input(event: InputEvent) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _ready():
-	$play.grab_focus()
+	if $continue.disabled:
+		$play.grab_focus()
+	else:
+		$continue.grab_focus()
+	$continue.pressed.connect(_on_continue)
 	$play.pressed.connect(_on_play)
 	$sandbox.pressed.connect(_on_sandbox)
 	$clear.pressed.connect(_on_delete)
 	$qtd.pressed.connect(_on_quit)
+
+const ALL_MAPS := {
+	"level_1": "res://game/level_1.tscn",
+	"level_2": "res://game/level_2.tscn",
+	"level_3": "res://game/level_3.tscn",
+	"level_4": "res://game/level_4.tscn",
+	"level_5": "res://game/level_5.tscn",
+	"level_6": "res://game/level_6.tscn",
+	"level_7": "res://game/level_7.tscn",
+	"level_8": "res://game/level_8.tscn",
+	"level_9": "res://game/level_9.tscn",
+	"sandbox": "res://game/sandbox.tscn",
+}
+
+func _on_continue():
+	var continue_map = Globals.flags["continue"]
+	if ALL_MAPS.has(continue_map):
+		SnailTransition.auto_transition_threaded(ALL_MAPS[continue_map])
+	else:
+		print("invalid continue map: %s" % continue_map)
 
 func _on_sandbox():
 	SnailTransition.auto_transition_threaded(sandbox_scene_path)
