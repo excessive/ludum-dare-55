@@ -5,8 +5,13 @@ var flags: Dictionary = {}
 
 const SAVE_FILE := "user://save.json"
 
+signal new_unlock(flag: String)
+
 func check_flag(flag: String) -> bool:
 	return flags.has(flag) and flags[flag]
+
+func set_flag(flag: String):
+	flags[flag] = true
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c60glvblss2yp"]
+[gd_scene load_steps=18 format=3 uid="uid://c60glvblss2yp"]
 
 [ext_resource type="PackedScene" uid="uid://de0xrdyh6s7tl" path="res://phys/player.tscn" id="1_8nkj4"]
 [ext_resource type="Script" path="res://phys/contraption.gd" id="1_sg3cg"]
@@ -14,6 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://dwfgw3tn22cia" path="res://phys/stick.tscn" id="12_ugdb5"]
 [ext_resource type="PackedScene" uid="uid://sj58vpi08n48" path="res://contraptions/simple_car.tscn" id="13_t88yy"]
 [ext_resource type="Script" path="res://game/save_value.gd" id="14_lex5y"]
+[ext_resource type="PackedScene" uid="uid://cnn3l47ist43j" path="res://phys/level_changer.tscn" id="15_irjsh"]
+[ext_resource type="FontFile" uid="uid://qf7622sypprq" path="res://addons/exmoe_tools/fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-SemiBold.ttf" id="16_mxuih"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8nua6"]
 size = Vector3(104, 50, 104)
@@ -222,3 +224,123 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.679375, 0.886645, -12.997)
 script = ExtResource("14_lex5y")
 save_flag = "continue"
 save_value = "sandbox"
+
+[node name="reset" parent="." instance=ExtResource("15_irjsh")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 36.234, 2.08165e-12, -35.2063)
+map_path = "res://game/sandbox.tscn"
+
+[node name="Label3D2" type="Label3D" parent="reset"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 3.69543, -0.656273)
+pixel_size = 0.01
+text = "reload"
+font = ExtResource("16_mxuih")
+font_size = 64
+outline_size = 24
+
+[node name="level_1" parent="." instance=ExtResource("15_irjsh")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 36.234, 2.08165e-12, -27.3623)
+map_path = "res://game/level_1.tscn"
+
+[node name="Label3D2" type="Label3D" parent="level_1"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 3.69543, -0.656273)
+pixel_size = 0.01
+text = "level 1"
+font = ExtResource("16_mxuih")
+font_size = 64
+outline_size = 24
+
+[node name="level_2" parent="." instance=ExtResource("15_irjsh")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 36.234, 2.08165e-12, -19.8012)
+map_path = "res://game/level_2.tscn"
+
+[node name="Label3D2" type="Label3D" parent="level_2"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 3.69543, -0.656273)
+pixel_size = 0.01
+text = "level 2"
+font = ExtResource("16_mxuih")
+font_size = 64
+outline_size = 24
+
+[node name="level_3" parent="." instance=ExtResource("15_irjsh")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 36.234, 2.08165e-12, -12.073)
+map_path = "res://game/level_3.tscn"
+
+[node name="Label3D2" type="Label3D" parent="level_3"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 3.69543, -0.656273)
+pixel_size = 0.01
+text = "level 3"
+font = ExtResource("16_mxuih")
+font_size = 64
+outline_size = 24
+
+[node name="level_4" parent="." instance=ExtResource("15_irjsh")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 36.234, 2.08165e-12, -4.72495)
+map_path = "res://game/level_4.tscn"
+
+[node name="Label3D2" type="Label3D" parent="level_4"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 3.69543, -0.656273)
+pixel_size = 0.01
+text = "level 4"
+font = ExtResource("16_mxuih")
+font_size = 64
+outline_size = 24
+
+[node name="level_5" parent="." instance=ExtResource("15_irjsh")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 36.234, 2.08165e-12, 3.15979)
+map_path = "res://game/level_5.tscn"
+
+[node name="Label3D2" type="Label3D" parent="level_5"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 3.69543, -0.656273)
+pixel_size = 0.01
+text = "level 5"
+font = ExtResource("16_mxuih")
+font_size = 64
+outline_size = 24
+
+[node name="level_6" parent="." instance=ExtResource("15_irjsh")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 36.234, 2.08165e-12, 11.1066)
+map_path = "res://game/level_6.tscn"
+
+[node name="Label3D2" type="Label3D" parent="level_6"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 3.69543, -0.656273)
+pixel_size = 0.01
+text = "level 6"
+font = ExtResource("16_mxuih")
+font_size = 64
+outline_size = 24
+
+[node name="level_7" parent="." instance=ExtResource("15_irjsh")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 36.234, 2.08165e-12, 18.7931)
+map_path = "res://game/level_7.tscn"
+
+[node name="Label3D2" type="Label3D" parent="level_7"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 3.69543, -0.656273)
+pixel_size = 0.01
+text = "level 7"
+font = ExtResource("16_mxuih")
+font_size = 64
+outline_size = 24
+
+[node name="level_8" parent="." instance=ExtResource("15_irjsh")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 36.234, 2.08165e-12, 26.1907)
+map_path = "res://game/level_8.tscn"
+
+[node name="Label3D2" type="Label3D" parent="level_8"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 3.69543, -0.656273)
+pixel_size = 0.01
+text = "level 8"
+font = ExtResource("16_mxuih")
+font_size = 64
+outline_size = 24
+
+[node name="level_9" parent="." instance=ExtResource("15_irjsh")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 36.234, 2.08165e-12, 34.1729)
+map_path = "res://game/level_9.tscn"
+
+[node name="Label3D2" type="Label3D" parent="level_9"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 3.69543, -0.656273)
+pixel_size = 0.01
+text = "level 9"
+font = ExtResource("16_mxuih")
+font_size = 64
+outline_size = 24

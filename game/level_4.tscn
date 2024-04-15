@@ -1,0 +1,59 @@
+[gd_scene load_steps=11 format=3 uid="uid://caxo2hdhmayg0"]
+
+[ext_resource type="Script" path="res://phys/contraption.gd" id="1_fakiy"]
+[ext_resource type="PackedScene" uid="uid://de0xrdyh6s7tl" path="res://phys/player.tscn" id="2_eiokd"]
+[ext_resource type="Material" uid="uid://d1dcxbgx8kga7" path="res://materials/test_grid_grey.tres" id="3_vb1g0"]
+[ext_resource type="PackedScene" uid="uid://d0bndvyxq2j7a" path="res://game/main_background.tscn" id="4_206fd"]
+[ext_resource type="Script" path="res://addons/exmoe_tools/common/follow_cam.gd" id="5_maalr"]
+[ext_resource type="Script" path="res://phys/safe_area.gd" id="6_48klv"]
+[ext_resource type="Script" path="res://game/unlock.gd" id="7_6ewle"]
+[ext_resource type="Script" path="res://game/save_value.gd" id="8_rvobd"]
+[ext_resource type="PackedScene" uid="uid://cnn3l47ist43j" path="res://phys/level_changer.tscn" id="9_8gtv7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2vd67"]
+size = Vector3(104, 50, 104)
+
+[node name="Level2" type="Node3D"]
+script = ExtResource("1_fakiy")
+
+[node name="player" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("2_eiokd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1, 2.08165e-12)
+camera = NodePath("../Camera3D")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+use_collision = true
+size = Vector3(104, 8, 104)
+material = ExtResource("3_vb1g0")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 10, 2.08165e-12)
+operation = 2
+use_collision = true
+size = Vector3(100, 20, 100)
+material = ExtResource("3_vb1g0")
+
+[node name="background" parent="." instance=ExtResource("4_206fd")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+script = ExtResource("5_maalr")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.5929, 0)
+script = ExtResource("6_48klv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_2vd67")
+
+[node name="Unlock" type="Node" parent="."]
+script = ExtResource("7_6ewle")
+save_flag = "level_4"
+
+[node name="SaveValue" type="Node" parent="."]
+script = ExtResource("8_rvobd")
+save_flag = "continue"
+save_value = "level_4"
+
+[node name="finish" parent="." instance=ExtResource("9_8gtv7")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.08165e-12, 2.08165e-12, -30)
+map_path = "res://game/level_5.tscn"
