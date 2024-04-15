@@ -27,7 +27,7 @@ func _update_exclusions():
 			exclusions.erase(node)
 
 func add_exclusion(node: Node, recursive := true):
-	print("excludey boy")
+	#print("excludey boy")
 	if node is Node3D:
 		if not exclusions.has(node):
 			exclusions.append(node)
