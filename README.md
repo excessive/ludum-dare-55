@@ -32,7 +32,6 @@ tools used:
 ideas:
 	- spengies-like gyro or some kind of stabilizer would help a lot
 	- indoor scene?
-	- sensors that spawn you a new part?
 
 system requirements:
 	any vaguely recent system should be fine enough.

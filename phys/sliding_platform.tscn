@@ -8,14 +8,17 @@ size = Vector3(2, 1, 4)
 [sub_resource type="BoxShape3D" id="BoxShape3D_woojd"]
 size = Vector3(2, 1, 4)
 
-[node name="sliding_platform" type="RigidBody3D" groups=["build"]]
+[node name="sliding_platform" type="RigidBody3D" groups=["build", "no_grab"]]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 axis_lock_linear_y = true
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
+mass = 100.0
 gravity_scale = 1.66533e-16
 script = ExtResource("1_7t6e0")
+push_back = 200.0
+push_forward = 200.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_kmxbi")

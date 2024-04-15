@@ -187,6 +187,9 @@ func _try_grab() -> bool:
 	if not item:
 		return false
 
+	if item.is_in_group("no_grab") or item.mass >= 100:
+		return false
+
 	if item.has_signal("reset"):
 		item.emit_signal("reset")
 
