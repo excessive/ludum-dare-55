@@ -20,16 +20,19 @@ thrust_force = 2000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+layers = 2
 mesh = SubResource("CylinderMesh_r3qvh")
 skeleton = NodePath("../CollisionShape3D")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 0, -0.533126)
+layers = 2
 mesh = SubResource("CylinderMesh_fx58h")
 skeleton = NodePath("../CollisionShape3D")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 0, 0.466321)
+layers = 2
 mesh = SubResource("CylinderMesh_fx58h")
 skeleton = NodePath("../CollisionShape3D")
 

@@ -1,21 +1,23 @@
-[gd_scene load_steps=18 format=3 uid="uid://cogm6hynqnryu"]
+[gd_scene load_steps=20 format=3 uid="uid://cogm6hynqnryu"]
 
 [ext_resource type="Material" uid="uid://d1dcxbgx8kga7" path="res://materials/test_grid_grey.tres" id="1_5df2b"]
 [ext_resource type="PackedScene" uid="uid://d0bndvyxq2j7a" path="res://game/main_background.tscn" id="1_vm1ni"]
 [ext_resource type="Script" path="res://addons/exmoe_tools/common/follow_cam.gd" id="2_1xjub"]
 [ext_resource type="PackedScene" uid="uid://de0xrdyh6s7tl" path="res://phys/player.tscn" id="3_fg7x3"]
-[ext_resource type="PackedScene" uid="uid://dy34a7txdnetm" path="res://phys/box.tscn" id="4_lorap"]
 [ext_resource type="FontFile" uid="uid://qf7622sypprq" path="res://addons/exmoe_tools/fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-SemiBold.ttf" id="6_2w0jt"]
 [ext_resource type="Script" path="res://phys/contraption.gd" id="6_onsvi"]
-[ext_resource type="PackedScene" uid="uid://btr2kol4d1adt" path="res://phys/thruster.tscn" id="8_e3cpq"]
 [ext_resource type="PackedScene" uid="uid://sj58vpi08n48" path="res://contraptions/simple_car.tscn" id="8_i2rpo"]
 [ext_resource type="Script" path="res://addons/object-inspector/scripts/inspector.gd" id="9_21m2a"]
 [ext_resource type="Script" path="res://ui/clear_focus.gd" id="9_ak2w4"]
 [ext_resource type="PackedScene" uid="uid://dsnnni3tvdy3y" path="res://phys/sliding_platform.tscn" id="14_q6ify"]
 [ext_resource type="PackedScene" uid="uid://b0s7vs1j5g0ik" path="res://phys/pressure_plate.tscn" id="14_svdhl"]
 [ext_resource type="PackedScene" uid="uid://cyi154v6sa54y" path="res://phys/part_spawner.tscn" id="15_a5355"]
+[ext_resource type="PackedScene" uid="uid://b581wtdnmnr5d" path="res://materials/decals/arrow_01.tscn" id="15_nefbd"]
 [ext_resource type="PackedScene" uid="uid://bv21rw6f7mgku" path="res://phys/trigger_door.tscn" id="16_15ja0"]
+[ext_resource type="PackedScene" uid="uid://ftfxqqm3ijuk" path="res://materials/decals/cross_01.tscn" id="16_haqbi"]
+[ext_resource type="PackedScene" uid="uid://cyl4rpnl3pex8" path="res://materials/decals/doodle_01.tscn" id="17_sxscm"]
 [ext_resource type="Script" path="res://phys/scene_change_trigger.gd" id="18_o7u0q"]
+[ext_resource type="PackedScene" uid="uid://cgrj1q6csap51" path="res://materials/decals/doodle_02.tscn" id="18_xfqks"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yacar"]
 size = Vector3(4.29321, 3.4873, 2.33289)
@@ -25,17 +27,17 @@ size = Vector3(4.29321, 3.4873, 2.33289)
 [node name="background" parent="." instance=ExtResource("1_vm1ni")]
 
 [node name="spawn_platform" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 5, -31.251)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 5, -1.53914)
 material_override = ExtResource("1_5df2b")
 use_collision = true
-size = Vector3(25.7998, 12.3087, 85.8882)
+size = Vector3(25.7998, 12.3087, 26.4645)
 
 [node name="spawn_platform" type="CSGBox3D" parent="spawn_platform"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2, 4.59168)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.186584, 2.59856)
 material_override = ExtResource("1_5df2b")
 operation = 2
 use_collision = true
-size = Vector3(20.31, 14, 78.4349)
+size = Vector3(20.31, 10.3732, 23.9913)
 
 [node name="rail_a" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.07219, -0.954041, 24.1703)
@@ -76,11 +78,29 @@ pixel_size = 0.0125
 text = "right here specifically"
 font = ExtResource("6_2w0jt")
 
+[node name="Label3D3" type="Label3D" parent="."]
+transform = Transform3D(-0.00431082, 0, 0.999991, 0, 1, 0, -0.999991, 0, -0.00431082, 2.47869, 2.51376, 54.5483)
+pixel_size = 0.0125
+double_sided = false
+text = "wait no not like that"
+font = ExtResource("6_2w0jt")
+
+[node name="Label3D4" type="Label3D" parent="."]
+transform = Transform3D(0.0851038, 0, -0.996372, 0, 1, 0, 0.996372, 0, 0.0851038, -0.898013, 2.51376, 54.5483)
+pixel_size = 0.0125
+double_sided = false
+text = "wait no not like that"
+font = ExtResource("6_2w0jt")
+
+[node name="Label3D5" type="Label3D" parent="."]
+transform = Transform3D(0.999997, 0, -0.00256568, 0, 1, 0, 0.00256567, 0, 0.999997, 0.794287, 4.20947, 53.2141)
+pixel_size = 0.0125
+double_sided = false
+text = "oh no"
+font = ExtResource("6_2w0jt")
+
 [node name="Contraption" type="Node3D" parent="."]
 script = ExtResource("6_onsvi")
-
-[node name="box2" parent="Contraption" instance=ExtResource("4_lorap")]
-transform = Transform3D(0.77009, 0, 0.637935, 0, 1, 0, -0.637935, 0, 0.77009, 6.38865, 1.29049, 45.1561)
 
 [node name="car" parent="Contraption" instance=ExtResource("8_i2rpo")]
 transform = Transform3D(-0.0223034, 0, 0.999751, 0, 1, 0, -0.999751, 0, -0.0223034, 0.0673771, 0.989801, 57.165)
@@ -94,21 +114,24 @@ target_path = NodePath("PartSpawner")
 
 [node name="PartSpawner" parent="Contraption/pressure_plate3" instance=ExtResource("15_a5355")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
-part = ExtResource("8_e3cpq")
 
 [node name="pressure_plate4" parent="Contraption" instance=ExtResource("14_svdhl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.19706, 4.76837e-07, -2.06864)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.19706, 4.76837e-07, 7.15729)
 target_path = NodePath("PartSpawner")
 
 [node name="PartSpawner" parent="Contraption/pressure_plate4" instance=ExtResource("15_a5355")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
-part = ExtResource("8_e3cpq")
+part_count = 10
 
 [node name="sliding_platform" parent="Contraption" instance=ExtResource("14_q6ify")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1, -0.5, 13.703)
 
 [node name="sliding_platform3" parent="Contraption" instance=ExtResource("14_q6ify")]
 transform = Transform3D(1, -3.48787e-16, 3.48787e-16, 3.48787e-16, 1, -3.48787e-16, -3.48787e-16, 3.48787e-16, 1, 1.13525, -0.5, 33.8021)
+
+[node name="pressure_plate3" parent="Contraption/sliding_platform3" instance=ExtResource("14_svdhl")]
+transform = Transform3D(-1, 3.48787e-16, 8.74228e-08, 3.48787e-16, 1, -3.48787e-16, -8.74228e-08, -3.48787e-16, -1, -0.00318027, 0.5, -0.0298843)
+target_path = NodePath("..")
 
 [node name="Control2" type="Control" parent="."]
 layout_mode = 3
@@ -158,3 +181,22 @@ scene_path = "res://ui/boot_splash.tscn"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_yacar")
+
+[node name="Arrow01" parent="." instance=ExtResource("15_nefbd")]
+transform = Transform3D(0.14812, 0, -0.988969, 0, 1, 0, 0.988969, 0, 0.14812, 5.88761, 9.53674e-07, 7.33423)
+
+[node name="Arrow02" parent="." instance=ExtResource("15_nefbd")]
+transform = Transform3D(-0.857428, 0, -0.514604, 0, 1, 0, 0.514604, 0, -0.857428, 7.19406, 9.53674e-07, 5.21396)
+
+[node name="Arrow03" parent="." instance=ExtResource("16_haqbi")]
+transform = Transform3D(0.0787713, -0.246541, -0.965926, -0.952561, -0.304349, 1.50318e-16, -0.293979, 0.920103, -0.258819, -4.59075, 3.38069, -10.9541)
+
+[node name="Cross01" parent="." instance=ExtResource("16_haqbi")]
+transform = Transform3D(0.717981, 0.696063, 0, -0.696063, 0.717981, 0, 0, 0, 1, -9.99645, -9.53674e-07, 4.77073)
+
+[node name="Doodle01" parent="." instance=ExtResource("17_sxscm")]
+transform = Transform3D(-2.39171, 0, 1.32509, 0, 2.73425, 0, -1.32509, 0, -2.39171, 0.821851, 0.917872, 40.9731)
+size = Vector3(2, 1.32861, 2)
+
+[node name="Doodle02" parent="." instance=ExtResource("18_xfqks")]
+transform = Transform3D(-0.703829, 0, 0.71037, 0, 1, 0, -0.71037, 0, -0.703829, 2.3498, -9.53674e-07, 53.7838)

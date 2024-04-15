@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dj0k8hq3r082"
-path.s3tc="res://.godot/imported/test_grid_1m_grey.png-ba40b1ba0a205daf5fc0eb46cfb63964.s3tc.ctex"
+uid="uid://bv1yl407qh4e6"
+path.s3tc="res://.godot/imported/cross_01_normal.png-67e4e00060dca6a6e88003e1fcaa1cbc.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://materials/test_grid_1m_grey.png"
-dest_files=["res://.godot/imported/test_grid_1m_grey.png-ba40b1ba0a205daf5fc0eb46cfb63964.s3tc.ctex"]
+source_file="res://materials/textures/cross_01_normal.png"
+dest_files=["res://.godot/imported/cross_01_normal.png-67e4e00060dca6a6e88003e1fcaa1cbc.s3tc.ctex"]
 
 [params]
 

@@ -20,6 +20,7 @@ script = ExtResource("1_6fa4x")
 grabber = NodePath("grabber")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+layers = 2
 mesh = SubResource("CapsuleMesh_ku5q7")
 skeleton = NodePath("../..")
 
@@ -51,4 +52,5 @@ shape = SubResource("SphereShape3D_rstsn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="pusher"]
 visible = false
+layers = 2
 mesh = SubResource("SphereMesh_j27qs")

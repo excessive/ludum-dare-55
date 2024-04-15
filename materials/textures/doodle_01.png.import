@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n5qwtsfjpens"
-path.s3tc="res://.godot/imported/test_grid_1m_roughness.png-29d27cbe938093a468b2e7074c3b3483.s3tc.ctex"
+uid="uid://cfrfqvpofkfky"
+path.s3tc="res://.godot/imported/doodle_01.png-458baeac22a36c9fd3ab2fb8d1d0c63c.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://materials/test_grid_1m_roughness.png"
-dest_files=["res://.godot/imported/test_grid_1m_roughness.png-29d27cbe938093a468b2e7074c3b3483.s3tc.ctex"]
+source_file="res://materials/textures/doodle_01.png"
+dest_files=["res://.godot/imported/doodle_01.png-458baeac22a36c9fd3ab2fb8d1d0c63c.s3tc.ctex"]
 
 [params]
 

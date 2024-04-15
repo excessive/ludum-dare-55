@@ -37,16 +37,19 @@ suspension_stiffness = 200.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="spinny"]
 transform = Transform3D(-4.37114e-08, 1, -1.06581e-14, -1, -4.37114e-08, 4.65882e-22, 0, 1.06581e-14, 1, 0, 0, 0)
+layers = 2
 mesh = SubResource("CylinderMesh_hkecg")
 skeleton = NodePath("")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="spinny"]
 transform = Transform3D(-4.37114e-08, 1, -1.06581e-14, -1, -4.37114e-08, 4.65882e-22, 0, 1.06581e-14, 1, 0.0222683, -9.7338e-10, -0.0222683)
+layers = 2
 mesh = SubResource("CylinderMesh_1jskg")
 skeleton = NodePath("")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, 1.31134e-07, 1, -1, -5.73205e-15, -4.37114e-08, 0, -1, 1.31134e-07, 0, 0.258948, -0.902813)
+layers = 2
 mesh = SubResource("CylinderMesh_fx58h")
 skeleton = NodePath("")
 
@@ -54,27 +57,33 @@ skeleton = NodePath("")
 shape = SubResource("BoxShape3D_dbxrv")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
+layers = 2
 size = Vector3(1, 1, 2)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="CSGBox3D"]
+layers = 2
 operation = 2
 size = Vector3(0.6, 1.0979, 2.11548)
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.334353, 0.0871582)
+layers = 2
 size = Vector3(0.928711, 0.316559, 1.78467)
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 1.20073)
+layers = 2
 operation = 2
 size = Vector3(2, 0.5, 0.5)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 2.08165e-12, 0.5, -1)
+layers = 2
 operation = 2
 size = Vector3(1, 0.25, 1)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 2.08165e-12, -0.5, -1)
+layers = 2
 operation = 2
 size = Vector3(1, 0.25, 1)
