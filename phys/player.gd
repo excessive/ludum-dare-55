@@ -26,7 +26,6 @@ func _ready() -> void:
 	assert(camera)
 	assert(grabber)
 	camera.add_exclusion(self)
-	camera.zoom = 0
 	Input.mouse_mode = _prev_mode
 
 func drop_item():
@@ -115,7 +114,7 @@ func _try_attach(item: RigidBody3D):
 		return
 	Contraption.attach_bodies(item, _find_attachments(item))
 
-func _drop_control():
+func drop_control():
 	_controlling_path = ""
 	if _control_locator:
 		_control_locator.queue_free()
@@ -132,7 +131,7 @@ func _try_control(controlling: RigidBody3D, delta: float) -> bool:
 		0
 	)
 	if not Contraption.control(controlling, self, vehicle_control):
-		_drop_control()
+		drop_control()
 		return false
 
 
@@ -156,7 +155,7 @@ func _try_use(delta: float) -> bool:
 
 	var controlling: RigidBody3D = get_node_or_null(_controlling_path)
 	if controlling:
-		_drop_control()
+		drop_control()
 		return true # eat this input so we don't use on leave
 	else:
 		controlling = _get_nearest_item("build")
@@ -305,11 +304,15 @@ func _find_attachments(item: RigidBody3D, margin := 0.25) -> Array[RigidBody3D]:
 func _physics_process(delta: float) -> void:
 	var input := focus.get_player_input()
 
+	camera.zoom = 3
+
 	if input.is_action_just_pressed("use"):
 		if _try_use(delta):
 			return
 	elif _try_control(get_node_or_null(_controlling_path), delta):
 		return
+
+	camera.zoom = 0
 
 	$pusher.apply_central_impulse((to_global(pusher_pos) - $pusher.global_position) * 10)
 
