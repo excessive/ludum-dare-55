@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cogm6hynqnryu"]
+[gd_scene load_steps=20 format=3 uid="uid://cogm6hynqnryu"]
 
 [ext_resource type="Material" uid="uid://d1dcxbgx8kga7" path="res://materials/test_grid_grey.tres" id="1_5df2b"]
 [ext_resource type="PackedScene" uid="uid://d0bndvyxq2j7a" path="res://game/main_background.tscn" id="1_vm1ni"]
@@ -11,12 +11,16 @@
 [ext_resource type="PackedScene" uid="uid://dwfgw3tn22cia" path="res://phys/stick.tscn" id="9_1ubtu"]
 [ext_resource type="Script" path="res://addons/object-inspector/scripts/inspector.gd" id="9_21m2a"]
 [ext_resource type="Script" path="res://ui/clear_focus.gd" id="9_ak2w4"]
-[ext_resource type="Script" path="res://game/autobuild.gd" id="10_p856n"]
+[ext_resource type="Script" path="res://phys/autobuild.gd" id="10_p856n"]
 [ext_resource type="PackedScene" uid="uid://b8wn885578i47" path="res://phys/wheel.tscn" id="11_ak27m"]
 [ext_resource type="PackedScene" uid="uid://2agrpi173fjt" path="res://phys/steering.tscn" id="13_g2gfn"]
 [ext_resource type="PackedScene" uid="uid://dsnnni3tvdy3y" path="res://phys/sliding_platform.tscn" id="14_q6ify"]
 [ext_resource type="PackedScene" uid="uid://b0s7vs1j5g0ik" path="res://phys/pressure_plate.tscn" id="14_svdhl"]
 [ext_resource type="PackedScene" uid="uid://bv21rw6f7mgku" path="res://phys/trigger_door.tscn" id="16_15ja0"]
+[ext_resource type="Script" path="res://phys/scene_change_trigger.gd" id="18_o7u0q"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3kd6k"]
+radius = 3.0
 
 [node name="Node3D" type="Node3D"]
 
@@ -62,10 +66,16 @@ camera = NodePath("../Camera3D")
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 1.6553, 50.3054)
 pixel_size = 0.025
-text = "the goal is to get to here"
+text = "the goal is here"
 font = ExtResource("6_2w0jt")
 font_size = 64
 outline_size = 24
+
+[node name="Label3D2" type="Label3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0.417122, 50.3054)
+pixel_size = 0.0125
+text = "right here specifically"
+font = ExtResource("6_2w0jt")
 
 [node name="Contraption" type="Node3D" parent="."]
 script = ExtResource("6_onsvi")
@@ -192,3 +202,12 @@ target_path = NodePath("../Contraption/door")
 [node name="pressure_plate2" parent="." instance=ExtResource("14_svdhl")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -2.18555e-07, 2.08165e-12, 9.85056)
 target_path = NodePath("../Contraption/sliding_platform")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0636549, 0.480761, 48.4538)
+script = ExtResource("18_o7u0q")
+scene_path = "res://ui/boot_splash.tscn"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.23085, 0)
+shape = SubResource("SphereShape3D_3kd6k")

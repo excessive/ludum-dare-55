@@ -5,6 +5,7 @@ var _transition_in: PackedScene
 var _transition_out: PackedScene
 var _current_transition: SceneTransition
 var _next_scene: PackedScene
+var _next_scene_path: String
 
 const FADE_IN := preload("res://addons/snail_transition/transitions/FadeIn.tscn")
 const FADE_OUT := preload("res://addons/snail_transition/transitions/FadeOut.tscn")
@@ -23,6 +24,10 @@ func _run_transition():
 
 	# make sure not to switch mid-frame
 	await get_tree().process_frame
+	if _next_scene_path:
+		_next_scene = ResourceLoader.load_threaded_get(_next_scene_path)
+		_next_scene_path = ""
+
 	if _next_scene and _next_scene.can_instantiate():
 		get_tree().change_scene_to_packed(_next_scene)
 		if _current_transition:
@@ -49,6 +54,24 @@ func auto_transition(p_scene: PackedScene, p_transition_out: PackedScene = FADE_
 			_current_transition = null
 
 	_next_scene = p_scene
+	_next_scene_path = ""
+	_transition_in = p_transition_in
+	_transition_out = p_transition_out
+	_run_transition()
+
+func auto_transition_threaded(p_scene_path: String, p_transition_out: PackedScene = FADE_OUT, p_transition_in: PackedScene = FADE_IN):
+	assert(FileAccess.file_exists(p_scene_path))
+	ResourceLoader.load_threaded_request(p_scene_path)
+
+	if _current_transition:
+		_current_transition.hurry()
+		await _current_transition.finished
+		if _current_transition:
+			_current_transition.queue_free()
+			_current_transition = null
+
+	_next_scene = null
+	_next_scene_path = p_scene_path
 	_transition_in = p_transition_in
 	_transition_out = p_transition_out
 	_run_transition()
