@@ -450,6 +450,6 @@ func _try_auto_join(event: InputEvent):
 		device.want_player_index = 0
 	device_join(device)
 	_device_join_input = true
-	Input.parse_input_event(event.duplicate()) # resubmit input event now that it's remapped, so the first press isn't eaten
+	#Input.parse_input_event(event.duplicate()) # resubmit input event now that it's remapped, so the first press isn't eaten
 	await get_tree().physics_frame
 	_device_join_input = false
