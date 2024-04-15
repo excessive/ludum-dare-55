@@ -54,7 +54,7 @@ axis_lock_angular_z = true
 mass = 0.5
 linear_damp = 1.0
 angular_damp = 4.0
-constant_force = Vector3(2.08165e-12, 11, 2.08165e-12)
+constant_force = Vector3(2.08165e-12, 10, 2.08165e-12)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="switch"]
 shape = SubResource("BoxShape3D_mgj2d")

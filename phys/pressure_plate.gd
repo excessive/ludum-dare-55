@@ -16,11 +16,9 @@ func _on_press(node: Node3D):
 		return
 	changed.emit(true)
 	pressed.emit()
-	print("press!")
-	
+
 func _on_release(node: Node3D):
 	if node != _switch:
 		return
 	changed.emit(false)
 	released.emit()
-	print("release!")
