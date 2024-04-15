@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://cajfcmay26qox"]
 
-[ext_resource type="Texture2D" uid="uid://duag6p5ewyqb2" path="res://wip/input_prompts_kenney/Flairs/Vector/controller_generic.svg" id="1_nrsi4"]
+[ext_resource type="Texture2D" uid="uid://duag6p5ewyqb2" path="res://addons/snail_input/device_assignment/input_prompts_kenney/controller_generic.svg" id="1_nrsi4"]
 [ext_resource type="Script" path="res://addons/snail_input/device_assignment/player_present.gd" id="1_re1ur"]
-[ext_resource type="Texture2D" uid="uid://bcf50xc6sn4qu" path="res://wip/input_prompts_kenney/Keyboard & Mouse/Vector/keyboard_arrows.svg" id="2_81k1v"]
-[ext_resource type="Texture2D" uid="uid://blh75v36m763x" path="res://wip/input_prompts_kenney/Keyboard & Mouse/Vector/mouse.svg" id="3_02va3"]
+[ext_resource type="Texture2D" uid="uid://bcf50xc6sn4qu" path="res://addons/snail_input/device_assignment/input_prompts_kenney/keyboard_arrows.svg" id="2_81k1v"]
+[ext_resource type="Texture2D" uid="uid://blh75v36m763x" path="res://addons/snail_input/device_assignment/input_prompts_kenney/mouse.svg" id="3_02va3"]
 [ext_resource type="Texture2D" uid="uid://bp6eddkv2crxt" path="res://addons/snail_input/device_assignment/round_rect.svg" id="5_1mifa"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_nkare"]

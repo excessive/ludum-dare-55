@@ -112,6 +112,7 @@ func _ready() -> void:
 	SnailInput.player_join_accepted.connect(_on_player_join_accepted)
 	SnailInput.player_join_rejected.connect(_on_player_join_rejected)
 	SnailInput.player_changed_index.connect(_on_player_changed_index)
+	SnailInput.player_changed_device.connect(_on_player_changed_device)
 
 	modulate.a = 0
 	var t := create_tween()
@@ -129,6 +130,10 @@ func _ready() -> void:
 		_on_player_changed_index(device.index, device.want_player_index, device.want_player_index)
 		if device.player_index != SnailInput.PLAYER_INVALID:
 			_on_player_join_ready_accepted(device.index, device.player_index)
+
+func _on_player_changed_device(_player_index: int, name: String):
+	%latest.text = name
+	print(name)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not focus.is_focused():

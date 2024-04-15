@@ -12,9 +12,18 @@ signal player_left(device: int, player: int) # left game
 signal player_join_accepted(device: int) # joined game, not full
 signal player_join_rejected(device: int) # tried to join, but it was full
 signal player_changed_index(device: int, old_player_index: int, new_player_index: int) # moved target slot
+signal player_changed_device(player: int, simple_device_name: String)
 
 const DEVICE_KEYBOARD: int = -1
 const PLAYER_INVALID: int = -1
+
+enum InputDeviceType {
+	None,
+	Keyboard,
+	Gamepad_Generic,
+	Gamepad_Playstation,
+	Gamepad_Xbox
+}
 
 ## TODO:
 # handle device plug/unplugging
@@ -80,6 +89,13 @@ class InputDevice:
 	var player_index: int = PLAYER_INVALID
 	var active := false
 
+	func get_simplified_type() -> InputDeviceType:
+		match name:
+			"XInput Gamepad", "Xbox Series Controller", "Xbox 360 Controller", "Xbox One Controller": return InputDeviceType.Gamepad_Xbox
+			"Sony DualSense", "PS5 Controller", "PS4 Controller": return InputDeviceType.Gamepad_Playstation
+			"Keyboard": return InputDeviceType.Keyboard
+			_: return InputDeviceType.Gamepad_Generic
+
 	func change_index(p_new_index: int, p_limit: int, p_relative := false):
 		if p_relative:
 			want_player_index += p_new_index
@@ -105,6 +121,17 @@ class PlayerSlot:
 	var primary_player := false
 	var ready := false
 	var devices: Array[InputDevice] = []
+	var last_device: InputDevice
+
+	func get_most_recent_device_hint() -> String:
+		if not last_device:
+			return "keyboard"
+
+		match last_device.get_simplified_type():
+			InputDeviceType.Gamepad_Generic: return "generic"
+			InputDeviceType.Gamepad_Playstation: return "playstation"
+			InputDeviceType.Gamepad_Xbox: return "xbox"
+			_: return "keyboard" # default to keyboard if we don't know better
 
 	func remove_device(p_device: InputDevice):
 		if devices.has(p_device):
@@ -372,6 +399,14 @@ var _device_overlay: Node
 var _device_join_input := false
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventKey or event is InputEventJoypadButton or event is InputEventMouseButton:
+		var device := get_device_for_event(event)
+		if device.active:
+			if device.player_index >= 0:
+				var slot := get_player_slot(device.player_index)
+				slot.last_device = device
+				player_changed_device.emit(device.player_index, slot.get_most_recent_device_hint())
+
 	if event is InputEventKey:
 		if not event.pressed:
 			return
