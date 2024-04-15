@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://de0xrdyh6s7tl"]
+[gd_scene load_steps=8 format=3 uid="uid://de0xrdyh6s7tl"]
 
 [ext_resource type="Script" path="res://phys/player.gd" id="1_6fa4x"]
+[ext_resource type="PackedScene" uid="uid://b1a4fhcw48et1" path="res://ui/pause_menu.tscn" id="2_cosj6"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ku5q7"]
 
@@ -17,6 +18,7 @@ radius = 3.0
 [node name="player" type="CharacterBody3D" node_paths=PackedStringArray("grabber")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1_6fa4x")
+pause_menu = ExtResource("2_cosj6")
 grabber = NodePath("grabber")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

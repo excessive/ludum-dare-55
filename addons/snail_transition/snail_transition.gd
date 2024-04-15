@@ -16,6 +16,9 @@ enum TransitionMode {
 	Full, # Out, then In
 }
 
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
 func _run_transition():
 	if _transition_out:
 		_current_transition = _transition_out.instantiate()

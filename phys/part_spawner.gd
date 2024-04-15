@@ -10,7 +10,7 @@ func _ready() -> void:
 
 func _on_spawn():
 	var new_part: Node3D = part.instantiate()
-	add_sibling(new_part)
+	add_child(new_part)
 	new_part.global_position = global_position
 	_spawned.append(new_part.get_path())
 	while _spawned.size() > part_count:

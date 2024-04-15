@@ -1,15 +1,16 @@
 extends CharacterBody3D
 
+@export var pause_menu: PackedScene
 @export var camera: FollowCam
 @export var grabber: Area3D
 @export_range(-1.0, 1.0) var turn_speed := 0.333
 @export_range(0.0, 1.0) var mouse_sensitivity := 0.125
 
 @onready var focus := SnailInput.get_input_focus(self)
-#@onready var _prev_mode := Input.MOUSE_MODE_CAPTURED
-@onready var _prev_mode := Input.mouse_mode
+@onready var _prev_mode := Input.MOUSE_MODE_CAPTURED
+#@onready var _prev_mode := Input.mouse_mode
 
-var _allow_drag_rotate := true
+var _allow_drag_rotate := false
 var _dragging := false
 var _cam_inner := Basis()
 var _cam_outer := Basis()
@@ -37,6 +38,19 @@ func drop_item():
 
 func _input(event: InputEvent) -> void:
 	var input := focus.get_player_input()
+
+	if input.is_action_pressed("pause") and event.is_pressed():
+		_prev_mode = Input.mouse_mode
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		var menu := pause_menu.instantiate()
+		menu.restart_scene = get_parent().scene_file_path
+		add_child(menu)
+		await get_tree().process_frame
+		get_tree().paused = true
+		await menu.tree_exited
+		Input.mouse_mode = _prev_mode
+		return
+
 	if not input.has_keyboard():
 		return
 
@@ -360,7 +374,7 @@ func _physics_process(delta: float) -> void:
 	if input.is_action_just_pressed("grab"):
 		var item := get_node_or_null(_grabbed_path) as RigidBody3D
 		if item:
-			_try_attach(item)
+			#_try_attach(item)
 			drop_item()
 		else:
 			_try_grab()
