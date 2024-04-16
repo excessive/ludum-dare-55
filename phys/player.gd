@@ -251,6 +251,9 @@ func _try_move(delta: float):
 	grabbed.angular_velocity *= exp(-5 * delta)
 	grabbed.linear_velocity = (smooth_pos - old_pos) / delta + velocity + get_platform_velocity()
 
+	if focus.get_player_input().is_action_pressed("rotate"):
+		return
+
 	var hits := _find_attachments(grabbed, 1.0)
 	for hit in hits:
 		var target_basis := _closest_alignment(grabbed.global_basis, hit.global_basis)
