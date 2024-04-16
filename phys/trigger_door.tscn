@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bv21rw6f7mgku"]
+[gd_scene load_steps=7 format=3 uid="uid://bv21rw6f7mgku"]
 
 [ext_resource type="Script" path="res://phys/trigger_door.gd" id="1_i6esu"]
+[ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="2_uhogx"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kx2tm"]
 friction = 0.1
@@ -42,7 +43,6 @@ mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_kx2tm")
 center_of_mass_mode = 1
 center_of_mass = Vector3(2.08167e-16, 1.5, 2.08167e-16)
-linear_damp = 1.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="door"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.625, 2.08165e-12)
@@ -56,12 +56,17 @@ shape = SubResource("BoxShape3D_2c7up")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.55, 0.125, 2.08165e-12)
 shape = SubResource("BoxShape3D_2c7up")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="door"]
+[node name="Smoothing" type="Node3D" parent="door"]
+script = ExtResource("2_uhogx")
+
+[node name="Node3D" type="Node3D" parent="door/Smoothing"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="door/Smoothing/Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 size = Vector3(4.2, 3, 0.1)
 material = SubResource("StandardMaterial3D_4uujc")
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="door/CSGBox3D"]
+[node name="CSGBox3D2" type="CSGBox3D" parent="door/Smoothing/Node3D/CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -1.5, 2.08165e-12)
 operation = 2
 size = Vector3(2, 0.5, 2)

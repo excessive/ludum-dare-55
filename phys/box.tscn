@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dy34a7txdnetm"]
+[gd_scene load_steps=4 format=3 uid="uid://dy34a7txdnetm"]
+
+[ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="1_phna8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ktop3"]
 size = Vector3(1, 0.25, 4)
@@ -7,12 +9,17 @@ size = Vector3(1, 0.25, 4)
 size = Vector3(1, 0.25, 4)
 
 [node name="box" type="RigidBody3D" groups=["build"]]
-linear_damp = 1.0
 angular_damp = 2.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_ktop3")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+[node name="Smoothing" type="Node3D" parent="."]
+script = ExtResource("1_phna8")
+
+[node name="Node3D" type="Node3D" parent="Smoothing"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Smoothing/Node3D"]
 layers = 2
 mesh = SubResource("BoxMesh_y6sym")
+skeleton = NodePath("../../../CollisionShape3D")

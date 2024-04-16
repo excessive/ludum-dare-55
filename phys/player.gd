@@ -44,6 +44,7 @@ func _on_reset():
 func drop_item():
 	var item: RigidBody3D = get_node_or_null(_grabbed_path)
 	if item:
+		item.linear_damp = 0
 		item.gravity_scale = 1
 		item.remove_collision_exception_with(self)
 		_grabbed_path = ""
@@ -250,6 +251,7 @@ func _try_move(delta: float):
 	var smooth_pos := old_pos.lerp(new_pos, 1.0 - exp(-5 * delta))
 	grabbed.angular_velocity *= exp(-5 * delta)
 	grabbed.linear_velocity = (smooth_pos - old_pos) / delta + velocity + get_platform_velocity()
+	grabbed.linear_damp = 2
 
 	if focus.get_player_input().is_action_pressed("rotate"):
 		return

@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0s7vs1j5g0ik"]
+[gd_scene load_steps=11 format=3 uid="uid://b0s7vs1j5g0ik"]
 
 [ext_resource type="Script" path="res://phys/pressure_plate.gd" id="1_ycm6w"]
 [ext_resource type="Texture2D" uid="uid://dj0k8hq3r082" path="res://materials/textures/test_grid_1m_grey.png" id="2_sctoo"]
+[ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="2_u03xr"]
 [ext_resource type="Texture2D" uid="uid://bpbnlcutil243" path="res://materials/textures/test_grid_1m_normal.png" id="3_llmsy"]
 [ext_resource type="Texture2D" uid="uid://n5qwtsfjpens" path="res://materials/textures/test_grid_1m_roughness.png" id="4_87jj5"]
 
@@ -59,8 +60,14 @@ constant_force = Vector3(2.08165e-12, 10, 2.08165e-12)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="switch"]
 shape = SubResource("BoxShape3D_mgj2d")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="switch"]
+[node name="Smoothing" type="Node3D" parent="switch"]
+script = ExtResource("2_u03xr")
+
+[node name="Node3D" type="Node3D" parent="switch/Smoothing"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="switch/Smoothing/Node3D"]
 mesh = SubResource("BoxMesh_wtfj3")
+skeleton = NodePath("../../..")
 
 [node name="trigger" type="Area3D" parent="."]
 unique_name_in_owner = true
