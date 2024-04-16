@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Crappy Contraptions (LD55) v1.0.1"
-config/version="v1.0.1 LD55"
+config/name="Crappy Contraptions v1.1.0"
+config/version="1.1.0"
 run/main_scene="res://ui/boot_splash.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
