@@ -173,7 +173,6 @@ pause={
 
 [physics]
 
-common/physics_ticks_per_second=120
 3d/default_linear_damp=0.5
 3d/default_angular_damp=0.5
 
