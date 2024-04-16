@@ -22,7 +22,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 platform_on_leave = 2
-platform_floor_layers = 4294967294
+platform_floor_layers = 4294967292
 script = ExtResource("1_6fa4x")
 pause_menu = ExtResource("2_cosj6")
 grabber = NodePath("grabber")
@@ -41,7 +41,7 @@ shape = SubResource("SphereShape3D_hkaa8")
 [node name="pusher" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 2.08165e-12)
 top_level = true
-collision_layer = 2
+collision_layer = 0
 collision_mask = 2
 axis_lock_angular_x = true
 axis_lock_angular_y = true
@@ -50,6 +50,7 @@ mass = 10.0
 gravity_scale = 1.66533e-16
 can_sleep = false
 freeze_mode = 1
+continuous_cd = true
 linear_damp = 3.0
 angular_damp = 3.0
 
