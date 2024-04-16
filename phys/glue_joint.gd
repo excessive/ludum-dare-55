@@ -19,6 +19,9 @@ func _init(a: RigidBody3D, b: RigidBody3D) -> void:
 	node_a = a.get_path()
 	node_b = b.get_path()
 
+func _ready() -> void:
+	var a: RigidBody3D = get_node(node_a)
+	var b: RigidBody3D = get_node(node_b)
 	var center := (a.global_position + b.global_position) / 2
 	global_position = center
 
@@ -26,18 +29,18 @@ func _init(a: RigidBody3D, b: RigidBody3D) -> void:
 	var pin := PinJoint3D.new()
 	pin.node_a = node_a
 	pin.node_b = node_b
-	pin.global_position = center
 	add_child(pin)
+	pin.global_position = center
 
 	var lock := HingeJoint3D.new()
 	lock.node_a = node_a
 	lock.node_b = node_b
+	add_child(lock)
 	lock.global_position = center
 	lock.set("angular_limit/enable", true)
 	lock.set("angular_limit/lower_limit", 0)
 	lock.set("angular_limit/upper_limit", 0)
 	lock.set("angular_limit/relaxation", 0.25)
-	add_child(lock)
 
 func _update_positions(_delta: float):
 	var a: RigidBody3D = get_node_or_null(node_a)
