@@ -12,6 +12,8 @@ func check_flag(flag: String) -> bool:
 
 func set_flag(flag: String):
 	flags[flag] = true
+	new_unlock.emit(flag)
+	print("set %s" % flag)
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS

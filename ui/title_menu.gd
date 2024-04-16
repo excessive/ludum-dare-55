@@ -15,6 +15,11 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_F1 and $dev and $dev.visible:
+			Globals.set_flag("level_1")
+			Globals.set_flag("sandbox")
+
 func _ready():
 	if $continue.disabled:
 		$play.grab_focus()
@@ -25,6 +30,9 @@ func _ready():
 	$sandbox.pressed.connect(_on_sandbox)
 	$clear.pressed.connect(_on_delete)
 	$qtd.pressed.connect(_on_quit)
+
+	if not OS.has_feature("editor"):
+		$dev.hide()
 
 const ALL_MAPS := {
 	"level_1": "res://game/level_1.tscn",
