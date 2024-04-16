@@ -58,6 +58,19 @@ func _update_positions(_delta: float):
 		up = a.global_basis.z
 	look_at_from_position(center, b.global_position, up)
 
+	# you can't really get to this kind of speed unless something is wrong
+	a.linear_damp = 0
+	if a.linear_velocity.length() > 40:
+		#print("slow down!")
+		a.linear_damp = 5
+	b.linear_damp = 0
+	if b.linear_velocity.length() > 40:
+		#print("slow down!")
+		b.linear_damp = 5
+#
+	#if a.linear_velocity.length() > 5:
+		#print(a.linear_velocity.length())
+
 	#var target_b := a.to_global(separation)
 	#var correction := separation * target_b.distance_to(b.global_position) * _delta
 	#a.apply_central_force(-correction / 2 * a.mass)
