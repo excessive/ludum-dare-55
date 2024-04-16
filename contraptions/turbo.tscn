@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://c75b7ebrxdgow"]
+
+[ext_resource type="Script" path="res://phys/autobuild.gd" id="1_0xwsb"]
+[ext_resource type="PackedScene" uid="uid://btr2kol4d1adt" path="res://phys/thruster.tscn" id="2_03p7i"]
+[ext_resource type="PackedScene" uid="uid://2agrpi173fjt" path="res://phys/steering.tscn" id="2_n20x8"]
+[ext_resource type="PackedScene" uid="uid://dy34a7txdnetm" path="res://phys/box.tscn" id="3_thuab"]
+[ext_resource type="PackedScene" uid="uid://b8wn885578i47" path="res://phys/wheel.tscn" id="4_wivp0"]
+
+[node name="Autobuild" type="Node3D"]
+script = ExtResource("1_0xwsb")
+build_root = NodePath("box")
+
+[node name="thruster3" parent="." instance=ExtResource("2_03p7i")]
+transform = Transform3D(0.947946, -1.3919e-08, -0.31843, -0.31843, -4.14361e-08, -0.947946, 0, 1, -4.37114e-08, -1.92889, 0.568881, -0.963691)
+
+[node name="thruster4" parent="." instance=ExtResource("2_03p7i")]
+transform = Transform3D(0.95586, 1.28434e-08, 0.293823, 0.293823, -4.1782e-08, -0.95586, 0, 1, -4.37114e-08, 2.05567, 0.568881, -0.963691)
+
+[node name="thruster5" parent="." instance=ExtResource("2_03p7i")]
+transform = Transform3D(0.947946, -1.3919e-08, -0.31843, -0.31843, -4.14361e-08, -0.947946, 0, 1, -4.37114e-08, -1.92889, 0.568881, 0.0643608)
+
+[node name="thruster6" parent="." instance=ExtResource("2_03p7i")]
+transform = Transform3D(0.95586, 1.28434e-08, 0.293823, 0.293823, -4.1782e-08, -0.95586, 0, 1, -4.37114e-08, 2.05567, 0.568881, 0.0643608)
+
+[node name="thruster7" parent="." instance=ExtResource("2_03p7i")]
+transform = Transform3D(0.947946, -1.3919e-08, -0.31843, -0.31843, -4.14361e-08, -0.947946, 0, 1, -4.37114e-08, -1.92889, 0.568881, 1.08726)
+
+[node name="thruster8" parent="." instance=ExtResource("2_03p7i")]
+transform = Transform3D(0.95586, 1.28434e-08, 0.293823, 0.293823, -4.1782e-08, -0.95586, 0, 1, -4.37114e-08, 2.05567, 0.568881, 1.08726)
+
+[node name="thruster9" parent="." instance=ExtResource("2_03p7i")]
+transform = Transform3D(0.947946, -1.3919e-08, -0.31843, -0.31843, -4.14361e-08, -0.947946, 0, 1, -4.37114e-08, -1.92889, 0.568881, -1.99649)
+
+[node name="thruster10" parent="." instance=ExtResource("2_03p7i")]
+transform = Transform3D(0.95586, 1.28434e-08, 0.293823, 0.293823, -4.1782e-08, -0.95586, 0, 1, -4.37114e-08, 2.05567, 0.568881, -1.99649)
+
+[node name="steering" parent="." instance=ExtResource("2_n20x8")]
+transform = Transform3D(1, 0, 0, 0, 0.976848, -0.213934, 0, 0.213934, 0.976848, -0.983274, -0.0832847, -1.88044)
+
+[node name="steering2" parent="." instance=ExtResource("2_n20x8")]
+transform = Transform3D(1, 0, 0, 0, 0.976848, -0.213934, 0, 0.213934, 0.976848, 1.04138, -0.0787883, -1.90098)
+
+[node name="box" parent="." instance=ExtResource("3_thuab")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0270963, 0.36821, -0.17007)
+
+[node name="wheel" parent="." instance=ExtResource("4_wivp0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0291461, -0.309402, 1.51119)
+
+[node name="box2" parent="." instance=ExtResource("3_thuab")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.983675, 0.250297, 0.898701)
+
+[node name="box3" parent="." instance=ExtResource("3_thuab")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08393, 0.250297, 0.898701)

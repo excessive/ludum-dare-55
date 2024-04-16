@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://b15ybaq5lrclj"]
+
+[ext_resource type="Script" path="res://phys/autobuild.gd" id="1_ipq6l"]
+[ext_resource type="PackedScene" uid="uid://2agrpi173fjt" path="res://phys/steering.tscn" id="2_v8tqn"]
+[ext_resource type="PackedScene" uid="uid://dy34a7txdnetm" path="res://phys/box.tscn" id="3_1w1hx"]
+[ext_resource type="PackedScene" uid="uid://b8wn885578i47" path="res://phys/wheel.tscn" id="4_cl2ww"]
+
+[node name="Autobuild" type="Node3D"]
+script = ExtResource("1_ipq6l")
+build_root = NodePath("box")
+
+[node name="steering" parent="." instance=ExtResource("2_v8tqn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.983274, 0, -1.8802)
+
+[node name="steering2" parent="." instance=ExtResource("2_v8tqn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.04138, -4.76837e-07, -1.90122)
+
+[node name="box" parent="." instance=ExtResource("3_1w1hx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0270963, 0.36821, -0.17007)
+
+[node name="wheel" parent="." instance=ExtResource("4_cl2ww")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0291461, -0.309402, 1.51119)

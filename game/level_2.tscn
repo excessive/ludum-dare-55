@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d26j283y05n2c"]
+[gd_scene load_steps=18 format=3 uid="uid://d26j283y05n2c"]
 
 [ext_resource type="Script" path="res://phys/contraption.gd" id="1_0058d"]
 [ext_resource type="PackedScene" uid="uid://de0xrdyh6s7tl" path="res://phys/player.tscn" id="2_antld"]
@@ -9,11 +9,13 @@
 [ext_resource type="Script" path="res://game/unlock.gd" id="7_fuhhf"]
 [ext_resource type="Script" path="res://game/save_value.gd" id="8_7dx2v"]
 [ext_resource type="PackedScene" uid="uid://cnn3l47ist43j" path="res://phys/level_changer.tscn" id="9_wt0jt"]
+[ext_resource type="FontFile" uid="uid://qf7622sypprq" path="res://addons/exmoe_tools/fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-SemiBold.ttf" id="10_0qtan"]
 [ext_resource type="PackedScene" uid="uid://sj58vpi08n48" path="res://contraptions/simple_car.tscn" id="10_mbp4g"]
 [ext_resource type="PackedScene" uid="uid://2agrpi173fjt" path="res://phys/steering.tscn" id="10_pyoym"]
 [ext_resource type="PackedScene" uid="uid://dy34a7txdnetm" path="res://phys/box.tscn" id="11_hl04h"]
 [ext_resource type="PackedScene" uid="uid://b8wn885578i47" path="res://phys/wheel.tscn" id="12_agnah"]
 [ext_resource type="PackedScene" uid="uid://dwfgw3tn22cia" path="res://phys/stick.tscn" id="14_5jigr"]
+[ext_resource type="PackedScene" uid="uid://c75b7ebrxdgow" path="res://contraptions/turbo.tscn" id="16_62nuh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2vd67"]
 size = Vector3(104, 50, 104)
@@ -79,6 +81,15 @@ save_value = "level_2"
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.08165e-12, 2.08165e-12, -30)
 map_path = "res://game/level_3.tscn"
 
+[node name="Label3D2" type="Label3D" parent="finish"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 3.80282, -0.656273)
+pixel_size = 0.01
+text = "i ran out of time to make these
+because physics is hard"
+font = ExtResource("10_0qtan")
+font_size = 64
+outline_size = 24
+
 [node name="steering" parent="." instance=ExtResource("10_pyoym")]
 transform = Transform3D(-0.0883702, -0.79523, 0.599834, 0.993882, -0.110446, -6.10004e-09, 0.0662489, 0.596164, 0.800125, -2.53095, 1.63502, 28.5508)
 
@@ -129,3 +140,6 @@ transform = Transform3D(-0.315675, 0.943546, -0.100349, -0.0225171, -0.113176, -
 
 [node name="stick8" parent="." instance=ExtResource("14_5jigr")]
 transform = Transform3D(-0.315675, 0.943546, -0.100349, -0.198638, -0.169126, -0.96537, -0.927843, -0.28481, 0.240813, -6.02274, 6.08676, 26.9241)
+
+[node name="Autobuild2" parent="." instance=ExtResource("16_62nuh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.92387, 2.00513, 40.3561)
