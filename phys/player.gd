@@ -318,7 +318,7 @@ func _find_attachments(item: RigidBody3D, margin := 0.25) -> Array[RigidBody3D]:
 @onready var pusher_pos: Vector3 = to_local($pusher.global_position)
 
 func _physics_process(delta: float) -> void:
-	if global_position.distance_to(_last_position) > 2:
+	if global_position.distance_to(_last_position) > 3:
 		print("warp detected, resetting")
 		reset.emit()
 	_last_position = global_position

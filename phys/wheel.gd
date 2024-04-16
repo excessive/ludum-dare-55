@@ -4,7 +4,7 @@ signal control(user: Node3D, input: Vector3)
 signal use(user: Node3D)
 signal reset
 
-@export var torque := 30
+@export var torque := 50
 @export var active := 0.0
 
 @onready var wheel := %spinny

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://d26j283y05n2c"]
+[gd_scene load_steps=16 format=3 uid="uid://d26j283y05n2c"]
 
 [ext_resource type="Script" path="res://phys/contraption.gd" id="1_0058d"]
 [ext_resource type="PackedScene" uid="uid://de0xrdyh6s7tl" path="res://phys/player.tscn" id="2_antld"]
@@ -9,6 +9,11 @@
 [ext_resource type="Script" path="res://game/unlock.gd" id="7_fuhhf"]
 [ext_resource type="Script" path="res://game/save_value.gd" id="8_7dx2v"]
 [ext_resource type="PackedScene" uid="uid://cnn3l47ist43j" path="res://phys/level_changer.tscn" id="9_wt0jt"]
+[ext_resource type="PackedScene" uid="uid://sj58vpi08n48" path="res://contraptions/simple_car.tscn" id="10_mbp4g"]
+[ext_resource type="PackedScene" uid="uid://2agrpi173fjt" path="res://phys/steering.tscn" id="10_pyoym"]
+[ext_resource type="PackedScene" uid="uid://dy34a7txdnetm" path="res://phys/box.tscn" id="11_hl04h"]
+[ext_resource type="PackedScene" uid="uid://b8wn885578i47" path="res://phys/wheel.tscn" id="12_agnah"]
+[ext_resource type="PackedScene" uid="uid://dwfgw3tn22cia" path="res://phys/stick.tscn" id="14_5jigr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2vd67"]
 size = Vector3(104, 50, 104)
@@ -17,25 +22,41 @@ size = Vector3(104, 50, 104)
 script = ExtResource("1_0058d")
 
 [node name="player" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("2_antld")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1, 2.08165e-12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1, 43.4102)
 camera = NodePath("../Camera3D")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
 use_collision = true
-size = Vector3(104, 8, 104)
+size = Vector3(32.6006, 8, 104)
 material = ExtResource("3_x1ss0")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 10, 2.08165e-12)
 operation = 2
 use_collision = true
-size = Vector3(100, 20, 100)
+size = Vector3(29.4978, 20, 100)
 material = ExtResource("3_x1ss0")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGBox3D/CSGBox3D2"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6.36328e-08, -9.53165, -1.45575)
+use_collision = true
+size = Vector3(10.3109, 20, 100)
+material = ExtResource("3_x1ss0")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.663724, 8.1518)
+size = Vector3(32.5879, 3.29004, 8.96973)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGBox3D/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 0.98615, -0.165857, 0, 0.165857, 0.98615, 0, 3.79206, 1.52914)
+operation = 2
+size = Vector3(34.5642, 5.32507, 7.86719)
 
 [node name="background" parent="." instance=ExtResource("4_j2h01")]
 
 [node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 43.4102)
 script = ExtResource("5_7ia3b")
 
 [node name="Area3D" type="Area3D" parent="."]
@@ -57,3 +78,54 @@ save_value = "level_2"
 [node name="finish" parent="." instance=ExtResource("9_wt0jt")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.08165e-12, 2.08165e-12, -30)
 map_path = "res://game/level_3.tscn"
+
+[node name="steering" parent="." instance=ExtResource("10_pyoym")]
+transform = Transform3D(-0.0883702, -0.79523, 0.599834, 0.993882, -0.110446, -6.10004e-09, 0.0662489, 0.596164, 0.800125, -2.53095, 1.63502, 28.5508)
+
+[node name="steering2" parent="." instance=ExtResource("10_pyoym")]
+transform = Transform3D(-0.138171, -0.990408, 0, 0.990408, -0.138171, 0, 0, 0, 1, 1.11325, 1.63502, 28.5297)
+
+[node name="box" parent="." instance=ExtResource("11_hl04h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.631073, 2.00323, 30.2609)
+
+[node name="wheel" parent="." instance=ExtResource("12_agnah")]
+transform = Transform3D(-0.135529, -0.971472, -0.194611, 0.990409, -0.138171, -1.31896e-17, -0.0268895, -0.192744, 0.98088, -3.63241, 1.63502, 31.9422)
+
+[node name="wheel2" parent="." instance=ExtResource("12_agnah")]
+transform = Transform3D(-0.138171, -0.990408, 0, 0.990408, -0.138171, 0, 0, 0, 1, 1.11768, 1.63502, 31.9422)
+
+[node name="Autobuild" parent="." instance=ExtResource("10_mbp4g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.4242, 1.343, 42.1761)
+
+[node name="box2" parent="." instance=ExtResource("11_hl04h")]
+transform = Transform3D(0.91866, 0, 0.395048, 0, 1, 0, -0.395048, 0, 0.91866, 6.59915, 0.306959, 24.6056)
+
+[node name="box3" parent="." instance=ExtResource("11_hl04h")]
+transform = Transform3D(0.652297, 0, -0.757964, 0, 1, 0, 0.757964, 0, 0.652297, 2.56466, 0.306958, 21.8431)
+
+[node name="box4" parent="." instance=ExtResource("11_hl04h")]
+transform = Transform3D(0.69174, 0, 0.722147, 0, 1, 0, -0.722147, 0, 0.69174, -2.8755, 0.306958, 20.9808)
+
+[node name="stick" parent="." instance=ExtResource("14_5jigr")]
+transform = Transform3D(1, 0, 0, 0, 0.365787, -0.930699, 0, 0.930699, 0.365787, -6.79828, 6.08676, 25.7596)
+
+[node name="stick2" parent="." instance=ExtResource("14_5jigr")]
+transform = Transform3D(1, 0, 0, 0, -0.180021, -0.983663, 0, 0.983663, -0.180021, -5.45679, 6.08676, 25.7596)
+
+[node name="stick3" parent="." instance=ExtResource("14_5jigr")]
+transform = Transform3D(-0.316477, 0.933103, -0.170768, -4.21362e-16, -0.180021, -0.983663, -0.9486, -0.311307, 0.0569726, -9.87803, 6.08676, 25.9574)
+
+[node name="stick4" parent="." instance=ExtResource("14_5jigr")]
+transform = Transform3D(-0.316477, 0.933103, -0.170768, -4.21362e-16, -0.180021, -0.983663, -0.9486, -0.311307, 0.0569726, -7.50191, 6.08676, 23.6832)
+
+[node name="stick5" parent="." instance=ExtResource("14_5jigr")]
+transform = Transform3D(-0.316477, 0.933103, -0.170768, -4.21362e-16, -0.180021, -0.983663, -0.9486, -0.311307, 0.0569726, -8.87989, 6.08676, 24.1473)
+
+[node name="stick6" parent="." instance=ExtResource("14_5jigr")]
+transform = Transform3D(-0.315675, 0.943546, -0.100349, -0.0225171, -0.113176, -0.99332, -0.9486, -0.311307, 0.0569726, -6.79185, 6.08676, 24.6965)
+
+[node name="stick7" parent="." instance=ExtResource("14_5jigr")]
+transform = Transform3D(-0.315675, 0.943546, -0.100349, -0.0225171, -0.113176, -0.99332, -0.9486, -0.311307, 0.0569726, -8.31604, 6.08676, 27.1897)
+
+[node name="stick8" parent="." instance=ExtResource("14_5jigr")]
+transform = Transform3D(-0.315675, 0.943546, -0.100349, -0.198638, -0.169126, -0.96537, -0.927843, -0.28481, 0.240813, -6.02274, 6.08676, 26.9241)

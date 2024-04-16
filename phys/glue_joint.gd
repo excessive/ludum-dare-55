@@ -19,15 +19,20 @@ func _init(a: RigidBody3D, b: RigidBody3D) -> void:
 	node_a = a.get_path()
 	node_b = b.get_path()
 
+	var center := (a.global_position + b.global_position) / 2
+	global_position = center
+
 	# these _significantly_ increase the joint rigidity
 	var pin := PinJoint3D.new()
 	pin.node_a = node_a
 	pin.node_b = node_b
+	pin.global_position = center
 	add_child(pin)
 
 	var lock := HingeJoint3D.new()
 	lock.node_a = node_a
 	lock.node_b = node_b
+	lock.global_position = center
 	lock.set("angular_limit/enable", true)
 	lock.set("angular_limit/lower_limit", 0)
 	lock.set("angular_limit/upper_limit", 0)
@@ -50,10 +55,10 @@ func _update_positions(_delta: float):
 		up = a.global_basis.z
 	look_at_from_position(center, b.global_position, up)
 
-	var target_b := a.to_global(separation)
-	var correction := separation * target_b.distance_to(b.global_position) * _delta
-	a.apply_central_force(-correction / 2 * a.mass)
-	b.apply_central_force(correction / 2 * b.mass)
+	#var target_b := a.to_global(separation)
+	#var correction := separation * target_b.distance_to(b.global_position) * _delta
+	#a.apply_central_force(-correction / 2 * a.mass)
+	#b.apply_central_force(correction / 2 * b.mass)
 
 func _physics_process(_delta: float) -> void:
 	_update_positions(_delta)
