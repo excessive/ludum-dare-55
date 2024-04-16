@@ -252,7 +252,7 @@ pixel_size = 0.01
 shaded = true
 double_sided = false
 text = "controls:
-mouse: LMB = grab, RMB = use, MMB = freeze
+mouse: RMB = grab, LMB = use, MMB = freeze
 keyboard: WASD + IJKL, Z=freeze, G=grab, F=use, R=rotate, space to jump
 gamepad: sticks to move/look, triggers for throttle and grab/rotate. face buttons to jump, use and freeze
 

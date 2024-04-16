@@ -129,6 +129,8 @@ static func attach_bodies(a: RigidBody3D, bodies: Array[RigidBody3D]) -> bool:
 				b.freeze = a.freeze
 			con._constraints.append(constraint)
 			#print("attached %s and %s" % [a.name, b.name])
+			a.continuous_cd = true
+			b.continuous_cd = true
 			attached = true
 	return attached
 
