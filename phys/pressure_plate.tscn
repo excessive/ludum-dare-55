@@ -53,6 +53,7 @@ axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 mass = 0.5
+continuous_cd = true
 linear_damp = 1.0
 angular_damp = 4.0
 constant_force = Vector3(2.08165e-12, 10, 2.08165e-12)
