@@ -24,6 +24,7 @@ var _grabbed_continuous_cd := false
 var _controlling_path: NodePath
 var _control_locator: Node3D
 var _control_reference: Basis
+var _control_base: Basis
 
 @onready var _last_position = global_position
 
@@ -139,7 +140,7 @@ func drop_control():
 		_control_locator.queue_free()
 		_control_locator = null
 
-func _try_control(controlling: RigidBody3D, delta: float) -> bool:
+func _try_control(controlling: RigidBody3D, _delta: float) -> bool:
 	if not controlling:
 		return false
 
@@ -147,21 +148,23 @@ func _try_control(controlling: RigidBody3D, delta: float) -> bool:
 	var vehicle_control := Vector3(
 		input.get_axis("move_left", "move_right"),
 		input.get_axis("reverse", "throttle"),
-		input.get_axis("crouch", "jump"),
+		input.get_axis("thrust_down", "thrust_up"),
 	)
 
-	var view := input.get_vector("view_left", "view_right", "view_up", "view_down").limit_length()
-	var rot_control := Vector3(
-		-view.y, # pitch
-		-view.x, # yaw
-		0 # roll
-	)
-	if not Contraption.control(controlling, self, _control_reference, vehicle_control, rot_control):
+	var sens := rad_to_deg(turn_speed * TAU * _delta)
+	var rot_control := Vector3()
+	if input.is_action_pressed("freeze"):
+		var view := input.get_vector("view_left", "view_right", "view_up", "view_down")
+		target_rotate(view * sens)
+	else:
+		rot_control = Vector3(
+			input.get_axis("pitch_up", "pitch_down"),
+			clampf(input.get_axis("yaw_right", "yaw_left") + input.get_axis("roll_cw", "roll_ccw"), -1.0, 1.0),
+			input.get_axis("roll_cw", "roll_ccw")
+		)
+	if not Contraption.control(controlling, self, _control_reference, _control_base, vehicle_control, rot_control):
 		drop_control()
 		return false
-
-	#var sens := rad_to_deg(turn_speed * TAU * delta)
-	#target_rotate(view * sens)
 
 	camera.target_transform = Transform3D(_closest_alignment(global_basis, controlling.global_basis) * _cam_outer * _cam_inner, global_position)
 
@@ -195,7 +198,8 @@ func _try_use(delta: float) -> bool:
 			_control_locator.add_child(remote)
 			remote.position *= 0
 			_controlling_path = controlling.get_path()
-			_control_reference = _closest_alignment(global_basis * _cam_outer * _cam_inner, controlling.global_basis) * controlling.global_basis.inverse()
+			_control_reference = _closest_alignment(global_basis * _cam_outer * _cam_inner, controlling.global_basis)
+			_control_base = controlling.global_basis
 			return true
 
 	var item := _get_nearest_item("usable")
@@ -309,15 +313,10 @@ func _try_rotate_item(view: Vector2, do_roll := false, speed: float = 1.0):
 	var total_mass := 0.0
 	var bodies := Contraption.get_all_bodies(item)
 
-	#var total_inertia := Vector3()
 	for body in bodies:
 		total_mass += body.mass
-		#if body.inertia:
-			#total_inertia += body.inertia
-		#else:
-			#total_inertia += _get_inertia(body)
 
-	var force := 20.0 + total_mass * 50.0
+	var force := 25.0 + total_mass * 75.0
 	item.apply_torque(camera.global_basis * Vector3(pitch, yaw, roll) * force * speed)
 
 func _get_inertia(item: RigidBody3D) -> Vector3:

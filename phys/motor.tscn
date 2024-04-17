@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://ym0vu1hbw3fr"]
+[gd_scene load_steps=7 format=3 uid="uid://b8wn885578i47"]
 
 [ext_resource type="Script" path="res://phys/wheel.gd" id="1_1hg2h"]
 [ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="2_eotq1"]
@@ -16,7 +16,14 @@ radial_segments = 16
 [sub_resource type="BoxShape3D" id="BoxShape3D_dbxrv"]
 size = Vector3(1, 1, 2)
 
-[node name="wheel" type="VehicleBody3D" groups=["build", "control", "usable"]]
+[sub_resource type="CylinderMesh" id="CylinderMesh_fx58h"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.2
+radial_segments = 16
+cap_top = false
+
+[node name="motor" type="VehicleBody3D" groups=["build", "control", "usable"]]
 mass = 2.0
 angular_damp = 2.0
 script = ExtResource("1_1hg2h")
@@ -24,6 +31,7 @@ script = ExtResource("1_1hg2h")
 [node name="spinny" type="VehicleWheel3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, 8.74226e-08, 0, 1, 0, -8.74226e-08, 0, -1, 0, -0.197248, 0)
+use_as_traction = true
 wheel_roll_influence = 0.05
 wheel_friction_slip = 1.5
 suspension_stiffness = 200.0
@@ -53,6 +61,12 @@ script = ExtResource("2_eotq1")
 
 [node name="Node3D" type="Node3D" parent="Smoothing"]
 
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Smoothing/Node3D"]
+transform = Transform3D(-4.37114e-08, 1.31134e-07, 1, -1, -5.73205e-15, -4.37114e-08, 0, -1, 1.31134e-07, 0, 0.258948, -0.902813)
+layers = 2
+mesh = SubResource("CylinderMesh_fx58h")
+skeleton = NodePath("")
+
 [node name="CSGBox3D" type="CSGBox3D" parent="Smoothing/Node3D"]
 layers = 2
 size = Vector3(1, 1, 2)
@@ -62,25 +76,25 @@ layers = 2
 operation = 2
 size = Vector3(0.6, 1.0979, 2.11548)
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="Smoothing/Node3D/CSGBox3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0584085, 0)
+[node name="CSGBox3D6" type="CSGBox3D" parent="Smoothing/Node3D/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.334353, 0.0871582)
 layers = 2
-operation = 2
-size = Vector3(0.788086, 0.20517, 2.11548)
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="Smoothing/Node3D/CSGBox3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.143158, 0.572708)
-layers = 2
-operation = 2
-size = Vector3(1.97363, 0.243347, 0.527252)
+size = Vector3(0.928711, 0.316559, 1.78467)
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="Smoothing/Node3D/CSGBox3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.143, -0.573)
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 1.20073)
 layers = 2
 operation = 2
-size = Vector3(1.97363, 0.243347, 0.527252)
+size = Vector3(2, 0.5, 0.5)
 
-[node name="CSGBox3D6" type="CSGBox3D" parent="Smoothing/Node3D/CSGBox3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.334353, -0.00189182)
+[node name="CSGBox3D3" type="CSGBox3D" parent="Smoothing/Node3D/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 2.08165e-12, 0.5, -1)
 layers = 2
-size = Vector3(0.928711, 0.316559, 1.97717)
+operation = 2
+size = Vector3(1, 0.25, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Smoothing/Node3D/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 2.08165e-12, -0.5, -1)
+layers = 2
+operation = 2
+size = Vector3(1, 0.25, 1)

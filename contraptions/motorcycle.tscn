@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dwfgw3tn22cia" path="res://phys/stick.tscn" id="2_tauhv"]
 [ext_resource type="PackedScene" uid="uid://2agrpi173fjt" path="res://phys/steering.tscn" id="3_wobve"]
 [ext_resource type="PackedScene" uid="uid://dc840yjhiuclo" path="res://phys/gyro.tscn" id="4_d4m0g"]
-[ext_resource type="PackedScene" uid="uid://b8wn885578i47" path="res://phys/wheel.tscn" id="5_312re"]
+[ext_resource type="PackedScene" uid="uid://b8wn885578i47" path="res://phys/motor.tscn" id="5_312re"]
 
 [node name="Motorcycle" type="Node3D"]
 script = ExtResource("1_8upjg")

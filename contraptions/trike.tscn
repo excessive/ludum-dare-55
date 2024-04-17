@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://phys/autobuild.gd" id="1_ipq6l"]
 [ext_resource type="PackedScene" uid="uid://2agrpi173fjt" path="res://phys/steering.tscn" id="2_v8tqn"]
 [ext_resource type="PackedScene" uid="uid://dy34a7txdnetm" path="res://phys/box.tscn" id="3_1w1hx"]
-[ext_resource type="PackedScene" uid="uid://b8wn885578i47" path="res://phys/wheel.tscn" id="4_cl2ww"]
+[ext_resource type="PackedScene" uid="uid://b8wn885578i47" path="res://phys/motor.tscn" id="4_cl2ww"]
 
 [node name="Autobuild" type="Node3D"]
 script = ExtResource("1_ipq6l")

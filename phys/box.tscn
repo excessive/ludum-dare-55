@@ -1,6 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dy34a7txdnetm"]
+[gd_scene load_steps=5 format=3 uid="uid://dy34a7txdnetm"]
 
 [ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="1_phna8"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ihwep"]
+friction = 0.9
+bounce = 0.1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ktop3"]
 size = Vector3(1, 0.25, 4)
@@ -9,6 +13,7 @@ size = Vector3(1, 0.25, 4)
 size = Vector3(1, 0.25, 4)
 
 [node name="box" type="RigidBody3D" groups=["build"]]
+physics_material_override = SubResource("PhysicsMaterial_ihwep")
 angular_damp = 2.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

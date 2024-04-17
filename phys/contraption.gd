@@ -62,7 +62,7 @@ static func freeze(item: RigidBody3D, force_unfreeze := false):
 		body.linear_velocity *= 0
 		body.angular_velocity *= 0
 
-static func control(item: RigidBody3D, user: Node, reference: Basis, input: Vector3, rot_input: Vector3) -> bool:
+static func control(item: RigidBody3D, user: Node, reference: Basis, base: Basis, input: Vector3, rot_input: Vector3) -> bool:
 	var controlled := false
 
 	var bodies := get_all_bodies(item)
@@ -70,7 +70,9 @@ static func control(item: RigidBody3D, user: Node, reference: Basis, input: Vect
 	for body in bodies:
 		body_bound = body_bound.expand(body.global_position)
 
-	var body_reference := Transform3D(reference * item.global_basis, body_bound.get_center())
+	var control_relative := item.global_basis * base.inverse()
+
+	var body_reference := Transform3D(control_relative * reference, body_bound.get_center())
 	for body in bodies:
 		if not body.is_in_group("control"):
 			continue

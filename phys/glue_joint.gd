@@ -5,12 +5,10 @@ var display := MeshInstance3D.new()
 
 # used for safety detach and display
 var reference_distance := 0.0
-var separation: Vector3
 
 func _init(a: RigidBody3D, b: RigidBody3D) -> void:
 	var cap := CapsuleMesh.new()
 	reference_distance = a.global_position.distance_to(b.global_position)
-	separation = a.to_local(b.global_position)
 	cap.height = reference_distance
 	cap.radius = 0.05
 	display.mesh = cap
@@ -40,8 +38,7 @@ func _ready() -> void:
 	lock.set("angular_limit/enable", true)
 	lock.set("angular_limit/lower_limit", 0)
 	lock.set("angular_limit/upper_limit", 0)
-	lock.set("angular_limit/relaxation", 0.25)
-
+	
 func _update_positions(_delta: float):
 	var a: RigidBody3D = get_node_or_null(node_a)
 	var b: RigidBody3D = get_node_or_null(node_b)
@@ -57,24 +54,6 @@ func _update_positions(_delta: float):
 	if angle < 0.01:
 		up = a.global_basis.z
 	look_at_from_position(center, b.global_position, up)
-
-	# you can't really get to this kind of speed unless something is wrong
-	a.linear_damp = 0
-	if a.linear_velocity.length() > 40:
-		#print("slow down!")
-		a.linear_damp = 5
-	b.linear_damp = 0
-	if b.linear_velocity.length() > 40:
-		#print("slow down!")
-		b.linear_damp = 5
 #
-	#if a.linear_velocity.length() > 5:
-		#print(a.linear_velocity.length())
-
-	#var target_b := a.to_global(separation)
-	#var correction := separation * target_b.distance_to(b.global_position) * _delta
-	#a.apply_central_force(-correction / 2 * a.mass)
-	#b.apply_central_force(correction / 2 * b.mass)
-
 func _physics_process(_delta: float) -> void:
 	_update_positions(_delta)

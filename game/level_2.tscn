@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://sj58vpi08n48" path="res://contraptions/simple_car.tscn" id="10_mbp4g"]
 [ext_resource type="PackedScene" uid="uid://2agrpi173fjt" path="res://phys/steering.tscn" id="10_pyoym"]
 [ext_resource type="PackedScene" uid="uid://dy34a7txdnetm" path="res://phys/box.tscn" id="11_hl04h"]
-[ext_resource type="PackedScene" uid="uid://b8wn885578i47" path="res://phys/wheel.tscn" id="12_agnah"]
+[ext_resource type="PackedScene" uid="uid://b8wn885578i47" path="res://phys/motor.tscn" id="12_agnah"]
 [ext_resource type="PackedScene" uid="uid://dwfgw3tn22cia" path="res://phys/stick.tscn" id="14_5jigr"]
 [ext_resource type="PackedScene" uid="uid://c75b7ebrxdgow" path="res://contraptions/turbo.tscn" id="16_62nuh"]
 
