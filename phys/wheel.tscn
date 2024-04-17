@@ -33,6 +33,7 @@ unique_name_in_owner = true
 transform = Transform3D(-1, 0, 8.74226e-08, 0, 1, 0, -8.74226e-08, 0, -1, 0, -0.197248, 0)
 use_as_traction = true
 wheel_roll_influence = 0.05
+wheel_friction_slip = 1.5
 suspension_stiffness = 200.0
 
 [node name="Smoothing" type="Node3D" parent="spinny"]
