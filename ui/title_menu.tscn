@@ -177,7 +177,6 @@ metadata/_edit_lock_ = true
 [node name="RigidBody2D3" type="RigidBody2D" parent="center_anchor/StaticBody2D"]
 position = Vector2(-72, -169)
 rotation = 0.059076
-scale = Vector2(1, 1)
 linear_damp = 1.0
 script = ExtResource("6_psyt5")
 

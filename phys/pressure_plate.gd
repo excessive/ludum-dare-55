@@ -20,6 +20,8 @@ func _ready() -> void:
 		if target.has_method("_on_pressure_plate_released"):
 			released.connect(target._on_pressure_plate_released)
 
+	_switch.add_collision_exception_with(self)
+
 func _on_press(node: Node3D):
 	if node != _switch:
 		return

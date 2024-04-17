@@ -62,16 +62,21 @@ static func freeze(item: RigidBody3D, force_unfreeze := false):
 		body.linear_velocity *= 0
 		body.angular_velocity *= 0
 
-static func control(item: RigidBody3D, user: Node, input: Vector3) -> bool:
+static func control(item: RigidBody3D, user: Node, reference: Basis, input: Vector3) -> bool:
 	var controlled := false
 
 	var bodies := get_all_bodies(item)
+	var body_bound := AABB(item.global_position, Vector3())
+	for body in bodies:
+		body_bound = body_bound.expand(body.global_position)
+
+	var body_reference := Transform3D(reference * item.global_basis, body_bound.get_center())
 	for body in bodies:
 		if not body.is_in_group("control"):
 			continue
 
 		if body.has_signal("control"):
-			body.emit_signal("control", user, input)
+			body.emit_signal("control", user, body_reference, input)
 			controlled = true
 		else:
 			print("%s is controllable, but doesn't have a control signal defined" % item.name)

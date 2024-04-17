@@ -20,7 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://b15ybaq5lrclj" path="res://contraptions/trike.tscn" id="18_v1bew"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8nua6"]
-size = Vector3(104, 50, 104)
+size = Vector3(175, 120, 175)
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_sg3cg")
@@ -52,6 +52,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.5929, 0)
 script = ExtResource("5_a2myf")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 34.791, 0)
 shape = SubResource("BoxShape3D_8nua6")
 
 [node name="thruster" parent="." instance=ExtResource("7_avf44")]
@@ -348,7 +349,7 @@ font_size = 64
 outline_size = 24
 
 [node name="Autobuild3" parent="." instance=ExtResource("17_xqs2r")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.0604, 1.93252, -34.4376)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.33312, 1.78971, -8.5333)
 
 [node name="Autobuild4" parent="." instance=ExtResource("18_v1bew")]
 transform = Transform3D(-0.302037, 0, -0.953296, 0, 1, 0, 0.953296, 0, -0.302037, 20.978, 1.74462, 3.62656)

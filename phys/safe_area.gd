@@ -6,8 +6,11 @@ func _on_body_entered(node: Node3D):
 	_spawn_transforms[node.get_path()] = node.global_transform
 
 func _on_body_exited(node: Node3D):
-	await get_tree().process_frame
 	var path := node.get_path()
+	await get_tree().process_frame
+	if not node: # freed before the await completed
+		_spawn_transforms.erase(path)
+		return
 	if _spawn_transforms.has(path):
 		node.global_transform = _spawn_transforms[path]
 		if node is CharacterBody3D:

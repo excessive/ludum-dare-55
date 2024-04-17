@@ -4,8 +4,6 @@
 [ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="2_m0n51"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3vkph"]
-friction = 0.9
-rough = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_woojd"]
 size = Vector3(2, 1, 4)

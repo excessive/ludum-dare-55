@@ -23,6 +23,7 @@ var _grabbed_continuous_cd := false
 
 var _controlling_path: NodePath
 var _control_locator: Node3D
+var _control_reference: Basis
 
 @onready var _last_position = global_position
 
@@ -45,6 +46,7 @@ func _on_reset():
 func drop_item():
 	var item: RigidBody3D = get_node_or_null(_grabbed_path)
 	if item:
+		item.inertia = Vector3.ZERO
 		item.linear_damp = 0
 		item.gravity_scale = 1
 		item.continuous_cd = _grabbed_continuous_cd
@@ -88,7 +90,7 @@ func _input(event: InputEvent) -> void:
 		var sens := turn_speed * TAU * mouse_sensitivity
 		var controlling := get_node_or_null(_controlling_path)
 		if input.is_action_pressed("rotate") and not controlling:
-			_try_rotate_item(event.relative * sens, 0.01)
+			_try_rotate_item(event.relative * sens, input.is_action_pressed("roll"), 0.01)
 		else:
 			target_rotate(event.relative * sens)
 
@@ -144,13 +146,12 @@ func _try_control(controlling: RigidBody3D, delta: float) -> bool:
 	var input := focus.get_player_input()
 	var vehicle_control := Vector3(
 		input.get_axis("move_left", "move_right"),
-		Input.get_axis("reverse", "throttle"),
-		0
+		input.get_axis("reverse", "throttle"),
+		input.get_axis("crouch", "jump"),
 	)
-	if not Contraption.control(controlling, self, vehicle_control):
+	if not Contraption.control(controlling, self, _control_reference, vehicle_control):
 		drop_control()
 		return false
-
 
 	var view := input.get_vector("view_left", "view_right", "view_up", "view_down").limit_length()
 	var sens := rad_to_deg(turn_speed * TAU * delta)
@@ -188,6 +189,7 @@ func _try_use(delta: float) -> bool:
 			_control_locator.add_child(remote)
 			remote.position *= 0
 			_controlling_path = controlling.get_path()
+			_control_reference = _closest_alignment(global_basis * _cam_outer * _cam_inner, controlling.global_basis) * controlling.global_basis.inverse()
 			return true
 
 	var item := _get_nearest_item("usable")
@@ -225,6 +227,7 @@ func _try_grab() -> bool:
 	if item.has_signal("reset"):
 		item.emit_signal("reset")
 
+	item.inertia = Vector3.ONE
 	item.linear_velocity *= 0
 	item.angular_velocity *= 0
 	item.gravity_scale = 0
@@ -254,8 +257,12 @@ func _try_move(delta: float):
 	var new_pos := origin + camera.project_ray_normal(center) * _grabbed_last_dist
 	var smooth_pos := old_pos.lerp(new_pos, 1.0 - exp(-5 * delta))
 	grabbed.angular_velocity *= exp(-5 * delta)
-	grabbed.linear_velocity = (smooth_pos - old_pos) / delta + velocity + get_platform_velocity()
-	grabbed.linear_damp = 2
+	grabbed.linear_velocity *= exp(-5 * delta)
+	var total_mass := 0.0
+	var bodies := Contraption.get_all_bodies(grabbed)
+	for body in bodies:
+		total_mass += body.mass
+	grabbed.apply_central_force((maxf(5.0, smoothstep(0, 5, total_mass) * 15.0) + 0.85 * total_mass) * ((smooth_pos - old_pos) / delta))
 
 	if focus.get_player_input().is_action_pressed("rotate"):
 		return
@@ -281,16 +288,34 @@ func _closest_alignment(from_basis: Basis, to_basis: Basis) -> Basis:
 func calc_angular_velocity(from_basis: Basis, to_basis: Basis) -> Vector3:
 	return (to_basis * from_basis.inverse()).get_euler()
 
-func _try_rotate_item(view: Vector2, speed: float = 1.0):
+func _try_rotate_item(view: Vector2, do_roll := false, speed: float = 1.0):
 	var item := get_node_or_null(_grabbed_path) as RigidBody3D
 	if not item or not view:
 		return
-	var ax := camera.global_basis.x
-	var ay := camera.global_basis.y
+	var pitch := view.y
+	var yaw := view.x
+	var roll := 0.0
+	if do_roll:
+		roll = -yaw
+		yaw = 0
 	# this can't be done in _input, so defer it
 	await get_tree().physics_frame
-	item.global_rotate(ax, view.y * speed)
-	item.global_rotate(ay, view.x * speed)
+	var total_mass := 0.0
+	var bodies := Contraption.get_all_bodies(item)
+
+	#var total_inertia := Vector3()
+	for body in bodies:
+		total_mass += body.mass
+		#if body.inertia:
+			#total_inertia += body.inertia
+		#else:
+			#total_inertia += _get_inertia(body)
+
+	var force := 20.0 + total_mass * 50.0
+	item.apply_torque(camera.global_basis * Vector3(pitch, yaw, roll) * force * speed)
+
+func _get_inertia(item: RigidBody3D) -> Vector3:
+	return PhysicsServer3D.body_get_direct_state(item.get_rid()).inverse_inertia.inverse()
 
 func _has_script_vars(object: Object) -> bool:
 	for prop in object.get_property_list():
@@ -395,7 +420,7 @@ func _physics_process(delta: float) -> void:
 	_try_move(delta)
 
 	if input.is_action_pressed("rotate"):
-		_try_rotate_item(view * sens, delta)
+		_try_rotate_item(view * sens, input.is_action_pressed("roll"), delta)
 	else:
 		target_rotate(view * sens)
 

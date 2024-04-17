@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://b0s7vs1j5g0ik"]
+[gd_scene load_steps=13 format=3 uid="uid://b0s7vs1j5g0ik"]
 
 [ext_resource type="Script" path="res://phys/pressure_plate.gd" id="1_ycm6w"]
+[ext_resource type="Script" path="res://phys/contact_magnet.gd" id="2_4qb0f"]
 [ext_resource type="Texture2D" uid="uid://dj0k8hq3r082" path="res://materials/textures/test_grid_1m_grey.png" id="2_sctoo"]
 [ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="2_u03xr"]
 [ext_resource type="Texture2D" uid="uid://bpbnlcutil243" path="res://materials/textures/test_grid_1m_normal.png" id="3_llmsy"]
@@ -8,6 +9,8 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_muknn"]
 size = Vector3(1, 0.05, 1)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xhbyd"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mgj2d"]
 margin = 0.0
@@ -29,8 +32,10 @@ size = Vector3(1, 0.1, 1)
 margin = 0.0
 size = Vector3(1, 0.0661774, 1)
 
-[node name="pressure_plate" type="StaticBody3D"]
+[node name="pressure_plate" type="AnimatableBody3D"]
+collision_layer = 2
 collision_mask = 0
+sync_to_physics = false
 script = ExtResource("1_ycm6w")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -41,22 +46,26 @@ shape = SubResource("BoxShape3D_muknn")
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
 node_a = NodePath("..")
 node_b = NodePath("../switch")
-linear_limit/upper_distance = 0.1
+linear_limit/upper_distance = 0.12
 linear_limit/lower_distance = 2.13163e-14
 
 [node name="switch" type="RigidBody3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.1, 2.08165e-12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.119746, 2.08165e-12)
 collision_layer = 3
 collision_mask = 3
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 mass = 0.5
-continuous_cd = true
-linear_damp = 1.0
-angular_damp = 4.0
+physics_material_override = SubResource("PhysicsMaterial_xhbyd")
+gravity_scale = 0.75
+can_sleep = false
+max_contacts_reported = 8
+contact_monitor = true
+angular_damp = 5.0
 constant_force = Vector3(2.08165e-12, 10, 2.08165e-12)
+script = ExtResource("2_4qb0f")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="switch"]
 shape = SubResource("BoxShape3D_mgj2d")
@@ -72,7 +81,6 @@ skeleton = NodePath("../../..")
 
 [node name="trigger" type="Area3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.005, 2.08165e-12)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="trigger"]
 shape = SubResource("BoxShape3D_fc5ak")
