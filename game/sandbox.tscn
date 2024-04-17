@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c60glvblss2yp"]
+[gd_scene load_steps=22 format=3 uid="uid://c60glvblss2yp"]
 
 [ext_resource type="PackedScene" uid="uid://de0xrdyh6s7tl" path="res://phys/player.tscn" id="1_8nkj4"]
 [ext_resource type="Script" path="res://phys/contraption.gd" id="1_sg3cg"]
@@ -18,6 +18,8 @@
 [ext_resource type="FontFile" uid="uid://qf7622sypprq" path="res://addons/exmoe_tools/fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-SemiBold.ttf" id="16_mxuih"]
 [ext_resource type="PackedScene" uid="uid://c75b7ebrxdgow" path="res://contraptions/turbo.tscn" id="17_xqs2r"]
 [ext_resource type="PackedScene" uid="uid://b15ybaq5lrclj" path="res://contraptions/trike.tscn" id="18_v1bew"]
+[ext_resource type="PackedScene" uid="uid://ch1k3oodt0rsv" path="res://contraptions/motorcycle.tscn" id="19_1d36c"]
+[ext_resource type="PackedScene" uid="uid://dc840yjhiuclo" path="res://phys/gyro.tscn" id="20_utjje"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8nua6"]
 size = Vector3(175, 120, 175)
@@ -359,3 +361,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.1989, 6.9819, -19.9475)
 
 [node name="Autobuild6" parent="." instance=ExtResource("13_t88yy")]
 transform = Transform3D(0.158382, 0, 0.987378, 0, 1, 0, -0.987378, 0, 0.158382, 40.1297, 7.01981, 10.7373)
+
+[node name="Motorcycle" parent="." instance=ExtResource("19_1d36c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.74828, 1.05116, -27.7178)
+
+[node name="gyro" parent="." instance=ExtResource("20_utjje")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.37173, 1.42531, -23.9182)
+
+[node name="gyro2" parent="." instance=ExtResource("20_utjje")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.02845, 1.42531, -21.734)
+
+[node name="gyro3" parent="." instance=ExtResource("20_utjje")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.21107, 1.42531, -21.3385)
+
+[node name="gyro4" parent="." instance=ExtResource("20_utjje")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.35455, 1.42531, -19.5057)
+
+[node name="gyro5" parent="." instance=ExtResource("20_utjje")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0879, 1.42531, -22.3526)

@@ -149,13 +149,19 @@ func _try_control(controlling: RigidBody3D, delta: float) -> bool:
 		input.get_axis("reverse", "throttle"),
 		input.get_axis("crouch", "jump"),
 	)
-	if not Contraption.control(controlling, self, _control_reference, vehicle_control):
+
+	var view := input.get_vector("view_left", "view_right", "view_up", "view_down").limit_length()
+	var rot_control := Vector3(
+		-view.y, # pitch
+		-view.x, # yaw
+		0 # roll
+	)
+	if not Contraption.control(controlling, self, _control_reference, vehicle_control, rot_control):
 		drop_control()
 		return false
 
-	var view := input.get_vector("view_left", "view_right", "view_up", "view_down").limit_length()
-	var sens := rad_to_deg(turn_speed * TAU * delta)
-	target_rotate(view * sens)
+	#var sens := rad_to_deg(turn_speed * TAU * delta)
+	#target_rotate(view * sens)
 
 	camera.target_transform = Transform3D(_closest_alignment(global_basis, controlling.global_basis) * _cam_outer * _cam_inner, global_position)
 

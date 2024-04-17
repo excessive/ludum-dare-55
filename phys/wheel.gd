@@ -1,6 +1,6 @@
 extends VehicleBody3D
 
-signal control(user: Node3D, global_reference: Transform3D, input: Vector3)
+signal control(user: Node3D, global_reference: Transform3D, input: Vector3, rot_input: Vector3)
 signal use(user: Node3D)
 signal reset
 
@@ -22,7 +22,7 @@ func _on_use(_user: Node3D):
 	active = 10.0
 	engine_force = torque
 
-func _on_control(_user: Node3D, _global_reference: Transform3D, input: Vector3):
+func _on_control(_user: Node3D, _global_reference: Transform3D, input: Vector3, _rot_input: Vector3):
 	var tick := get_physics_process_delta_time()
 	active = tick
 	var weight := 1.0 - exp(-3.0 * tick)

@@ -1,45 +1,32 @@
 extends RigidBody3D
 
-signal control(user: Node3D, global_reference: Transform3D, input: Vector3)
+signal reset
+signal control(user: Node3D, global_reference: Transform3D, input: Vector3, rot_input: Vector3)
 
-@export var rotation_force := 100
+var _target_control_force := Vector3()
+var _control_force := Vector3()
 
 func _ready() -> void:
 	control.connect(_on_control)
+	reset.connect(_on_reset)
 
-func calc_angular_velocity(from_basis: Basis, to_basis: Basis) -> Vector3:
-	return (to_basis * from_basis.inverse()).get_euler()
+func _on_reset():
+	_control_force = Vector3()
+	_target_control_force = Vector3()
 
-func _align_to_forward(forward: Vector3, up: Vector3) -> Basis:
-	if forward.is_zero_approx(): # prevent zero forward vector
-		forward -= global_basis.z * 0.001
-	return Basis(
-		forward.cross(up).normalized(),
-		up,
-		-forward.normalized()
-	).orthonormalized()
-
-func _on_control(_user: Node3D, _global_reference: Transform3D, _input: Vector3):
+func _on_control(_user: Node3D, _global_reference: Transform3D, _input: Vector3, rot: Vector3):
 	var bodies := Contraption.get_all_bodies(self)
 	var total_mass := 0.0
 	for body in bodies:
 		total_mass += body.mass
 
-	var vp := get_viewport()
-	var center := vp.get_visible_rect().get_center()
-	var looking_at := vp.get_camera_3d().project_ray_normal(center)
-	looking_at = looking_at.lerp(-global_basis.z, 0.25)
-	#looking_at = global_basis.z
-	var target_basis := Basis(
-		Vector3.UP.cross(looking_at),
-		Vector3.UP,
-		looking_at,
-	).orthonormalized()
-	target_basis = Basis.looking_at(looking_at)
-	var av := calc_angular_velocity(global_basis, target_basis)
-	#av *= total_mass
-	av *= 50
-	apply_torque(av)
+	_target_control_force = Vector3(-rot.x, rot.y, rot.z) * 0.5
+	_control_force.x = minf(absf(_control_force.x), absf(_target_control_force.x)) * signf(_target_control_force.x)
+	_control_force.y = minf(absf(_control_force.y), absf(_target_control_force.y)) * signf(_target_control_force.y)
+	_control_force.z = minf(absf(_control_force.z), absf(_target_control_force.z)) * signf(_target_control_force.z)
+	var av := global_basis * (rotation * -Vector3(1, 0, 1) + _control_force)
+	av *= total_mass * 0.25
+	apply_torque_impulse(av)
 
 func _closest_vector(b: Basis, v: Vector3) -> Vector3:
 	var cmp := Vector3(b.x.dot(v), b.y.dot(v), b.z.dot(v))
@@ -50,3 +37,6 @@ func _closest_alignment(from_basis: Basis, to_basis: Basis) -> Basis:
 	var cx := _closest_vector(to_basis, from_basis.x)
 	var cy := _closest_vector(to_basis, from_basis.y)
 	return Basis(cx, cy, cx.cross(cy)).orthonormalized()
+
+func _physics_process(delta: float) -> void:
+	_control_force = _control_force.lerp(_target_control_force, 1.0 - exp(-1.0 * delta))

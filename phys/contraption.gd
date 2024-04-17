@@ -62,7 +62,7 @@ static func freeze(item: RigidBody3D, force_unfreeze := false):
 		body.linear_velocity *= 0
 		body.angular_velocity *= 0
 
-static func control(item: RigidBody3D, user: Node, reference: Basis, input: Vector3) -> bool:
+static func control(item: RigidBody3D, user: Node, reference: Basis, input: Vector3, rot_input: Vector3) -> bool:
 	var controlled := false
 
 	var bodies := get_all_bodies(item)
@@ -76,7 +76,7 @@ static func control(item: RigidBody3D, user: Node, reference: Basis, input: Vect
 			continue
 
 		if body.has_signal("control"):
-			body.emit_signal("control", user, body_reference, input)
+			body.emit_signal("control", user, body_reference, input, rot_input)
 			controlled = true
 		else:
 			print("%s is controllable, but doesn't have a control signal defined" % item.name)
