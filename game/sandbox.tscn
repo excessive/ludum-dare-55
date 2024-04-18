@@ -19,7 +19,7 @@
 [ext_resource type="Script" path="res://game/save_value.gd" id="14_lex5y"]
 [ext_resource type="PackedScene" uid="uid://cnn3l47ist43j" path="res://phys/level_changer.tscn" id="15_irjsh"]
 [ext_resource type="FontFile" uid="uid://qf7622sypprq" path="res://addons/exmoe_tools/fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-SemiBold.ttf" id="16_mxuih"]
-[ext_resource type="Script" path="res://game/bounds_warning.gd" id="17_4ste8"]
+[ext_resource type="Script" path="res://ui/bounds_warning.gd" id="17_4ste8"]
 [ext_resource type="PackedScene" uid="uid://c75b7ebrxdgow" path="res://contraptions/turbo.tscn" id="17_xqs2r"]
 [ext_resource type="Theme" uid="uid://bd7gseqffsnlf" path="res://ui/main_theme.tres" id="18_6uysv"]
 [ext_resource type="PackedScene" uid="uid://b15ybaq5lrclj" path="res://contraptions/trike.tscn" id="18_v1bew"]
