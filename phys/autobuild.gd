@@ -51,7 +51,9 @@ func _process(_delta: float) -> void:
 	im.surface_add_vertex(Vector3()) # it's valid to have no connections, so silence the error
 	im.surface_add_vertex(Vector3())
 
+	var i := -1
 	for connection in build_list:
+		i += 1
 		if not connection:
 			continue
 		var a := get_node_or_null(connection.node_a)
@@ -66,7 +68,7 @@ func _process(_delta: float) -> void:
 			var label: Label3D = labels[connection]
 			var ap: Vector3 = a.global_position
 			var bp: Vector3 = b.global_position
-			label.text = "%s <-> %s" % [ a.name, b.name ]
+			label.text = "%s < %d > %s" % [ a.name, i, b.name ]
 			label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 			label.no_depth_test = true
 			label.pixel_size = 0.0025
