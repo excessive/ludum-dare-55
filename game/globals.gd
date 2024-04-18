@@ -25,6 +25,13 @@ func restart():
 		var mobile := ["--rendering-method", "mobile"]
 		if not args.has("--rendering-method"):
 			args.append_array(mobile)
+		set_flag("mode_changed_for_mobile", true)
+	else:
+		var idx := args.find("--rendering_method")
+		if idx >= 0 and args.size() >= idx + 2:
+			args.remove_at(idx+1)
+			args.remove_at(idx)
+		set_flag("mode_changed_for_mobile", false)
 	OS.set_restart_on_exit(true, args)
 	get_tree().quit()
 
@@ -39,9 +46,11 @@ func _ready() -> void:
 		print("new save data")
 
 	var args := OS.get_cmdline_args()
+	print(args)
 	if check_flag("mobile") and not args.has("--rendering-method"):
-		await get_tree().process_frame
-		restart()
+		if not check_flag("mode_changed_for_mobile"):
+			await get_tree().process_frame
+			restart()
 
 func clear_save():
 	print("clearing save data")
