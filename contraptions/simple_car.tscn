@@ -1,13 +1,34 @@
-[gd_scene load_steps=5 format=3 uid="uid://sj58vpi08n48"]
+[gd_scene load_steps=10 format=3 uid="uid://sj58vpi08n48"]
 
 [ext_resource type="Script" path="res://phys/autobuild.gd" id="1_dlmym"]
 [ext_resource type="PackedScene" uid="uid://2agrpi173fjt" path="res://phys/steering.tscn" id="2_an8g1"]
+[ext_resource type="Script" path="res://phys/build_connection.gd" id="2_wfyvu"]
 [ext_resource type="PackedScene" uid="uid://dy34a7txdnetm" path="res://phys/box.tscn" id="3_5l4li"]
 [ext_resource type="PackedScene" uid="uid://b8wn885578i47" path="res://phys/motor.tscn" id="4_8mcio"]
 
+[sub_resource type="Resource" id="Resource_dwkk2"]
+script = ExtResource("2_wfyvu")
+node_a = NodePath("box")
+node_b = NodePath("steering")
+
+[sub_resource type="Resource" id="Resource_350yl"]
+script = ExtResource("2_wfyvu")
+node_a = NodePath("box")
+node_b = NodePath("steering2")
+
+[sub_resource type="Resource" id="Resource_ieb8g"]
+script = ExtResource("2_wfyvu")
+node_a = NodePath("box")
+node_b = NodePath("wheel")
+
+[sub_resource type="Resource" id="Resource_6pdl8"]
+script = ExtResource("2_wfyvu")
+node_a = NodePath("box")
+node_b = NodePath("wheel2")
+
 [node name="Autobuild" type="Node3D"]
 script = ExtResource("1_dlmym")
-build_root = NodePath("box")
+build_list = Array[ExtResource("2_wfyvu")]([SubResource("Resource_dwkk2"), SubResource("Resource_350yl"), SubResource("Resource_ieb8g"), SubResource("Resource_6pdl8")])
 
 [node name="steering" parent="." instance=ExtResource("2_an8g1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.983274, 0, -1.8802)

@@ -28,11 +28,6 @@ func restart():
 	OS.set_restart_on_exit(true, args)
 	get_tree().quit()
 
-func _enter_tree() -> void:
-	var args := OS.get_cmdline_args()
-	if check_flag("mobile") and not args.has("--rendering-method"):
-		restart()
-
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
@@ -42,6 +37,11 @@ func _ready() -> void:
 		print("loaded")
 	else:
 		print("new save data")
+
+	var args := OS.get_cmdline_args()
+	if check_flag("mobile") and not args.has("--rendering-method"):
+		await get_tree().process_frame
+		restart()
 
 func clear_save():
 	print("clearing save data")
@@ -55,3 +55,13 @@ func save():
 
 func _exit_tree() -> void:
 	save()
+
+var show_fps := false
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_F1:
+		show_fps = not show_fps
+
+func _process(_delta: float) -> void:
+	if show_fps:
+		DD.set_text("FPS %d" % Engine.get_frames_per_second())

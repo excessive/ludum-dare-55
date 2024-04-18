@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bv21rw6f7mgku"]
+[gd_scene load_steps=8 format=3 uid="uid://bv21rw6f7mgku"]
 
 [ext_resource type="Script" path="res://phys/trigger_door.gd" id="1_i6esu"]
+[ext_resource type="Material" uid="uid://d1dcxbgx8kga7" path="res://materials/test_grid_grey.tres" id="2_38ypw"]
 [ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="2_uhogx"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kx2tm"]
@@ -24,6 +25,7 @@ script = ExtResource("1_i6esu")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 3, 2.08165e-12)
 use_collision = true
 size = Vector3(6, 6, 1)
+material = ExtResource("2_38ypw")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="frame"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -1.5, 2.08165e-12)

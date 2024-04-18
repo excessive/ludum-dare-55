@@ -15,6 +15,7 @@ energy_multiplier = 4.0
 
 [sub_resource type="Sky" id="Sky_bvtvx"]
 sky_material = SubResource("PhysicalSkyMaterial_c5qv6")
+radiance_size = 2
 
 [sub_resource type="Environment" id="Environment_lipqr"]
 background_mode = 2

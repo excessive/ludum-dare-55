@@ -1,14 +1,70 @@
-[gd_scene load_steps=6 format=3 uid="uid://c75b7ebrxdgow"]
+[gd_scene load_steps=18 format=3 uid="uid://c75b7ebrxdgow"]
 
 [ext_resource type="Script" path="res://phys/autobuild.gd" id="1_0xwsb"]
 [ext_resource type="PackedScene" uid="uid://btr2kol4d1adt" path="res://phys/thruster.tscn" id="2_03p7i"]
+[ext_resource type="Script" path="res://phys/build_connection.gd" id="2_datb4"]
 [ext_resource type="PackedScene" uid="uid://dy34a7txdnetm" path="res://phys/box.tscn" id="3_thuab"]
 [ext_resource type="PackedScene" uid="uid://dc840yjhiuclo" path="res://phys/gyro.tscn" id="4_wnx1c"]
 [ext_resource type="PackedScene" uid="uid://dwfgw3tn22cia" path="res://phys/stick.tscn" id="5_1wqc5"]
 
+[sub_resource type="Resource" id="Resource_q0806"]
+script = ExtResource("2_datb4")
+node_a = NodePath("gyro")
+node_b = NodePath("thruster_left")
+
+[sub_resource type="Resource" id="Resource_5ylgu"]
+script = ExtResource("2_datb4")
+node_a = NodePath("gyro")
+node_b = NodePath("thruster_right")
+
+[sub_resource type="Resource" id="Resource_2ie41"]
+script = ExtResource("2_datb4")
+node_a = NodePath("gyro")
+node_b = NodePath("thruster_reverse")
+
+[sub_resource type="Resource" id="Resource_p1r2b"]
+script = ExtResource("2_datb4")
+node_a = NodePath("gyro")
+node_b = NodePath("thruster_forward")
+
+[sub_resource type="Resource" id="Resource_bymwk"]
+script = ExtResource("2_datb4")
+node_a = NodePath("gyro")
+node_b = NodePath("thruster_rl")
+
+[sub_resource type="Resource" id="Resource_tk8el"]
+script = ExtResource("2_datb4")
+node_a = NodePath("gyro")
+node_b = NodePath("thruster_rr")
+
+[sub_resource type="Resource" id="Resource_55ohi"]
+script = ExtResource("2_datb4")
+node_a = NodePath("gyro")
+node_b = NodePath("thruster_fl")
+
+[sub_resource type="Resource" id="Resource_cnlov"]
+script = ExtResource("2_datb4")
+node_a = NodePath("gyro")
+node_b = NodePath("thruster_fr")
+
+[sub_resource type="Resource" id="Resource_c778e"]
+script = ExtResource("2_datb4")
+node_a = NodePath("gyro")
+node_b = NodePath("box")
+
+[sub_resource type="Resource" id="Resource_232c7"]
+script = ExtResource("2_datb4")
+node_a = NodePath("gyro")
+node_b = NodePath("stick")
+
+[sub_resource type="Resource" id="Resource_jl4ay"]
+script = ExtResource("2_datb4")
+node_a = NodePath("gyro")
+node_b = NodePath("stick2")
+
 [node name="Autobuild" type="Node3D"]
 script = ExtResource("1_0xwsb")
-build_root = NodePath("gyro")
+build_list = Array[ExtResource("2_datb4")]([SubResource("Resource_q0806"), SubResource("Resource_5ylgu"), SubResource("Resource_2ie41"), SubResource("Resource_p1r2b"), SubResource("Resource_bymwk"), SubResource("Resource_tk8el"), SubResource("Resource_55ohi"), SubResource("Resource_cnlov"), SubResource("Resource_c778e"), SubResource("Resource_232c7"), SubResource("Resource_jl4ay")])
 
 [node name="thruster_left" parent="." instance=ExtResource("2_03p7i")]
 transform = Transform3D(-0.608499, -4.37057e-08, -0.793555, -0.793555, 7.06464e-10, 0.608499, -2.60343e-08, 1, -3.51127e-08, 1.09443, 0.136818, -0.432114)

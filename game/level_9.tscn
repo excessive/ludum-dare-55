@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bked755m3o3em"]
+[gd_scene load_steps=18 format=3 uid="uid://bked755m3o3em"]
 
 [ext_resource type="Script" path="res://phys/contraption.gd" id="1_8bn6v"]
 [ext_resource type="PackedScene" uid="uid://de0xrdyh6s7tl" path="res://phys/player.tscn" id="2_1fktk"]
@@ -12,7 +12,9 @@
 [ext_resource type="FontFile" uid="uid://qf7622sypprq" path="res://addons/exmoe_tools/fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-SemiBold.ttf" id="10_vdrtu"]
 [ext_resource type="PackedScene" uid="uid://b15ybaq5lrclj" path="res://contraptions/trike.tscn" id="11_m3xw3"]
 [ext_resource type="PackedScene" uid="uid://sj58vpi08n48" path="res://contraptions/simple_car.tscn" id="12_u56ox"]
+[ext_resource type="PackedScene" uid="uid://ch1k3oodt0rsv" path="res://contraptions/motorcycle.tscn" id="13_2sgks"]
 [ext_resource type="PackedScene" uid="uid://c75b7ebrxdgow" path="res://contraptions/turbo.tscn" id="13_c80o6"]
+[ext_resource type="PackedScene" uid="uid://md8k3e3aana1" path="res://contraptions/hover.tscn" id="14_geh0y"]
 [ext_resource type="PackedScene" uid="uid://b581wtdnmnr5d" path="res://materials/decals/arrow_01.tscn" id="14_yoo8l"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2vd67"]
@@ -83,14 +85,8 @@ font = ExtResource("10_vdrtu")
 font_size = 64
 outline_size = 24
 
-[node name="Autobuild" parent="." instance=ExtResource("11_m3xw3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.00319, 1.22929, -10.614)
-
 [node name="Autobuild2" parent="." instance=ExtResource("12_u56ox")]
 transform = Transform3D(-0.579381, 0, 0.815057, 0, 1, 0, -0.815057, 0, -0.579381, 8.29787, 0.865276, -13.5353)
-
-[node name="Autobuild3" parent="." instance=ExtResource("13_c80o6")]
-transform = Transform3D(0.618998, 0, -0.785393, 0, 1, 0, 0.785393, 0, 0.618998, -16.2209, 1.11546, -31.6147)
 
 [node name="Arrow01" parent="." instance=ExtResource("14_yoo8l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.33542, 2.08165e-12, -6.73791)
@@ -119,3 +115,15 @@ transform = Transform3D(0.926555, 0, 0.37616, 0, 1, 0, -0.37616, 0, 0.926555, 0.
 [node name="Arrow09" parent="." instance=ExtResource("14_yoo8l")]
 transform = Transform3D(0.979406, 0, -0.201898, 0, 1, 0, 0.201899, 0, 0.979406, -0.379979, 4.76839e-07, -26.6017)
 size = Vector3(2, 2, 5.479)
+
+[node name="Motorcycle" parent="." instance=ExtResource("13_2sgks")]
+transform = Transform3D(0.960284, 0, -0.279025, 0, 1, 0, 0.279025, 0, 0.960284, -18.7073, 1.5604, -25.8268)
+
+[node name="autobuild" parent="." instance=ExtResource("14_geh0y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.8179, 1.14464, -11.6657)
+
+[node name="Autobuild" parent="." instance=ExtResource("13_c80o6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.0568, 0.967038, -15.2211)
+
+[node name="Autobuild3" parent="." instance=ExtResource("11_m3xw3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.7653, 1.40581, -7.40362)

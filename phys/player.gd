@@ -147,7 +147,7 @@ func _try_control(controlling: RigidBody3D, _delta: float) -> bool:
 	var input := focus.get_player_input()
 	var vehicle_control := Vector3(
 		input.get_axis("move_left", "move_right"),
-		input.get_axis("reverse", "throttle"),
+		clampf(input.get_axis("reverse", "throttle") + input.get_axis("move_backward", "move_forward"), -1.0, 1.0),
 		input.get_axis("thrust_down", "thrust_up"),
 	)
 
