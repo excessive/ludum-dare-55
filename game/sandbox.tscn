@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://c60glvblss2yp"]
+[gd_scene load_steps=32 format=3 uid="uid://c60glvblss2yp"]
 
 [ext_resource type="PackedScene" uid="uid://de0xrdyh6s7tl" path="res://phys/player.tscn" id="1_8nkj4"]
 [ext_resource type="Script" path="res://phys/contraption.gd" id="1_sg3cg"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://d0bndvyxq2j7a" path="res://game/main_background.tscn" id="3_xk2pa"]
 [ext_resource type="PackedScene" uid="uid://b0s7vs1j5g0ik" path="res://phys/pressure_plate.tscn" id="4_krdhx"]
 [ext_resource type="Script" path="res://addons/exmoe_tools/common/follow_cam.gd" id="4_r6qj7"]
-[ext_resource type="Script" path="res://phys/safe_area.gd" id="5_a2myf"]
 [ext_resource type="PackedScene" uid="uid://cyi154v6sa54y" path="res://phys/part_spawner.tscn" id="6_k42wf"]
 [ext_resource type="FontFile" uid="uid://dj0468mpo73kw" path="res://addons/exmoe_tools/fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-Medium.ttf" id="7_74r0f"]
 [ext_resource type="PackedScene" uid="uid://btr2kol4d1adt" path="res://phys/thruster.tscn" id="7_avf44"]
@@ -20,18 +19,88 @@
 [ext_resource type="Script" path="res://game/save_value.gd" id="14_lex5y"]
 [ext_resource type="PackedScene" uid="uid://cnn3l47ist43j" path="res://phys/level_changer.tscn" id="15_irjsh"]
 [ext_resource type="FontFile" uid="uid://qf7622sypprq" path="res://addons/exmoe_tools/fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-SemiBold.ttf" id="16_mxuih"]
+[ext_resource type="Script" path="res://game/bounds_warning.gd" id="17_4ste8"]
 [ext_resource type="PackedScene" uid="uid://c75b7ebrxdgow" path="res://contraptions/turbo.tscn" id="17_xqs2r"]
+[ext_resource type="Theme" uid="uid://bd7gseqffsnlf" path="res://ui/main_theme.tres" id="18_6uysv"]
 [ext_resource type="PackedScene" uid="uid://b15ybaq5lrclj" path="res://contraptions/trike.tscn" id="18_v1bew"]
 [ext_resource type="PackedScene" uid="uid://ch1k3oodt0rsv" path="res://contraptions/motorcycle.tscn" id="19_1d36c"]
 [ext_resource type="PackedScene" uid="uid://dc840yjhiuclo" path="res://phys/gyro.tscn" id="20_utjje"]
 [ext_resource type="Script" path="res://game/unlock.gd" id="25_nutn8"]
 [ext_resource type="PackedScene" uid="uid://md8k3e3aana1" path="res://contraptions/hover.tscn" id="26_di14q"]
 
+[sub_resource type="Gradient" id="Gradient_ida3l"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.666667, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tajoj"]
+gradient = SubResource("Gradient_ida3l")
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="GDScript" id="GDScript_4iwp0"]
+script/source = "extends Label
+
+var time := 0.0
+func _process(delta: float) -> void:
+	time += delta
+	var blink_time := fmod(time / 1.5, 1.0)
+	self_modulate = Color.WHITE.blend(Color(Color(\"#ff3c26\"), smoothstep(0.0, 1.0, blink_time) * 0.5))
+	self_modulate.a = smoothstep(0.1, 0.3, blink_time) - smoothstep(0.8, 1.0, blink_time)
+"
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_8nua6"]
 size = Vector3(1024, 512, 1024)
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_sg3cg")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.5929, 0)
+script = ExtResource("17_4ste8")
+
+[node name="Control" type="Control" parent="Area3D"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="TextureRect" parent="Area3D/Control"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -249.0
+offset_bottom = 249.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_tajoj")
+
+[node name="Label" type="Label" parent="Area3D/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -238.5
+offset_top = -11.5
+offset_right = 238.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("18_6uysv")
+text = "WARNING: APPROACHING CONTRAPTION DISINTEGRATION BOUNDARY"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = SubResource("GDScript_4iwp0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 213.959, 0)
+shape = SubResource("BoxShape3D_8nua6")
 
 [node name="player" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("1_8nkj4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3938, 1, -26.3012)
@@ -254,14 +323,6 @@ material = ExtResource("2_foee3")
 near = 0.1
 far = 2048.0
 script = ExtResource("4_r6qj7")
-
-[node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.5929, 0)
-script = ExtResource("5_a2myf")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 213.959, 0)
-shape = SubResource("BoxShape3D_8nua6")
 
 [node name="Autobuild" parent="." instance=ExtResource("13_t88yy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.7094, 0.886645, -2.45346)

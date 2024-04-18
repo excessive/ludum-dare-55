@@ -411,7 +411,7 @@ func _physics_process(delta: float) -> void:
 	velocity += flat_forward * move.y * speed
 	velocity += flat_right * move.x * speed
 	velocity += _get_gravity() * delta
-	velocity = velocity.limit_length(50)
+	velocity = velocity.limit_length(100)
 
 	move_and_slide()
 

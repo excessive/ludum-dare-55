@@ -44,7 +44,7 @@ adjustment_saturation = 1.25
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_f2mhc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lhwli"]
-size = Vector3(512, 100, 512)
+size = Vector3(2048, 4096, 2048)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sprkn"]
 albedo_color = Color(0.427451, 0.427451, 0.427451, 1)
@@ -73,7 +73,7 @@ directional_shadow_split_3 = 0.25
 script = ExtResource("1_si5a5")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 25, 2.08165e-12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2023, 2.08165e-12)
 shape = SubResource("BoxShape3D_lhwli")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
