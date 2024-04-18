@@ -5,11 +5,8 @@ class_name UnlockButton
 
 func _ready() -> void:
 	assert(flag_name)
-	if Globals.check_flag(flag_name):
-		_on_new_unlock(flag_name)
-		Globals.new_unlock.connect(_on_new_unlock)
-	else:
-		Globals.new_unlock.connect(_on_new_unlock)
+	_on_new_unlock(flag_name)
+	Globals.new_unlock.connect(_on_new_unlock)
 
 func _on_new_unlock(flag: String):
 	if flag_name != flag:
@@ -17,5 +14,7 @@ func _on_new_unlock(flag: String):
 
 	if Globals.check_flag(flag_name):
 		disabled = false
+		focus_mode = Control.FOCUS_ALL
 	else:
 		disabled = true
+		focus_mode = Control.FOCUS_NONE

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://c60glvblss2yp"]
+[gd_scene load_steps=27 format=3 uid="uid://c60glvblss2yp"]
 
 [ext_resource type="PackedScene" uid="uid://de0xrdyh6s7tl" path="res://phys/player.tscn" id="1_8nkj4"]
 [ext_resource type="Script" path="res://phys/contraption.gd" id="1_sg3cg"]
@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://b15ybaq5lrclj" path="res://contraptions/trike.tscn" id="18_v1bew"]
 [ext_resource type="PackedScene" uid="uid://ch1k3oodt0rsv" path="res://contraptions/motorcycle.tscn" id="19_1d36c"]
 [ext_resource type="PackedScene" uid="uid://dc840yjhiuclo" path="res://phys/gyro.tscn" id="20_utjje"]
+[ext_resource type="Script" path="res://game/unlock.gd" id="25_nutn8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8nua6"]
 size = Vector3(1024, 512, 1024)
@@ -404,3 +405,7 @@ transform = Transform3D(0.158382, 0, 0.987378, 0, 1, 0, -0.987378, 0, 0.158382, 
 
 [node name="Motorcycle" parent="." instance=ExtResource("19_1d36c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.8492, 1.05116, -27.5372)
+
+[node name="Unlock" type="Node" parent="."]
+script = ExtResource("25_nutn8")
+save_flag = "sandbox"

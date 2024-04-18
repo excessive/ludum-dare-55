@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cphd6fgo0q3c6"]
+[gd_scene load_steps=15 format=3 uid="uid://cphd6fgo0q3c6"]
 
 [ext_resource type="Script" path="res://ui/title_menu.gd" id="1_gynrs"]
 [ext_resource type="PackedScene" uid="uid://c7jaebv3nhvsq" path="res://ui/boot_splash.tscn" id="2_7it6w"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://ui/unlock_button.gd" id="5_slvpy"]
 [ext_resource type="Script" path="res://ui/auto_freeze.gd" id="6_psyt5"]
 [ext_resource type="Script" path="res://game/unlock_despawn.gd" id="6_qhu45"]
+[ext_resource type="Script" path="res://ui/change_mode.gd" id="8_toek7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c4sbw"]
 bg_color = Color(0.25098, 0.470588, 0.352941, 1)
@@ -48,16 +49,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -248.0
-offset_top = 12.0
-offset_right = -162.0
-offset_bottom = 38.0
+offset_left = -253.0
+offset_top = -4.0
+offset_right = -167.0
+offset_bottom = 22.0
 grow_horizontal = 2
 grow_vertical = 2
-focus_neighbor_top = NodePath("../center_anchor/StaticBody2D/RigidBody2D/continue")
-focus_neighbor_bottom = NodePath("../center_anchor/level_select")
-focus_next = NodePath("../center_anchor/level_select")
-focus_previous = NodePath("../center_anchor/StaticBody2D/RigidBody2D/continue")
+focus_neighbor_right = NodePath("../center_anchor/StaticBody2D/RigidBody2D2/play")
+focus_mode = 0
 theme = ExtResource("3_gubyl")
 theme_override_font_sizes/font_size = 16
 theme_override_styles/hover = SubResource("StyleBoxFlat_c4sbw")
@@ -223,7 +222,7 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_right = 92.0
+offset_right = 92.685
 offset_bottom = 31.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -267,6 +266,8 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+focus_neighbor_top = NodePath("../../RigidBody2D4/clear")
+focus_previous = NodePath("../../RigidBody2D4/clear")
 theme = ExtResource("3_gubyl")
 text = "Quit to Desktop"
 metadata/_edit_lock_ = true
@@ -319,3 +320,21 @@ grow_vertical = 2
 rotation = 0.00972984
 theme = ExtResource("3_gubyl")
 text = "crappy contraptions"
+
+[node name="Button" type="CheckButton" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -176.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 39.0
+grow_horizontal = 0
+focus_neighbor_left = NodePath("../center_anchor/StaticBody2D/RigidBody2D/continue")
+theme = ExtResource("3_gubyl")
+theme_override_font_sizes/font_size = 20
+text = "low graphics mode"
+script = ExtResource("8_toek7")
+
+[connection signal="toggled" from="Button" to="Button" method="_on_toggled"]

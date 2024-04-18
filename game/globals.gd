@@ -10,10 +10,28 @@ signal new_unlock(flag: String)
 func check_flag(flag: String) -> bool:
 	return flags.has(flag) and flags[flag]
 
-func set_flag(flag: String):
-	flags[flag] = true
+func set_flag(flag: String, value := true):
+	flags[flag] = value
 	new_unlock.emit(flag)
-	print("set %s" % flag)
+	print("set %s=%s" % [flag, value])
+
+func restart():
+	if OS.has_feature("editor"): # restart doesn't work in editor
+		print("can't restart in editor, only in exports")
+		return
+
+	var args := OS.get_cmdline_args()
+	if check_flag("mobile"):
+		var mobile := ["--rendering-method", "mobile"]
+		if not args.has("--rendering-method"):
+			args.append_array(mobile)
+	OS.set_restart_on_exit(true, args)
+	get_tree().quit()
+
+func _enter_tree() -> void:
+	var args := OS.get_cmdline_args()
+	if check_flag("mobile") and not args.has("--rendering-method"):
+		restart()
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
