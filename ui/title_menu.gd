@@ -30,6 +30,7 @@ func _ready():
 	%sandbox.pressed.connect(_on_sandbox)
 	%clear.pressed.connect(_on_delete)
 	%qtd.pressed.connect(_on_quit)
+	%version.text = "v" + ProjectSettings.get_setting("application/config/version", "DEV")
 
 	if not OS.has_feature("editor"):
 		%dev.hide()
