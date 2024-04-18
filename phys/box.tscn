@@ -14,7 +14,6 @@ size = Vector3(1, 0.25, 4)
 
 [node name="box" type="RigidBody3D" groups=["build"]]
 physics_material_override = SubResource("PhysicsMaterial_ihwep")
-angular_damp = 2.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_ktop3")

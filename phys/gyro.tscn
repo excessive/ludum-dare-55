@@ -21,7 +21,7 @@ cap_top = false
 cap_bottom = false
 
 [node name="gyro" type="RigidBody3D" groups=["build", "control", "usable"]]
-angular_damp = 10.0
+angular_damp = 20.0
 script = ExtResource("1_armn7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

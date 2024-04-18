@@ -19,7 +19,6 @@ var _cam_outer := Basis()
 var _grabbed_path: NodePath
 var _grabbed_last_basis := Basis()
 var _grabbed_last_dist := 0.0
-var _grabbed_continuous_cd := false
 
 var _controlling_path: NodePath
 var _control_locator: Node3D
@@ -50,7 +49,6 @@ func drop_item():
 		item.inertia = Vector3.ZERO
 		item.linear_damp = 0
 		item.gravity_scale = 1
-		item.continuous_cd = _grabbed_continuous_cd
 		item.remove_collision_exception_with(self)
 		_grabbed_path = ""
 
@@ -241,8 +239,6 @@ func _try_grab() -> bool:
 	item.linear_velocity *= 0
 	item.angular_velocity *= 0
 	item.gravity_scale = 0
-	_grabbed_continuous_cd = item.continuous_cd
-	item.continuous_cd = true
 	item.add_collision_exception_with(self)
 
 	var center := get_viewport().get_visible_rect().get_center()

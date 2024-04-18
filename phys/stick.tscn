@@ -10,7 +10,6 @@ size = Vector3(0.25, 0.25, 3)
 
 [node name="stick" type="RigidBody3D" groups=["build"]]
 mass = 0.2
-angular_damp = 2.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_ktop3")

@@ -18,7 +18,6 @@ size = Vector3(1, 1, 1.5)
 
 [node name="steering" type="VehicleBody3D" groups=["build", "control", "usable"]]
 mass = 2.0
-angular_damp = 2.0
 script = ExtResource("1_ycagt")
 
 [node name="spinny" type="VehicleWheel3D" parent="."]

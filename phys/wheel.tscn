@@ -18,14 +18,13 @@ size = Vector3(1, 1, 2)
 
 [node name="wheel" type="VehicleBody3D" groups=["build", "control", "usable"]]
 mass = 2.0
-angular_damp = 2.0
 script = ExtResource("1_1hg2h")
 
 [node name="spinny" type="VehicleWheel3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, 8.74226e-08, 0, 1, 0, -8.74226e-08, 0, -1, 0, -0.197248, 0)
 wheel_roll_influence = 0.05
-wheel_friction_slip = 1.5
+wheel_friction_slip = 2.5
 suspension_stiffness = 200.0
 
 [node name="Smoothing" type="Node3D" parent="spinny"]

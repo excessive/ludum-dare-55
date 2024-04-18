@@ -25,7 +25,6 @@ cap_top = false
 
 [node name="power_steering" type="VehicleBody3D" groups=["build", "control", "usable"]]
 mass = 2.0
-angular_damp = 2.0
 script = ExtResource("1_xp3xt")
 
 [node name="spinny" type="VehicleWheel3D" parent="."]
