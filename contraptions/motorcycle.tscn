@@ -38,7 +38,7 @@ transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0.6379
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.637965, -0.445612, 0)
 
 [node name="steering" parent="." instance=ExtResource("3_wobve")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.26718)
+transform = Transform3D(1, -2.88221e-16, 3.43488e-16, 3.43488e-16, 0.984808, -0.173648, -2.88221e-16, 0.173648, 0.984808, 0, 0, -1.34485)
 
 [node name="gyro" parent="." instance=ExtResource("4_d4m0g")]
 
