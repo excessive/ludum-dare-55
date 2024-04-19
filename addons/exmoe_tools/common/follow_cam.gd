@@ -9,6 +9,7 @@ class_name FollowCam
 @export var fp_fov := 80.0
 @onready var base_zoom := zoom
 @onready var base_fov := fov
+var _show_speed := false
 
 var target_rotation: Basis
 var target_position: Vector3
@@ -82,10 +83,19 @@ func _physics_process(delta: float) -> void:
 	last_transform = next_transform
 	next_transform = Transform3D(gb, gp)
 
+	if _show_speed:
+		var speed := (next_transform.origin.distance_to(last_transform.origin) / delta) * 3.6
+		DD.set_text("speed", "%d km/h" % speed)
+
 func teleport():
 	next_transform = global_transform
 	last_transform = next_transform
 	_update_target()
+
+func _input(event: InputEvent):
+	if event is InputEventKey:
+		if event.keycode == KEY_F3 and event.pressed:
+			_show_speed = not _show_speed
 
 func _process(_delta: float) -> void:
 	var f := Engine.get_physics_interpolation_fraction()
