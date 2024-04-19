@@ -270,7 +270,7 @@ func _try_move(delta: float):
 	var bodies := Contraption.get_all_bodies(grabbed)
 	for body in bodies:
 		total_mass += body.mass
-	grabbed.apply_central_force((maxf(5.0, smoothstep(0, 5, total_mass) * 15.0) + 0.85 * total_mass) * ((smooth_pos - old_pos) / delta))
+	grabbed.apply_central_force((maxf(5.0, smoothstep(0, 5, total_mass) * 20.0) + 0.90 * total_mass) * ((smooth_pos - old_pos) / delta))
 
 	if focus.get_player_input().is_action_pressed("rotate"):
 		return
@@ -314,7 +314,7 @@ func _try_rotate_item(view: Vector2, do_roll := false, speed: float = 1.0):
 	for body in bodies:
 		total_mass += body.mass
 
-	var force := 25.0 + total_mass * 75.0
+	var force := 30.0 + total_mass * 85.0
 	item.apply_torque(camera.global_basis * Vector3(pitch, yaw, roll) * force * speed)
 
 func _get_inertia(item: RigidBody3D) -> Vector3:
