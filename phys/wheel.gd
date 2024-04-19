@@ -4,8 +4,11 @@ signal control(user: Node3D, global_reference: Transform3D, input: Vector3, rot_
 signal use(user: Node3D)
 signal reset
 
-@export var torque := 50
-@export var active := 0.0
+# same as on QuadraticDragBody
+@export var quadratic_drag := QuadraticDragBody.DEFAULT_DRAG
+
+@export var torque: float = 40
+@export var active: float = 0.0
 
 @onready var wheel := %spinny
 
@@ -21,6 +24,9 @@ func _on_reset():
 func _on_use(_user: Node3D):
 	active = 10.0
 	engine_force = torque
+
+func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	linear_velocity = QuadraticDragBody.apply_drag(linear_velocity, state.step, quadratic_drag)
 
 func _on_control(_user: Node3D, global_reference: Transform3D, input: Vector3, _rot_input: Vector3):
 	var tick := get_physics_process_delta_time()

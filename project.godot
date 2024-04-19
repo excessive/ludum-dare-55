@@ -229,7 +229,7 @@ thrust_down={
 
 [physics]
 
-3d/default_linear_damp=0.5
+3d/default_linear_damp=0.05
 3d/default_angular_damp=0.5
 
 [rendering]

@@ -1,4 +1,4 @@
-extends RigidBody3D
+extends QuadraticDragBody
 
 signal reset
 signal control(user: Node3D, global_reference: Transform3D, input: Vector3, rot_input: Vector3)

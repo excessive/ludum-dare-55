@@ -25,6 +25,8 @@ var _control_locator: Node3D
 var _control_reference: Basis
 var _control_base: Basis
 
+var _grounded := 0
+
 @onready var _last_position = global_position
 
 signal reset
@@ -353,7 +355,7 @@ func _find_attachments(item: RigidBody3D, margin := 0.25) -> Array[RigidBody3D]:
 @onready var pusher_pos: Vector3 = to_local($pusher.global_position)
 
 func _physics_process(delta: float) -> void:
-	if global_position.distance_to(_last_position) > 3:
+	if global_position.distance_to(_last_position) > 5:
 		print("warp detected, resetting")
 		reset.emit()
 	_last_position = global_position
@@ -361,6 +363,9 @@ func _physics_process(delta: float) -> void:
 	var input := focus.get_player_input()
 
 	camera.zoom = 3
+	_grounded -= 1
+	if is_on_floor():
+		_grounded = 3
 
 	if input.is_action_just_pressed("use"):
 		if _try_use(delta):
@@ -400,13 +405,18 @@ func _physics_process(delta: float) -> void:
 	var flat_forward := (move_basis.z * (Vector3.ONE - up_direction)).normalized()
 	var flat_right := move_basis.y.cross(flat_forward).normalized()
 
-	if is_on_floor():
-		velocity *= exp(-5.0 * delta)
-		if input.is_action_just_pressed("jump"):
+	if _grounded > 0:
+		velocity = QuadraticDragBody.apply_drag(velocity, delta, 0.5, 3.0)
+		if velocity.length() < 1.0:
+			var stop_drag := 10.0 * (1.0 - velocity.length())
+			velocity = QuadraticDragBody.apply_drag(velocity, delta, stop_drag, stop_drag)
+
+		if input.is_action_pressed("jump"):
 			velocity += -_get_gravity() * 0.66667
+			_grounded = 0
 	else:
-		velocity *= exp(-0.5 * delta)
-		speed /= 4.0
+		velocity = QuadraticDragBody.apply_drag(velocity, delta, 0.01, 0.01)
+		speed /= 8.0
 
 	velocity += flat_forward * move.y * speed
 	velocity += flat_right * move.x * speed

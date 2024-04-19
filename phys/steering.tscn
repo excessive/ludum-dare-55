@@ -18,6 +18,7 @@ size = Vector3(1, 1, 1.5)
 
 [node name="steering" type="VehicleBody3D" groups=["build", "control", "usable"]]
 mass = 2.0
+continuous_cd = true
 script = ExtResource("1_ycagt")
 
 [node name="spinny" type="VehicleWheel3D" parent="."]
@@ -45,32 +46,32 @@ layers = 2
 mesh = SubResource("CylinderMesh_m6fnd")
 skeleton = NodePath("")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_klilu")
-
-[node name="Smoothing" type="Node3D" parent="CollisionShape3D3"]
+[node name="Smoothing" type="Node3D" parent="."]
 script = ExtResource("2_yawty")
 
-[node name="Node3D" type="Node3D" parent="CollisionShape3D3/Smoothing"]
+[node name="Node3D" type="Node3D" parent="Smoothing"]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="CollisionShape3D3/Smoothing/Node3D"]
+[node name="CSGBox3D" type="CSGBox3D" parent="Smoothing/Node3D"]
 layers = 2
 size = Vector3(1, 1, 1.5)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="CollisionShape3D3/Smoothing/Node3D/CSGBox3D"]
+[node name="CSGBox3D2" type="CSGBox3D" parent="Smoothing/Node3D/CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0487671, 0)
 layers = 2
 operation = 2
 size = Vector3(0.668213, 0.902466, 1.30835)
 
-[node name="CSGBox3D4" type="CSGBox3D" parent="CollisionShape3D3/Smoothing/Node3D/CSGBox3D"]
+[node name="CSGBox3D4" type="CSGBox3D" parent="Smoothing/Node3D/CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.199414, 0.133301)
 layers = 2
 operation = 2
 size = Vector3(0.356445, 0.742432, 1.57495)
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="CollisionShape3D3/Smoothing/Node3D/CSGBox3D"]
+[node name="CSGBox3D3" type="CSGBox3D" parent="Smoothing/Node3D/CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.213834, -0.70491)
 layers = 2
 operation = 2
 size = Vector3(1.29199, 0.179932, 0.598969)
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_klilu")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dwfgw3tn22cia"]
+[gd_scene load_steps=5 format=3 uid="uid://dwfgw3tn22cia"]
 
 [ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="1_07m5l"]
+[ext_resource type="Script" path="res://phys/quadratic_drag_body.gd" id="1_ep7sl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ktop3"]
 size = Vector3(0.25, 0.25, 3)
@@ -10,6 +11,7 @@ size = Vector3(0.25, 0.25, 3)
 
 [node name="stick" type="RigidBody3D" groups=["build"]]
 mass = 0.2
+script = ExtResource("1_ep7sl")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_ktop3")

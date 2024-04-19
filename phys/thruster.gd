@@ -1,4 +1,4 @@
-extends RigidBody3D
+extends QuadraticDragBody
 
 signal use(user: Node3D)
 signal reset

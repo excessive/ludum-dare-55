@@ -38,7 +38,7 @@ func _ready() -> void:
 	lock.set("angular_limit/enable", true)
 	lock.set("angular_limit/lower_limit", 0)
 	lock.set("angular_limit/upper_limit", 0)
-	
+
 func _update_positions(_delta: float):
 	var a: RigidBody3D = get_node_or_null(node_a)
 	var b: RigidBody3D = get_node_or_null(node_b)
@@ -54,6 +54,6 @@ func _update_positions(_delta: float):
 	if angle < 0.01:
 		up = a.global_basis.z
 	look_at_from_position(center, b.global_position, up)
-#
+
 func _physics_process(_delta: float) -> void:
 	_update_positions(_delta)
