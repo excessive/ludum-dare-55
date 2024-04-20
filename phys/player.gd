@@ -357,6 +357,48 @@ func _find_attachments(item: RigidBody3D, margin := 0.25) -> Array[RigidBody3D]:
 
 @onready var pusher_pos: Vector3 = to_local($pusher.global_position)
 
+var _clipboard: SavedContraption
+
+const CLIPBOARD_PATH := "user://clipboard.tres"
+
+func _try_copy() -> bool:
+	var save := _get_nearest_item("build")
+	if save:
+		_clipboard = Contraption.save_contraption(save, CLIPBOARD_PATH)
+		return true
+	return false
+
+func _try_delete() -> bool:
+	var item := _get_nearest_item("build")
+	if item:
+		var all_bodies := Contraption.get_all_bodies(item)
+		for body in all_bodies:
+			Contraption.detach_body(body)
+			body.queue_free()
+		return true
+	return false
+
+func _try_paste() -> bool:
+	if not _clipboard:
+		if ResourceLoader.exists(CLIPBOARD_PATH, "SavedContraption"):
+			_clipboard = ResourceLoader.load(CLIPBOARD_PATH)
+		if not _clipboard:
+			return false
+
+	var loaded := Contraption.load_contraption(_clipboard)
+	add_sibling(loaded)
+	loaded.global_position = global_position - camera.global_basis.z * 5
+	loaded.global_basis = camera.global_basis
+	return true
+
+func _try_save() -> bool:
+	var item := _get_nearest_item("build")
+	if item:
+		var user_path := "user://%s.tres" % Time.get_unix_time_from_system()
+		Contraption.save_contraption(item, user_path)
+		return true
+	return false
+
 func _physics_process(delta: float) -> void:
 	if global_position.distance_to(_last_position) > 5:
 		print("warp detected, resetting")
@@ -364,6 +406,18 @@ func _physics_process(delta: float) -> void:
 	_last_position = global_position
 
 	var input := focus.get_player_input()
+
+	if input.is_action_just_pressed("ui_text_delete") and _try_delete():
+		return
+
+	if input.is_action_just_pressed("ui_cut") and _try_copy() and _try_delete():
+		return
+
+	if input.is_action_just_pressed("ui_copy") and _try_copy():
+		return
+
+	if input.is_action_just_pressed("ui_paste") and _try_paste():
+		return
 
 	camera.zoom = 3
 	_grounded -= 1
