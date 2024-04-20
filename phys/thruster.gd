@@ -24,7 +24,10 @@ func _on_use(_user: Node3D):
 
 func _on_control(_user: Node3D, global_reference: Transform3D, input: Vector3, _rot_input: Vector3):
 	var forward := -global_basis.z
-	var input_forward := global_reference.basis * Vector3(input.x, input.z, -input.y)
+	var iv := Vector3(input.x, input.z, -input.y)
+	if iv:
+		iv = iv.normalized() * pow(iv.abs().length(), 2.0)
+	var input_forward := global_reference.basis * iv
 	_target_control_force = maxf(0.0, forward.dot(input_forward))
 	if _target_control_force > 0:
 		active = get_physics_process_delta_time() * input.limit_length().length()
@@ -32,7 +35,9 @@ func _on_control(_user: Node3D, global_reference: Transform3D, input: Vector3, _
 	#DD.draw_axes(global_reference, 4)
 
 func _physics_process(delta: float) -> void:
-	_control_force = lerpf(_control_force, _target_control_force, 1.0 - exp(-2.5 * delta))
+	super(delta)
+
+	_control_force = lerpf(_control_force, _target_control_force, 1.0 - exp(-2.0 * delta))
 	if _control_force <= 0.0:
 		return
 	apply_central_force(-global_basis.z * _control_force * thrust_force)

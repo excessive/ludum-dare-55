@@ -4,6 +4,43 @@ extends Node3D
 var _connections: Dictionary = {}
 var _constraints: Array[Joint3D] = []
 
+static func save_contraption(item: RigidBody3D, path: String = "") -> SavedContraption:
+	var save := SavedContraption.new()
+	var parent := item.get_parent()
+	for part in Contraption.get_all_bodies(item):
+		save.parts[part.name] = part.scene_file_path
+		save.positions[part.name] = item.to_local(part.global_position)
+		save.rotations[part.name] = (item.global_basis.inverse() * part.global_basis).get_euler()
+		for joint in Contraption.get_joints_for(part):
+			var a := item.get_node_or_null(joint.node_a)
+			var b := item.get_node_or_null(joint.node_b)
+			if not a or not b:
+				print("missing node")
+				continue
+			var rel_a := parent.get_path_to(a, true)
+			var rel_b := parent.get_path_to(b, true)
+			print("%s <-> %s" %[ rel_a, rel_b])
+			save.connections.append(BuildConnection.new(rel_a, rel_b))
+	if path:
+		var ok := ResourceSaver.save(save, path)
+		if ok != OK:
+			print_debug(ok)
+		print("saved %s" % ProjectSettings.globalize_path(path))
+	return save
+
+static func load_contraption(res: SavedContraption) -> Node3D:
+	var base := Autobuild.new()
+	base.build_list = res.connections
+	for part_name in res.parts:
+		var path: String = res.parts[part_name]
+		var part_scene: PackedScene = load(path)
+		var part := part_scene.instantiate()
+		part.name = part_name
+		part.position = res.positions[part_name]
+		part.rotation = res.rotations[part_name]
+		base.add_child(part)
+	return base
+
 static func _find_contraption_for(item: RigidBody3D) -> Contraption:
 	if not item.is_inside_tree():
 		return null
@@ -126,7 +163,7 @@ static func attach_bodies(a: RigidBody3D, bodies: Array[RigidBody3D]) -> bool:
 			if path_b != old_path:
 				con._connections[path_b] = con._connections[old_path]
 				con._connections.erase(old_path)
-			var constraint := GlueJoint.new(a, b)
+			var constraint := WeldJoint.new(a, b)
 			con._connections[path_a].append(path_b)
 			con._connections[path_b].append(path_a)
 			con.add_child(constraint)

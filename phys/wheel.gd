@@ -36,9 +36,22 @@ func _on_control(_user: Node3D, global_reference: Transform3D, input: Vector3, _
 	var forward := -global_basis.z
 	var input_forward := global_reference.basis * Vector3(input.x, input.z, -input.y)
 	engine_force = lerpf(engine_force, torque * forward.dot(input_forward), 1.0 - exp(-4.0 * tick))
+	var angle := global_position.direction_to(global_reference.origin).dot(global_reference.basis.z)
+	#print(angle)
+	if angle < 0:
+		input_forward *= -1
+		pass
+	if right.dot(global_reference.basis.x) < 0:
+		right *= -1
 	steering = lerpf(steering, deg_to_rad(30) * -right.dot(input_forward), 1.0 - exp(-3.0 * tick))
 
+@onready var _last_velocity := linear_velocity
+
 func _physics_process(delta: float) -> void:
+	if _last_velocity.distance_to(linear_velocity) > QuadraticDragBody.SMASH_THRESHOLD:
+		Contraption.detach_body(self)
+	_last_velocity = linear_velocity
+
 	if active <= 0.0:
 		engine_force = 0
 		return

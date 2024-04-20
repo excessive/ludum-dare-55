@@ -1,5 +1,5 @@
 extends Generic6DOFJoint3D
-class_name GlueJoint
+class_name WeldJoint
 
 var display := MeshInstance3D.new()
 
@@ -10,7 +10,9 @@ func _init(a: RigidBody3D, b: RigidBody3D) -> void:
 	var cap := CapsuleMesh.new()
 	reference_distance = a.global_position.distance_to(b.global_position)
 	cap.height = reference_distance
-	cap.radius = 0.05
+	cap.radius = 0.03
+	cap.radial_segments = 4
+	cap.material = preload("res://materials/glowy.tres")
 	display.mesh = cap
 	display.rotate_x(PI/2)
 	add_child(display)
@@ -55,5 +57,5 @@ func _update_positions(_delta: float):
 		up = a.global_basis.z
 	look_at_from_position(center, b.global_position, up)
 
-func _physics_process(_delta: float) -> void:
+func _process(_delta: float) -> void:
 	_update_positions(_delta)
