@@ -7,7 +7,7 @@ signal reset
 # same as on QuadraticDragBody
 @export var quadratic_drag := QuadraticDragBody.DEFAULT_DRAG
 
-@export var torque: float = 40
+@export var torque: float = 35
 @export var active: float = 0.0
 
 @onready var wheel := %spinny
