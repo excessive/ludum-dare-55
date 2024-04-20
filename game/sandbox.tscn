@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://c60glvblss2yp"]
+[gd_scene load_steps=35 format=3 uid="uid://c60glvblss2yp"]
 
 [ext_resource type="PackedScene" uid="uid://de0xrdyh6s7tl" path="res://phys/player.tscn" id="1_8nkj4"]
 [ext_resource type="Script" path="res://phys/contraption.gd" id="1_sg3cg"]
@@ -51,6 +51,15 @@ func _process(delta: float) -> void:
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8nua6"]
 size = Vector3(1024, 512, 1024)
+
+[sub_resource type="QuadOccluder3D" id="QuadOccluder3D_8jkth"]
+size = Vector2(16.3074, 8.64686)
+
+[sub_resource type="QuadOccluder3D" id="QuadOccluder3D_tru6f"]
+size = Vector2(99.9669, 5.97015)
+
+[sub_resource type="QuadOccluder3D" id="QuadOccluder3D_4vo1o"]
+size = Vector2(512, 512)
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_sg3cg")
@@ -268,6 +277,10 @@ font = ExtResource("7_74r0f")
 font_size = 64
 outline_size = 20
 
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="spawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.533137, 0)
+occluder = SubResource("QuadOccluder3D_8jkth")
+
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
 use_collision = true
@@ -287,11 +300,19 @@ use_collision = true
 size = Vector3(2, 6, 100)
 material = ExtResource("2_foee3")
 
+[node name="OccluderInstance3D2" type="OccluderInstance3D" parent="CSGBox3D/CSGBox3D3"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+occluder = SubResource("QuadOccluder3D_tru6f")
+
 [node name="CSGBox3D4" type="CSGBox3D" parent="CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51, 3, 2.08165e-12)
 use_collision = true
 size = Vector3(2, 6, 100)
 material = ExtResource("2_foee3")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="CSGBox3D/CSGBox3D4"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+occluder = SubResource("QuadOccluder3D_tru6f")
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="CSGBox3D"]
 transform = Transform3D(-4.37114e-08, -1, 3.43488e-16, 0.984808, -4.30473e-08, 0.173648, -0.173648, 7.5904e-09, 0.984808, 40.1597, 2.74186, -55.4365)
@@ -476,3 +497,7 @@ save_flag = "sandbox"
 
 [node name="autobuild" parent="." instance=ExtResource("26_di14q")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.66778, 2.7292, -34.5393)
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -2, 0)
+occluder = SubResource("QuadOccluder3D_4vo1o")

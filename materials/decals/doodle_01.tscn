@@ -6,4 +6,4 @@
 [node name="Doodle01" type="Decal"]
 texture_albedo = ExtResource("1_qmwxl")
 texture_normal = ExtResource("2_f7qpy")
-cull_mask = 1048573
+cull_mask = 1048568

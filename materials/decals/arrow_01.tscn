@@ -6,4 +6,4 @@
 [node name="Arrow01" type="Decal"]
 texture_albedo = ExtResource("1_awpth")
 texture_normal = ExtResource("2_mo8kj")
-cull_mask = 1048573
+cull_mask = 1048568

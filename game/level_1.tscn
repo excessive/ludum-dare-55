@@ -32,6 +32,7 @@ size = Vector3(4.29321, 3.4873, 2.33289)
 
 [node name="spawn_platform" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 5, -1.53914)
+layers = 9
 material_override = ExtResource("2_akxk7")
 use_collision = true
 size = Vector3(25.7998, 12.3087, 26.4645)
@@ -55,6 +56,7 @@ size = Vector3(0.0449219, 0.138062, 25.2288)
 
 [node name="goal_platform" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.5, 47.5267)
+layers = 9
 material_override = ExtResource("2_akxk7")
 use_collision = true
 size = Vector3(20.3103, 1, 23.3867)
@@ -262,3 +264,8 @@ i'm out of time, or i'd have put this in the UI properly"
 font = ExtResource("5_pmvyv")
 font_size = 64
 outline_size = 24
+
+[node name="ReflectionProbe" type="ReflectionProbe" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.82329, 27.5965)
+max_distance = 100.0
+size = Vector3(40.5134, 23.5752, 83.8026)

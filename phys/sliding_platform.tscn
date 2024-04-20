@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dsnnni3tvdy3y"]
+[gd_scene load_steps=7 format=3 uid="uid://dsnnni3tvdy3y"]
 
 [ext_resource type="Script" path="res://phys/sliding_platform.gd" id="1_7t6e0"]
 [ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="2_m0n51"]
@@ -9,6 +9,9 @@
 size = Vector3(2, 1, 4)
 
 [sub_resource type="BoxMesh" id="BoxMesh_kmxbi"]
+size = Vector3(2, 1, 4)
+
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_2xaci"]
 size = Vector3(2, 1, 4)
 
 [node name="sliding_platform" type="RigidBody3D" groups=["build", "no_grab"]]
@@ -35,5 +38,9 @@ script = ExtResource("2_m0n51")
 [node name="Node3D" type="Node3D" parent="Smoothing"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Smoothing/Node3D"]
+layers = 9
 mesh = SubResource("BoxMesh_kmxbi")
 skeleton = NodePath("../../../CollisionShape3D")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="Smoothing/Node3D"]
+occluder = SubResource("BoxOccluder3D_2xaci")

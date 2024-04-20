@@ -23,6 +23,7 @@ camera = NodePath("../Camera3D")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, -21.2769)
+layers = 9
 use_collision = true
 size = Vector3(19.3516, 8, 61.4463)
 material = ExtResource("3_pkbxb")

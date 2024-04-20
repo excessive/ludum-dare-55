@@ -6,4 +6,4 @@
 [node name="Cross01" type="Decal"]
 texture_albedo = ExtResource("1_p4xt7")
 texture_normal = ExtResource("2_fp4nc")
-cull_mask = 1048573
+cull_mask = 1048568

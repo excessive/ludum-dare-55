@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bv21rw6f7mgku"]
+[gd_scene load_steps=11 format=3 uid="uid://bv21rw6f7mgku"]
 
 [ext_resource type="Script" path="res://phys/trigger_door.gd" id="1_i6esu"]
 [ext_resource type="Material" uid="uid://d1dcxbgx8kga7" path="res://materials/test_grid_grey.tres" id="2_38ypw"]
@@ -16,14 +16,21 @@ size = Vector3(4.25, 2.75, 0.1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_2c7up"]
 size = Vector3(1.1, 0.25, 0.1)
 
+[sub_resource type="QuadOccluder3D" id="QuadOccluder3D_jjp10"]
+size = Vector2(4.18912, 2.80679)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4uujc"]
 albedo_color = Color(0.741176, 1, 0.894118, 1)
+
+[sub_resource type="QuadOccluder3D" id="QuadOccluder3D_tx3x2"]
+size = Vector2(5.98006, 2.99501)
 
 [node name="door" type="Node3D"]
 script = ExtResource("1_i6esu")
 
 [node name="frame" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 3, 2.08165e-12)
+layers = 9
 use_collision = true
 size = Vector3(6, 6, 1)
 material = ExtResource("2_38ypw")
@@ -66,6 +73,10 @@ script = ExtResource("2_uhogx")
 
 [node name="Node3D" type="Node3D" parent="door/Smoothing"]
 
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="door/Smoothing/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.64355, 0)
+occluder = SubResource("QuadOccluder3D_jjp10")
+
 [node name="CSGBox3D" type="CSGBox3D" parent="door/Smoothing/Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 size = Vector3(4.2, 3, 0.1)
@@ -75,3 +86,7 @@ material = SubResource("StandardMaterial3D_4uujc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -1.5, 2.08165e-12)
 operation = 2
 size = Vector3(2, 0.5, 2)
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.49338, 0)
+occluder = SubResource("QuadOccluder3D_tx3x2")
