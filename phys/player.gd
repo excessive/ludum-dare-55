@@ -19,6 +19,7 @@ var _cam_outer := Basis()
 var _grabbed_path: NodePath
 var _grabbed_last_basis := Basis()
 var _grabbed_last_dist := 0.0
+var _grabbed_time := 0.0
 
 var _controlling_path: NodePath
 var _control_locator: Node3D
@@ -53,6 +54,7 @@ func drop_item():
 		item.gravity_scale = 1
 		item.remove_collision_exception_with(self)
 		_grabbed_path = ""
+		_grabbed_time = 0.0
 
 func _input(event: InputEvent) -> void:
 	var input := focus.get_player_input()
@@ -249,6 +251,7 @@ func _try_grab() -> bool:
 	_grabbed_last_basis = camera.global_basis
 	_grabbed_last_dist = origin.distance_to(item.global_position)
 	_grabbed_path = item.get_path()
+	_grabbed_time = 0.0
 	item.freeze = false
 
 	return true
@@ -377,6 +380,9 @@ func _physics_process(delta: float) -> void:
 
 	$pusher.apply_central_impulse((to_global(pusher_pos) - $pusher.global_position) * 10)
 
+	if get_node_or_null(_grabbed_path):
+		_grabbed_time += delta
+
 	if input.is_action_just_pressed("debug") and OS.is_debug_build():
 		var item := _get_nearest_item("build")
 		var inspector := %ObjectInspector
@@ -438,6 +444,9 @@ func _physics_process(delta: float) -> void:
 	# attempt to reset up
 	global_basis = Basis.looking_at(-global_basis.z * Vector3(1, 0, 1))
 	camera.target_transform = Transform3D(global_basis * _cam_outer * _cam_inner, global_position)
+
+	if input.is_action_just_released("grab") and _grabbed_time > 0.25:
+		drop_item()
 
 	if input.is_action_just_pressed("freeze"):
 		_try_freeze()
